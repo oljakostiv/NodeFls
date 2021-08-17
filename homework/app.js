@@ -6,8 +6,8 @@
 // * вам потрбіно перемісти всі файлики з вкладених папок в іншу папку. Зробити всі файли на одному рівні вкладеності.
 // (Більше інформації в записі лекції)
 
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 // const util = require('util');
 
 // const lidaPath = path.join(__dirname, '2000', 'lida.json');
@@ -35,4 +35,17 @@ const path = require('path');
 // fs.rename(olehPath, dirWithBoys2, err => {
 //     console.log(err);
 // });
+
+// const {promisify} = require('util');
+// const fs = require('fs');
+// const {join} = require('path');
+// const mv = promisify(fs.rename);
+//
+// const moveToFileSasha = async () => {
+//     const original = join(__dirname, 'hidden');
+//     const target = join(__dirname, 'secondTask');
+//     await mv(original, target);
+// }
+// moveToFileSasha();
+
 
