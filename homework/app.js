@@ -6,8 +6,8 @@
 // * вам потрбіно перемісти всі файлики з вкладених папок в іншу папку. Зробити всі файли на одному рівні вкладеності.
 // (Більше інформації в записі лекції)
 
-// const fs = require('fs');
-// const path = require('path');
+const fs = require('fs');
+const path = require('path');
 // const util = require('util');
 
 // const lidaPath = path.join(__dirname, '2000', 'lida.json');
@@ -48,4 +48,17 @@
 // }
 // moveToFileSasha();
 
+
+const moveToFileSasha = path.join(__dirname, 'hidden', 'sasha.join');
+const newFileSasha = path.join(__dirname, 'secondTask', 'sasha.join');
+
+const readStream = fs.createReadStream(moveToFileSasha);
+const writeStream = fs.createWriteStream(newFileSasha);
+
+readStream.on('end', function () {
+    fs.unlink(moveToFileSasha, (err => {
+        console.log(err);
+    }));
+});
+readStream.pipe(writeStream);
 
