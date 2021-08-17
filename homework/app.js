@@ -36,29 +36,33 @@ const path = require('path');
 //     console.log(err);
 // });
 
-// const {promisify} = require('util');
-// const fs = require('fs');
-// const {join} = require('path');
-// const mv = promisify(fs.rename);
+// 2.
+// const moveToFileSasha = path.join(__dirname, 'hidden', 'sasha.txt');
+// const newFileSasha = path.join(__dirname, 'secondTask', 'sasha.txt');
 //
-// const moveToFileSasha = async () => {
-//     const original = join(__dirname, 'hidden');
-//     const target = join(__dirname, 'secondTask');
-//     await mv(original, target);
-// }
-// moveToFileSasha();
+// const readStream = fs.createReadStream(moveToFileSasha);
+// const writeStream = fs.createWriteStream(newFileSasha);
+//
+// readStream.on('end', function () {
+//     fs.unlink(moveToFileSasha, err => {
+//         console.log(err);
+//     });
+// });
+// readStream.pipe(writeStream);
 
+// const moveToFileKolya = path.join(__dirname, 'dir', 'kolya.txt');
+// const newFileKolya = path.join(__dirname, 'secondTask', 'kolya.txt');
+//
+// const readStream1 = fs.createReadStream(moveToFileKolya);
+// const writeStream1 = fs.createWriteStream(newFileKolya);
+//
+// readStream1.pipe(writeStream1);
 
-const moveToFileSasha = path.join(__dirname, 'hidden', 'sasha.join');
-const newFileSasha = path.join(__dirname, 'secondTask', 'sasha.join');
-
-const readStream = fs.createReadStream(moveToFileSasha);
-const writeStream = fs.createWriteStream(newFileSasha);
-
-readStream.on('end', function () {
-    fs.unlink(moveToFileSasha, (err => {
-        console.log(err);
-    }));
-});
-readStream.pipe(writeStream);
+// const moveToFileVasyl = path.join(__dirname, 'folder', 'vasyl.txt');
+// const newFileVasyl = path.join(__dirname, 'secondTask', 'vasyl.txt');
+//
+// const readStream2 = fs.createReadStream(moveToFileVasyl);
+// const writeStream2 = fs.createWriteStream(newFileVasyl);
+//
+// readStream2.pipe(writeStream2);
 
