@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 
 const textPath = path.join(__dirname, 'dir', 'text.txt');
 // const textPath2 = path.join(__dirname, 'dir', 'text2.txt');
@@ -81,4 +82,29 @@ const dirToReadPath = path.join(__dirname, 'dir');
 // fs.rename(textPath, folderWithDeletedData, err => {
 //     console.log(err);
 // });
+
+//додавання:
+// const appendPromise = util.promisify(fs.appendFile);
+//
+// appendPromise(folderWithDeletedData, 'some text').catch(reason => {
+//     console.log(reason);
+// });
+
+//*
+//???
+//     const sashaPath = fs.createReadStream('hidden/sasha.json');
+//     const appendSashaToSecond = fs.createWriteStream( 'secondTask/sasha.json');
+//
+//     sashaPath.on('err', (err) => {
+//         console.log(err);
+//     });
+//     appendSashaToSecond.on('err', (err) => {
+//         console.log(err);
+//     });
+//     sashaPath.on('end', function () {
+//         fs.unlink('hidden/sasha.json', err => {
+//             console.log(err);
+//         })
+//     })
+//     sashaPath.pipe(appendSashaToSecond);
 
