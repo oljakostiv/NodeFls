@@ -8,35 +8,71 @@
 
 const fs = require('fs');
 const path = require('path');
-// const util = require('util');
 
-// const lidaPath = path.join(__dirname, '2000', 'lida.json');
-// const mashaPath = path.join(__dirname, '2000', 'masha.json');
-// const dimaPath = path.join(__dirname, '1800', 'dima.json');
-// const olehPath = path.join(__dirname, '1800', 'oleh.json');
-//
-// const dirWithGirls1 = path.join(__dirname, '1800', 'lida.json');
-// const dirWithGirls2 = path.join(__dirname, '1800', 'masha.json');
-// const dirWithBoys1 = path.join(__dirname, '2000', 'dima.json');
-// const dirWithBoys2 = path.join(__dirname, '2000', 'oleh.json');
+const mkdirPathF = path.join(__dirname, '1800');
+fs.mkdir(mkdirPathF, {recursive: true}, err => {
+    console.log(err);
+});
 
-// fs.rename(lidaPath, dirWithGirls1, err => {
-//     console.log(err);
-// });
+const mkdirPathM = path.join(__dirname, '2000');
+fs.mkdir(mkdirPathM, {recursive: true}, err => {
+    console.log(err);
+});
 
-// fs.rename(mashaPath, dirWithGirls2, err => {
-//     console.log(err);
-// });
+const lidaPath = path.join(__dirname, '2000', 'lida.json');
+const mashaPath = path.join(__dirname, '2000', 'masha.json');
+const dimaPath = path.join(__dirname, '1800', 'dima.json');
+const olehPath = path.join(__dirname, '1800', 'oleh.json');
 
-// fs.rename(dimaPath, dirWithBoys1, err => {
-//     console.log(err);
-// });
+fs.readFile(lidaPath, (err, data) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    if (data.toString().includes('female')) {
+        fs.rename(lidaPath, path.join(mkdirPathF, 'lida.json'), err => {
+            console.log(err);
+        });
+    }
+});
 
-// fs.rename(olehPath, dirWithBoys2, err => {
-//     console.log(err);
-// });
+fs.readFile(mashaPath, (err, data) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    if (data.toString().includes('female')) {
+        fs.rename(mashaPath, path.join(mkdirPathF, 'masha.json'), err => {
+            console.log(err);
+        });
+    }
+});
 
-// 2.
+fs.readFile(dimaPath, (err, data) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    if (data.toString().includes('male')) {
+        fs.rename(dimaPath, path.join(mkdirPathM, 'dima.json'), err => {
+            console.log(err);
+        });
+    }
+});
+
+fs.readFile(olehPath, (err, data) => {
+    if (err) {
+        console.log(err);
+        return;
+    }
+    if (data.toString().includes('male')) {
+        fs.rename(olehPath, path.join(mkdirPathM, 'oleh.json'), err => {
+            console.log(err);
+        });
+    }
+});
+
+// 2. видалити не вийшло :\
 // const moveToFileSasha = path.join(__dirname, 'hidden', 'sasha.txt');
 // const newFileSasha = path.join(__dirname, 'secondTask', 'sasha.txt');
 //
