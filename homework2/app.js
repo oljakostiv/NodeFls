@@ -4,9 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 const {PORT} = require('./config/variables');
-const users = require('./db/users');
+const users = require('./db/users.json');
 
-const user = path.join(__dirname, 'db', 'users.js');
+const user = path.join(__dirname, 'db', 'users.json');
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.get('/users/:user_id', ((req, res) => {
     if (!currentUser) {
         res.status(404).end('User not found.');
         return;
-    }
+    };
     res.json(currentUser);
 }));
 
@@ -48,11 +48,11 @@ app.get('/auth', ((req, res) => {
 
 app.post('/auth', ((req, res) => {
     const {name} = req.body;
-    const loginUser = users[name];
-
-    if(!loginUser) {
-        res.status(404).render('reg', {about: 'Register, please!'});
-    }
+    // const loginUser = fs.readFileSync(path.resolve(__dirname, 'users.json')).toString('utf8')
+    // if (loginUser) {
+    //     res.status(404).render('reg', {about: 'Register, please!'});
+    //     return;
+    // };
     res.redirect(`/users`);
 }));
 
@@ -62,20 +62,26 @@ app.get('/registration', ((req, res) => {
 
 app.post('/registration', ((req, res) => {
     const {name, age, gender, email, password} = req.body;
-    const isPresent = users[name];
 
     fs.writeFile(user, `${JSON.stringify(users)}`, err => {
         console.log(err);
     });
 
-    if(!name || !age || !gender || !email || !password) {
+    // fs.readFile(users, ((err, data) => {
+    //     if (err) {
+    //         res.status(404).end('Need to change the name');
+    //         return;
+    //     };
+    //     fs.appendFile(user, data, err1 => {
+    //         console.log(err1);
+    //     });
+    //     res.json(data.toString(users));
+    // }));
+
+    if (!name || !age || !gender || !email || !password) {
         res.status(404).end('Fill in each item!');
         return;
-    }
-    if (isPresent) {
-        res.status(404).end('Need to change the name');
-        return;
-    }
+    };
     res.render('login');
 }));
 
