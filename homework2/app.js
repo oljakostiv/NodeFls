@@ -1,9 +1,12 @@
 const express = require('express');
 const expressHbs = require('express-handlebars');
+const fs = require('fs');
 const path = require('path');
 
 const {PORT} = require('./config/variables');
 const users = require('./db/users');
+
+const user = path.join(__dirname, 'db', 'users.js');
 
 const app = express();
 
@@ -21,16 +24,11 @@ app.set('views', path.join(__dirname, 'static'));
 
 app.get('/', (req, res) => {
     console.log(req);
-    // res.json('<h1>Hello!</h1>');
     res.send('<h1>Hello!</h1>');
 });
 
-app.get('/login', ((req, res) => {
-    res.render('login', {isPresent: false});
-}));
-
 app.get('/users', ((req, res) => {
-    res.render('users', {userName: 'ddd', users});
+    res.render('users', {users});
 }));
 
 app.get('/users/:user_id', ((req, res) => {
@@ -41,13 +39,44 @@ app.get('/users/:user_id', ((req, res) => {
         res.status(404).end('User not found.');
         return;
     }
-    res.json(currentUser)
+    res.json(currentUser);
+}));
+
+app.get('/auth', ((req, res) => {
+    res.render('login');
 }));
 
 app.post('/auth', ((req, res) => {
-    console.log(req.body);
-    const {name, password} = req.body;
-    res.json(name);
+    const {name} = req.body;
+    const loginUser = users[name];
+
+    if(!loginUser) {
+        res.status(404).render('reg', {about: 'Register, please!'});
+    }
+    res.redirect(`/users`);
+}));
+
+app.get('/registration', ((req, res) => {
+    res.render('reg');
+}));
+
+app.post('/registration', ((req, res) => {
+    const {name, age, gender, email, password} = req.body;
+    const isPresent = users[name];
+
+    fs.writeFile(user, `${JSON.stringify(users)}`, err => {
+        console.log(err);
+    });
+
+    if(!name || !age || !gender || !email || !password) {
+        res.status(404).end('Fill in each item!');
+        return;
+    }
+    if (isPresent) {
+        res.status(404).end('Need to change the name');
+        return;
+    }
+    res.render('login');
 }));
 
 app.listen(PORT, () => {

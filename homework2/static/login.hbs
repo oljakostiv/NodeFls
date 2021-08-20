@@ -8,24 +8,12 @@
     <title>Document</title>
 </head>
 <body>
+
 <form action="/auth" method="post">
     <input type="text" name="name">
     <input type="password" name="password">
     <input type="submit" value="SEND">
 </form>
 
-{{#if isPresent}}
-    <div>
-       hello
-    </div>
-    {{else}}
-    <form action="/users" method="post">
-        <input type="text" name="name">
-        <input type="text" name="age">
-        <input type="text" name="email">
-        <input type="text" name="password">
-        <input type="text" value="Log in">
-    </form>
-{{/if}}
 </body>
 </html>
