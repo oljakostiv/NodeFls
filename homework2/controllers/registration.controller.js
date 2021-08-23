@@ -36,12 +36,11 @@ module.exports = {
                     return;
                 }
 
-                res.render('users', {users});
+                res.render('user', {users});
             })
 
         });
     },
 };
-
 
 
