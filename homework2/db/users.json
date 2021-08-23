@@ -4,28 +4,34 @@
     "age": 25,
     "gender": "male",
     "email": "dima@gmail.com",
-    "password": 111
+    "password": "111"
   },
   {
     "name": "Vira",
     "age": 21,
     "gender": "female",
     "email": "vira@gmail.com",
-    "password": 222
+    "password": "222"
   },
   {
     "name": "Petro",
     "age": 27,
     "gender": "male",
     "email": "petro@gmail.com",
-    "password": 333
+    "password": "333"
   },
   {
     "name": "Olena",
     "age": 24,
     "gender": "female",
     "email": "olena@gmail.com",
-    "password": 444
+    "password": "444"
+  },
+  {
+    "name": "test",
+    "age": "333",
+    "gender": "male",
+    "email": "test",
+    "password": "test"
   }
 ]
-

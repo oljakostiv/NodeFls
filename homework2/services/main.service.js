@@ -5,7 +5,7 @@ const usersDbPath = path.join(process.cwd(), 'db', 'users.join');
 
 const readUser = async () => {
     try {
-        const data = await fs.readFile(usersDbPath, 'utf-8');
+        const data = await fs.readFile(usersDbPath, 'utf8');
         return data ? JSON.parse(data) : [];
     } catch (err) {
         console.log(err);
@@ -14,9 +14,9 @@ const readUser = async () => {
 
 const writeUser = async (user) => {
     try {
-        const writeNewText = JSON.stringify(user, null, 2);
+        const writeNew = JSON.stringify(user, null, 2);
         
-        await fs.writeFile(usersDbPath, writeNewText);
+        await fs.writeFile(usersDbPath, writeNew);
     }catch (err) {
         console.log(err);
     }
