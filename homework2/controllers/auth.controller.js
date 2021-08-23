@@ -5,7 +5,6 @@ module.exports = {
         res.render('login');
     },
     authPostUser: (req, res) => {
-
         fs.readFile('users', (err, data) => {
 
             if (err) {
@@ -18,7 +17,7 @@ module.exports = {
             const find = userName.find((value) => value.name === name);
 
             if (find) {
-                res.render('users', {userFind: {find}})
+                res.render('users', {userFind: {find}});
             }
 
             res.redirect('/registration');

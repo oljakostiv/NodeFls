@@ -7,7 +7,6 @@ module.exports = {
         res.render('reg');
     },
     registrationUser: (req, res) => {
-
         fs.readFile(users, (err, data) => {
 
             if (err) {
@@ -23,6 +22,7 @@ module.exports = {
                 res.status(404).end('Fill in each item!');
                 return;
             }
+
             res.render('login');
 
             fs.writeFile(users, `${JSON.stringify(arr)}`, (err) => {
@@ -38,6 +38,7 @@ module.exports = {
                 if (!regUser) {
                     res.status(404).end('Need to change the name');
                 }
+
             });
         });
     },
