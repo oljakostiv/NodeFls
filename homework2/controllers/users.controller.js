@@ -12,6 +12,7 @@ module.exports = {
            res.status(404).end('User not found.');
            return;
        }
+
        res.json(currentUser);
    },
 };
