@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const users = require('../db/users.json');
 
 module.exports = {
@@ -5,19 +7,41 @@ module.exports = {
         res.render('reg');
     },
     registrationUser: (req, res) => {
-        const {name, age, gender, email, password} = req.body;
-        const regUser = users.findIndex((value) => value.name === name);
+        fs.readFile(users, (err, data) => {
 
-        if (!name || !age || !gender || !email || !password) {
-            res.status(404).end('Fill in each item!');
-            return;
-        }
+            if (err) {
+                console.log(err);
+                return;
+            }
 
-        if (!regUser) {
-            res.status(404).end('Name exists!');
-        }
+            const {name, age, gender, email, password} = req.body;
+            const arr = (data.toString()) ? JSON.parse(data.toString()) : [];
+            const regUser = arr.find((value) => value.name === name);
 
-        users.push(req.body);
-        res.redirect('/auth');
+            if (regUser) {
+                res.status(404).end('Name exists!').redirect('/auth');
+            }
+
+            arr.push(req.body);
+
+            fs.writeFile(users, `${JSON.stringify(arr)}`, (err) => {
+
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                if (!name || !age || !gender || !email || !password) {
+                    res.status(404).end('Fill in each item!');
+                    return;
+                }
+
+                res.render('users', {users});
+            })
+
+        });
     },
 };
+
+
+

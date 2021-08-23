@@ -16,3 +16,4 @@ module.exports = {
             res.redirect('/registration');
     },
 };
+
