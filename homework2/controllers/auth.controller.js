@@ -1,26 +1,18 @@
-const fs = require('fs');
+const users = require('../db/users.json');
 
 module.exports = {
     authUser: (req, res) => {
         res.render('login');
     },
     authPostUser: (req, res) => {
-        fs.readFile('users', (err, data) => {
+            const {name} = req.body;
+            const find = users.findIndex((value) => value.name === name);
 
-            if (err) {
-                console.log(err);
+            if (find) {
+                res.redirect(`/users`);
                 return;
             }
 
-            const {name} = req.body;
-            const userName = JSON.parse(data);
-            const find = userName.find((value) => value.name === name);
-
-            if (find) {
-                res.render('users', {userFind: {find}});
-            }
-
             res.redirect('/registration');
-        });
     },
 };
