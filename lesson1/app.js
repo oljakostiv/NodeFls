@@ -5,15 +5,15 @@
 //
 // console.log(__dirname);
 // console.log(__filename);
-
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-
-const textPath = path.join(__dirname, 'dir', 'text.txt');
-// const textPath2 = path.join(__dirname, 'dir', 'text2.txt');
-const folderWithDeletedData = path.join(__dirname, 'foldernew', 'deleter.txt');
-const dirToReadPath = path.join(__dirname, 'dir');
+//
+// const fs = require('fs');
+// const path = require('path');
+// const util = require('util');
+//
+// const textPath = path.join(__dirname, 'dir', 'text.txt');
+// // const textPath2 = path.join(__dirname, 'dir', 'text2.txt');
+// const folderWithDeletedData = path.join(__dirname, 'foldernew', 'deleter.txt');
+// const dirToReadPath = path.join(__dirname, 'dir');
 // console.log(textPath);
 
 // fs.writeFile(textPath, 'hello', err => {
