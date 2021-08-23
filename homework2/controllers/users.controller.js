@@ -2,7 +2,7 @@ const users = require('../db/users.json');
 
 module.exports = {
    getAllUsers: (req, res) => {
-        res.render('users', {users})
+        res.render('users', {users});
     },
    getSingleUser: (req, res) => {
        const {user_id} = req.params;
@@ -13,5 +13,5 @@ module.exports = {
            return;
        }
        res.json(currentUser);
-   }
-}
+   },
+};

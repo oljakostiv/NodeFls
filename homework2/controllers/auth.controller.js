@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports = {
     authUser: (req, res) => {
-        res.render('login')
+        res.render('login');
     },
     authPostUser: (req, res) => {
 
@@ -20,7 +20,8 @@ module.exports = {
             if (find) {
                 res.render('users', {userFind: {find}})
             }
-            res.redirect('/registration')
-        })
-    }
-}
+
+            res.redirect('/registration');
+        });
+    },
+};
