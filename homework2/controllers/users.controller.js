@@ -1,11 +1,12 @@
 // const fs = require('fs');
-// const users = require('../db/users.json');
 
 const {readUsersFile, writeUsersFile} = require('../services/main.service');
 
+const users = require('../db/users.json');
+
 module.exports = {
     getAllUsers: async (req, res) => {
-        res.json(await readUsersFile());
+        res.render('users', {users});
     },
     getSingleUser: async (req, res) => {
         const users = await readUsersFile();
