@@ -1,31 +1,23 @@
-const fs = require('fs');
+const {readUsersFile} = require('../services/main.service');
 
 module.exports = {
     authUser: (req, res) => {
         res.render('login');
     },
-    authPostUser: (req, res) => {
-        fs.readFile('db/users.json', 'utf8', (err, data) => {
+    authPostUser: async (req, res) => {
+        const user = await readUsersFile();
 
-            if (err) {
-                console.log(err);
-                return;
-            }
+        const {name, password} = req.body;
+        const find = user.find((value) => value.name === name && value.password === password);
 
-            const {name, password} = req.body;
-            const arr = (data.toString()) ? JSON.parse(data.toString()) : [];
-            const find = arr.find((value) => value.name === name && value.password === password);
+        console.log(req.body);
 
-            console.log(req.body);
+        if (find) {
+            res.redirect(`/users`);
+            return;
+        }
 
-            if (find) {
-                res.redirect(`/users`);
-                return;
-            }
-
-            res.redirect('/registration');
-            // res.status(404).end('Name not exists!');
-
-        });
-    },
+        res.redirect('/registration');
+        // res.status(404).end('Name not exists!');
+    }
 };
