@@ -6,16 +6,20 @@ module.exports = {
     },
 
     authPostUser: async (req, res) => {
-        const user = await readUsersFile();
+        try {
+            const user = await readUsersFile();
 
-        const {name, password} = req.body;
-        const find = user.find((value) => value.name === name && value.password === password);
+            const {name, password} = req.body;
+            const find = user.find((value) => value.name === name && value.password === password);
 
-        if (find) {
-            res.redirect(`/users`);
-            return;
+            if (find) {
+                res.redirect(`/users`);
+                return;
+            }
+
+            res.redirect('/registration');
+        } catch (e) {
+            console.log(e);
         }
-
-        res.redirect('/registration');
     }
 };

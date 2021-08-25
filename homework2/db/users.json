@@ -40,5 +40,19 @@
     "gender": "female",
     "email": "test2",
     "password": "111"
+  },
+  {
+    "name": "test 3",
+    "age": "333",
+    "gender": "female",
+    "email": "test 3",
+    "password": "111"
+  },
+  {
+    "name": "test4",
+    "age": "333",
+    "gender": "male",
+    "email": "test4",
+    "password": "111"
   }
 ]

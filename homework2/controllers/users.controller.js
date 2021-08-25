@@ -10,41 +10,50 @@ module.exports = {
     },
 
     getSingleUser: async (req, res) => {
-        const users = await readUsersFile();
+        try {
+            const users = await readUsersFile();
 
-        const {user_id} = req.params;
-        const currentUser = users[user_id];
+            const {user_id} = req.params;
+            const currentUser = users[user_id];
 
-        if (!currentUser) {
-            res.status(404).end('User not found.');
-            return;
+            if (!currentUser) {
+                res.status(404).end('User not found.');
+                return;
+            }
+
+            res.json(currentUser);
+        } catch (e) {
+            console.log(e);
         }
-
-        res.json(currentUser);
     },
 
     setUser: async (req, res) => {
-        const users = await readUsersFile();
+        try {
+            const users = await readUsersFile();
 
-        const {name, age, gender, email, password} = req.body;
-        const findUser = users.find((value) => value.name === name);
+            const {name, age, gender, email, password} = req.body;
+            const findUser = users.find((value) => value.name === name);
 
-        console.log(req.body);
+            console.log(req.body);
 
-        if (findUser) {
-            res.status(404).end('Name exists!');
-            return;
+            if (findUser) {
+                res.status(404).end('Name exists!');
+                return;
+            }
+
+            if (!name || !age || !gender || !email || !password) {
+                res.status(400).end('Fill in each item!');
+                return;
+            }
+
+            users.push(req.body);
+
+            await writeUsersFile(users);
+            res.redirect('/auth');
+
+        } catch (e) {
+            console.log(e);
         }
-
-        if (!name || !age || !gender || !email || !password) {
-            res.status(400).end('Fill in each item!');
-            return;
-        }
-
-        users.push(req.body);
-
-        await writeUsersFile(users);
-        res.redirect('/auth');
     }
 };
 
