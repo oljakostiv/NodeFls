@@ -8,6 +8,7 @@ module.exports = {
     getAllUsers: async (req, res) => {
         res.render('users', {users});
     },
+
     getSingleUser: async (req, res) => {
         const users = await readUsersFile();
 
@@ -21,6 +22,7 @@ module.exports = {
 
         res.json(currentUser);
     },
+
     setUser: async (req, res) => {
         const users = await readUsersFile();
 
@@ -35,7 +37,7 @@ module.exports = {
         }
 
         if (!name || !age || !gender || !email || !password) {
-            res.status(404).end('Fill in each item!');
+            res.status(400).end('Fill in each item!');
             return;
         }
 
@@ -51,6 +53,7 @@ module.exports = {
 //     getAllUsers: (req, res) => {
 //         res.render('users', {users});
 //     },
+
 //     getSingleUser: (req, res) => {
 //         const {user_id} = req.params;
 //         const currentUser = users[user_id];
@@ -62,6 +65,7 @@ module.exports = {
 //
 //         res.json(currentUser);
 //     },
+
 //     setUser: (req, res) => {
 //         fs.readFile('db/users.json', 'utf8', (err, data) => {
 //

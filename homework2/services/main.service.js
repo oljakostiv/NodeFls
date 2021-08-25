@@ -9,7 +9,6 @@ const readUsersFile = async () => {
         return data ? JSON.parse(data) : [];
     } catch (err) {
         console.log(err);
-        throw new Error(`There was a problem!`);
     }
 };
 

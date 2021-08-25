@@ -15,10 +15,12 @@ const {
     userRouter
 } = require('./routes');
 
-app.use(express.static(path.join(__dirname, 'static')));
+const staticDir = path.join(__dirname, 'static');
+
+app.use(express.static(staticDir));
 app.set('view engine', '.hbs');
 app.engine('.hbs', expressHbs({defaultLayout: false}));
-app.set('views', path.join(__dirname, 'static'));
+app.set('views', staticDir);
 
 app.use('/auth', authRouter);
 app.use('/registration', registrationRouter);
