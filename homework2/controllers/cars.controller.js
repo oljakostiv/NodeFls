@@ -1,6 +1,18 @@
 const { carService } = require('../services');
+const { statusCode } = require('../config');
 
 module.exports = {
+    deleteCar: async (req, res, next) => {
+        try {
+            const { car_id } = req.params;
+            await carService.deleteCar(car_id);
+
+            res.sendStatus(statusCode.DELETED);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     getAllCars: async (req, res, next) => {
         try {
             const carsAll = await carService.findCar();
@@ -27,14 +39,15 @@ module.exports = {
             next(e);
         }
     },
-    deleteCar: async (req, res, next) => {
+
+    updateCar: async (req, res, next) => {
         try {
             const { car_id } = req.params;
-            await carService.deleteCar(car_id);
+            const updateCar = await carService.updateCar(car_id, req.body);
 
-            res.sendStatus(204);
+            res.json(updateCar);
         } catch (e) {
             next(e);
         }
-    },
+    }
 };

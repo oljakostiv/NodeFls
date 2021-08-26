@@ -1,6 +1,18 @@
 const { userService } = require('../services');
+const { statusCode } = require('../config');
 
 module.exports = {
+    deleteUser: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+            await userService.deleteUser(user_id);
+
+            res.sendStatus(statusCode.DELETED);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     getAllUsers: async (req, res, next) => {
         try {
             const usersAll = await userService.findUser();
@@ -28,14 +40,15 @@ module.exports = {
             next(e);
         }
     },
-    deleteUser: async (req, res, next) => {
+
+    updateUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            await userService.deleteUser(user_id);
+            const updateUser = await userService.updateUser(user_id, req.body);
 
-            res.sendStatus(204);
+            res.json(updateUser);
         } catch (e) {
             next(e);
         }
-    },
+    }
 };
