@@ -9,21 +9,17 @@ module.exports = {
     },
     extends: [
         'airbnb-base',
-        'eslint:recommended',
+        'eslint:recommended'
     ],
     plugins: [],
     rules: {
         'array-bracket-newline': [
             'error',
-            {
-                minItems: 2
-            },
+            { minItems: 2 }
         ],
         'array-element-newline': [
             'error',
-            {
-                minItems: 2
-            },
+            { minItems: 2 }
         ],
         'arrow-body-style': 'error',
         'block-scoped-var': 'error',
@@ -41,9 +37,7 @@ module.exports = {
         indent: [
             'warn',
             4,
-            {
-                SwitchCase: 1
-            },
+            { SwitchCase: 1 }
         ],
         'linebreak-style': 'off',
         'max-classes-per-file': 'off',
@@ -82,14 +76,12 @@ module.exports = {
                 ignoreRegExpLiterals: true,
                 ignoreUrls: true,
                 comments: 130,
-                code: 130,
-            },
+                code: 130
+            }
         ],
         'no-magic-numbers': [
             'off',
-            {
-                ignoreArrayIndexes: true
-            },
+            { ignoreArrayIndexes: true }
         ],
         'no-multi-spaces': 'error',
         'no-multi-str': 'error',
@@ -113,15 +105,11 @@ module.exports = {
         'no-unused-expressions': 'error',
         'no-unused-vars': [
             'error',
-            {
-                varsIgnorePattern: 'ctx'
-            },
+            { varsIgnorePattern: 'ctx' }
         ],
         'no-use-before-define': [
             'error',
-            {
-                functions: false
-            }
+            { functions: false }
         ],
         'no-useless-call': 'error',
         'no-useless-concat': 'error',
@@ -131,14 +119,14 @@ module.exports = {
         'object-shorthand': 'error',
         'one-var': [
             'error',
-            'never',
+            'never'
         ],
         'padding-line-between-statements': 'error',
         'prefer-const': 'error',
         'prefer-object-spread': 'warn',
         'quote-props': [
             'error',
-            'as-needed',
+            'as-needed'
         ],
         radix: 'error',
         'require-await': 'error',
@@ -147,25 +135,25 @@ module.exports = {
             {
                 ignoreCase: true,
                 ignoreDeclarationSort: true,
-                ignoreMemberSort: false,
-            },
+                ignoreMemberSort: false
+            }
         ],
         'space-before-function-paren': [
             'error',
             {
                 anonymous: 'never',
                 asyncArrow: 'always',
-                named: 'never',
-            },
+                named: 'never'
+            }
         ],
         'use-isnan': 'error',
         'wrap-iife': 'error',
-        yoda: 'error',
+        yoda: 'error'
     },
     overrides: [{
         files: ['**/*.test.js'],
         env: {
-            jest: true,
-        },
-    }],
+            jest: true
+        }
+    }]
 };

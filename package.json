@@ -1,17 +1,10 @@
 {
-  "name": "NodeFls",
+  "name": "apr-2021",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.3"
+    "express-handlebars": "^5.3.3",
+    "mongoose": "^6.0.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -34,4 +27,3 @@
     ]
   }
 }
-
