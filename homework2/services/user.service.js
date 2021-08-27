@@ -7,7 +7,7 @@ module.exports = {
 
     findUser: () => usersDb.find({}),
 
-    getById: (user_id) => usersDb.findOne({ _user_id: user_id }),
+    getById: (user_id) => usersDb.findById(user_id),
 
     setUser: (user) => usersDb.create(user),
 

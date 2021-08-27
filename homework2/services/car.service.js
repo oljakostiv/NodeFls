@@ -7,7 +7,7 @@ module.exports = {
 
     findCar: () => carsDb.find({}),
 
-    getById: (car_id) => carsDb.findOne({ _car_id: car_id }),
+    getById: (car_id) => carsDb.findById(car_id),
 
     setCar: (car) => carsDb.create(car),
 
