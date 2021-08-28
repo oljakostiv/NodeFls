@@ -1,39 +1,23 @@
-const { userService } = require('../services');
+const { authService } = require('../services');
 const ErrorHandler = require('../errors/errorHandler');
 const {
     errMsg,
     statusCode
 } = require('../config');
-const { UserModel } = require('../dataBase');
 const { userValidator } = require('../validators');
 
 module.exports = {
-    checkUniqueName: async (req, res, next) => {
+    foundUser: async (req, res, next) => {
         try {
             const { name } = req.body;
 
-            const userByName = await UserModel.findOne({ name });
+            const authUser = await authService.findUserAuth({ name });
 
-            if (userByName) {
-                throw new ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST);
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    isUserPresent: async (req, res, next) => {
-        try {
-            const { user_id } = req.params;
-            const currentUser = await userService.getById(user_id).lean();
-
-            if (!currentUser) {
+            if (!authUser) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
             }
 
-            req.currentUser = currentUser;
-
+            req.authUser = authUser;
             next();
         } catch (e) {
             next(e);

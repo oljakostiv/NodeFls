@@ -5,6 +5,7 @@ const {
     statusCode
 } = require('../config');
 const { CarModel } = require('../dataBase');
+const { carValidator } = require('../validators');
 
 module.exports = {
     checkUniqueModel: async (req, res, next) => {
@@ -33,6 +34,19 @@ module.exports = {
 
             req.currentCar = currentCar;
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateCarBody: (req, res, next) => {
+        try {
+            const { error } = carValidator.createCarValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+            }
             next();
         } catch (e) {
             next(e);

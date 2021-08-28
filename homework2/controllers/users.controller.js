@@ -1,5 +1,9 @@
-const { userService } = require('../services');
+const {
+    userService,
+    passwordService
+} = require('../services');
 const { statusCode } = require('../config');
+const { userUtil } = require('../util');
 
 module.exports = {
     deleteUser: async (req, res, next) => {
@@ -25,7 +29,8 @@ module.exports = {
 
     getSingleUser: (req, res, next) => {
         try {
-            res.json(req.currentUser);
+            const userToReturn = userUtil.calibrationUser(req.currentUser);
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
@@ -33,9 +38,17 @@ module.exports = {
 
     setUser: async (req, res, next) => {
         try {
-            const usersSet = await userService.setUser(req.body);
+            const { password } = req.body;
 
-            res.json(usersSet);
+            const passwordHashed = await passwordService.hash(password);
+            const usersSet = await userService.setUser({
+                ...req.body,
+                password: passwordHashed
+            });
+
+            const userToReturn = userUtil.calibrationUser(usersSet);
+
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }

@@ -1,15 +1,9 @@
-// Вам необхідно реалізувати CRUD на дві сутності (user, car)
+// Вам необхідно покрити всі місця, де це необхідно валідаторами JOI (query, params, body).
 //
-// Мають бути реалізовані такі методи:
-//     1) Create user
-// 2) Get all users
-// 3) Get user by id
-// 4) Delete current user
+//     Зробити хешування паролів
 //
-// Все це має бути розбито по роутах, контроллерах, сервісах з обовязковою перевіркою всього що приходить через мідлвари.
-//     Також всі меджік стрінги мають бути винесені в константи.
-//
-//     додати errorHandler
+// Зробити заготовку для флоу аутернтифікації. Тобто роут, контроллер, мідлвари і так далі
+// https://www.youtube.com/watch?v=NO8rRUk_G_I&t=5700s
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -24,10 +18,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const {
+    authRouter,
     carRouter,
     userRouter
 } = require('./routes');
 
+app.use('/auth', authRouter);
 app.use('/cars', carRouter);
 app.use('/users', userRouter);
 app.use('*', _notFoundError);
