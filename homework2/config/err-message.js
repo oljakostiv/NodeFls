@@ -4,4 +4,3 @@ module.exports = {
     NAME_EXIST: 'Name is exists!',
     NOT_FOUND: 'Not found!'
 };
-// work

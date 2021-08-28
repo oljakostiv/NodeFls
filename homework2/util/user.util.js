@@ -9,4 +9,3 @@ module.exports = {
         return userToCalibrate;
     }
 };
-// work
