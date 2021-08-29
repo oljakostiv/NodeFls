@@ -11,7 +11,6 @@ module.exports = {
             await passwordService.compare(authUser.password, body.password);
 
             res.end(errMsg.NAME_EXIST);
-            next();
         } catch (e) {
             next(e);
         }
