@@ -8,6 +8,36 @@ const { UserModel } = require('../dataBase');
 const { userValidator } = require('../validators');
 
 module.exports = {
+    allUsersPresent: async (req, res, next) => {
+        try {
+            const {
+                name,
+                born_year,
+                gender
+            } = req.query;
+
+            if (!name && !born_year && !gender) {
+                const users = await userService.findUser();
+
+                req.users = users;
+                return next();
+            }
+
+            if (name || born_year || gender) {
+                const usersQuery = await userService.findUser({
+                    name,
+                    born_year,
+                    gender
+                });
+
+                req.users = usersQuery;
+                return next();
+            }
+        } catch (e) {
+            next(e);
+        }
+    },
+
     checkUniqueName: async (req, res, next) => {
         try {
             const { name } = req.body;

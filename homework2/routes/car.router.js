@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { carsController } = require('../controllers');
 const { carMiddle } = require('../middlewares');
 
-router.get('/', carMiddle.validateCarQuery, carsController.getAllCars);
+router.get('/', carMiddle.validateCarQuery, carMiddle.allCarsPresent, carsController.getAllCars);
 router.post('/', carMiddle.validateCarBody, carMiddle.checkUniqueModel, carsController.setCar);
 
 router.delete('/:car_id', carMiddle.validateCarParams, carMiddle.isCarPresent, carsController.deleteCar);

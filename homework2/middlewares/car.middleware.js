@@ -8,6 +8,36 @@ const { CarModel } = require('../dataBase');
 const { carValidator } = require('../validators');
 
 module.exports = {
+    allCarsPresent: async (req, res, next) => {
+        try {
+            const {
+                model,
+                year,
+                price
+            } = req.query;
+
+            if (!model && !year && !price) {
+                const cars = await carService.findCar();
+
+                req.cars = cars;
+                return next();
+            }
+
+            if (model || year || price) {
+                const carsQuery = await carService.findCar({
+                    model,
+                    year,
+                    price
+                });
+
+                req.cars = carsQuery;
+                return next();
+            }
+        } catch (e) {
+            next(e);
+        }
+    },
+
     checkUniqueModel: async (req, res, next) => {
         try {
             const { model } = req.body;

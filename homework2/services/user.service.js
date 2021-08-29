@@ -5,7 +5,7 @@ module.exports = {
         await usersDb.deleteOne({ _id });
     },
 
-    findUser: () => usersDb.find({}),
+    findUser: (user) => usersDb.find(user),
 
     getById: (user_id) => usersDb.findById(user_id),
 

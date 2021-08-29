@@ -5,7 +5,7 @@ module.exports = {
         await carsDb.deleteOne({ _id });
     },
 
-    findCar: () => carsDb.find({}),
+    findCar: (cars) => carsDb.find(cars),
 
     getById: (car_id) => carsDb.findById(car_id),
 

@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { usersController } = require('../controllers');
 const { userMiddle } = require('../middlewares');
 
-router.get('/', userMiddle.validateUserQuery, usersController.getAllUsers);
+router.get('/', userMiddle.validateUserQuery, userMiddle.allUsersPresent, usersController.getAllUsers);
 router.post('/', userMiddle.validateUserBody, userMiddle.checkUniqueName, usersController.setUser);
 
 router.delete('/:user_id', userMiddle.validateUserParams, userMiddle.isUserPresent, usersController.deleteUser);
