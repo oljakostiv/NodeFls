@@ -26,7 +26,7 @@ module.exports = {
 
     validateUserBody: (req, res, next) => {
         try {
-            const { error } = userValidator.createUserValidator.validate(req.body);
+            const { error } = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);

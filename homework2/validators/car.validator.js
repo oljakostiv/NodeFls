@@ -23,6 +23,28 @@ const createCarValidator = Joi.object({
         .required()
 });
 
+const paramsCarValidator = Joi.object({
+    car_id: Joi.string()
+        .alphanum()
+        .min(3)
+        .max(30)
+        .trim()
+});
+
+const queryCarValidator = Joi.object({
+    model: Joi.string()
+        .alphanum()
+        .min(2)
+        .max(30)
+        .trim(),
+    year: Joi.number()
+        .min(constants.CURRENT_YEAR - 20)
+        .max(constants.CURRENT_YEAR),
+    price: Joi.number()
+        .min(888)
+        .max(888888)
+});
+
 const updateCarValidator = Joi.object({
     model: Joi.string()
         .alphanum()
@@ -40,5 +62,7 @@ const updateCarValidator = Joi.object({
 
 module.exports = {
     createCarValidator,
+    paramsCarValidator,
+    queryCarValidator,
     updateCarValidator
 };

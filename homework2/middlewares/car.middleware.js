@@ -40,9 +40,48 @@ module.exports = {
         }
     },
 
+    validateCarParams: (req, res, next) => {
+        try {
+            const { error } = carValidator.paramsCarValidator.validate(req.params);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.ID_WRONG);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateCarQuery: (req, res, next) => {
+        try {
+            const { error } = carValidator.queryCarValidator.validate(req.query);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.QUERY_ERROR);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     validateCarBody: (req, res, next) => {
         try {
             const { error } = carValidator.createCarValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateCarUpdate: (req, res, next) => {
+        try {
+            const { error } = carValidator.updateCarValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);

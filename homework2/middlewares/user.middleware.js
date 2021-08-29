@@ -26,7 +26,7 @@ module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            const currentUser = await userService.getById(user_id).lean();
+            const currentUser = await userService.getById(user_id);
 
             if (!currentUser) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
@@ -40,9 +40,48 @@ module.exports = {
         }
     },
 
+    validateUserParams: (req, res, next) => {
+        try {
+            const { error } = userValidator.paramsUserValidator.validate(req.params);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.ID_WRONG);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateUserQuery: (req, res, next) => {
+        try {
+            const { error } = userValidator.queryUserValidator.validate(req.query);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.QUERY_ERROR);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     validateUserBody: (req, res, next) => {
         try {
             const { error } = userValidator.createUserValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateUserUpdate: (req, res, next) => {
+        try {
+            const { error } = userValidator.updateUserValidator.validate(req.body);
 
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
