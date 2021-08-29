@@ -19,7 +19,7 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const usersAll = await userService.findUser();
+            const usersAll = await userService.findUser(req.query);
 
             res.json(usersAll);
         } catch (e) {
@@ -48,7 +48,7 @@ module.exports = {
 
             const userToReturn = userUtil.calibrationUser(usersSet);
 
-            res.json(userToReturn);
+            res.status(statusCode.CREATED_AND_UPDATE).json(userToReturn);
         } catch (e) {
             next(e);
         }
@@ -59,7 +59,7 @@ module.exports = {
             const { user_id } = req.params;
             const updateUser = await userService.updateUser(user_id, req.body);
 
-            res.json(updateUser);
+            res.status(statusCode.CREATED_AND_UPDATE).json(updateUser);
         } catch (e) {
             next(e);
         }

@@ -1,5 +1,5 @@
 const { carService } = require('../services');
-const ErrorHandler = require('../errors/errorHandler');
+const ErrorHandler = require('../errors/ErrorHandler');
 const {
     errMsg,
     statusCode

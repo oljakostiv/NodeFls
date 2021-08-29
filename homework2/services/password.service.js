@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const ErrorHandler = require('../errors/errorHandler');
+const ErrorHandler = require('../errors/ErrorHandler');
 const {
     errMsg,
     statusCode

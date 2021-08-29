@@ -8,11 +8,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { errMsg, statusCode, variables: { PORT } } = require('./config');
+const {
+    errMsg,
+    constants,
+    statusCode,
+    variables: { PORT }
+} = require('./config');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/nodefls');
+mongoose.connect(constants.MONGOOSE);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

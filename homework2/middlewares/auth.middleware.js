@@ -1,5 +1,5 @@
 const { authService } = require('../services');
-const ErrorHandler = require('../errors/errorHandler');
+const ErrorHandler = require('../errors/ErrorHandler');
 const {
     errMsg,
     statusCode
@@ -29,7 +29,7 @@ module.exports = {
             const { error } = userValidator.authUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.EMAIL_PASSWORD_WRONG);
             }
             next();
         } catch (e) {
