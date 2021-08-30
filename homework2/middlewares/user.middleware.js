@@ -87,6 +87,24 @@ module.exports = {
         }
     },
 
+    getUserByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
+        try {
+            const dynamicValue = req[searchIn][paramName];
+
+            const user = await UserModel.findOne({ [dbFiled]: dynamicValue });
+
+            if (!user) {
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+            }
+
+            req.currentUser = user;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     validateUserParams: (req, res, next) => {
         try {
             const { error } = userValidator.paramsUserValidator.validate(req.params);
