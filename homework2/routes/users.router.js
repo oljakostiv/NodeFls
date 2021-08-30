@@ -6,8 +6,16 @@ const { userMiddle } = require('../middlewares');
 router.get('/', userMiddle.validateUserQuery, userMiddle.allUsersPresent, usersController.getAllUsers);
 router.post('/', userMiddle.validateUserBody, userMiddle.checkUniqueName, usersController.setUser);
 
-router.delete('/:user_id', userMiddle.validateUserParams, userMiddle.isUserPresent, usersController.deleteUser);
-router.get('/:user_id', userMiddle.validateUserParams, userMiddle.isUserPresent, usersController.getSingleUser);
+router.delete('/:user_id',
+    userMiddle.validateUserParams,
+    userMiddle.isUserPresent,
+    userMiddle.checkUserRoleMiddle(['admin']),
+    usersController.deleteUser);
+router.get('/:user_id',
+    userMiddle.validateUserParams,
+    userMiddle.isUserPresent,
+    userMiddle.checkUserRoleMiddle(['admin' && 'user']),
+    usersController.getSingleUser);
 router.put('/:user_id',
     userMiddle.validateUserParams,
     userMiddle.validateUserUpdate,

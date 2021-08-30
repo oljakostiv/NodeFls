@@ -1,6 +1,9 @@
 module.exports = {
     calibrationUser: (userToCalibrate) => {
-        const fieldsToRemove = ['password'];
+        const fieldsToRemove = [
+            'password',
+            '__v'
+        ];
 
         userToCalibrate = userToCalibrate.toObject();
 

@@ -38,6 +38,23 @@ module.exports = {
         }
     },
 
+    checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
+        try {
+            const { role } = req.currentUser;
+
+            if (!roleArr.length) {
+                return next();
+            }
+
+            if (!roleArr.includes(role)) {
+                throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
+            }
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     checkUniqueName: async (req, res, next) => {
         try {
             const { name } = req.body;
