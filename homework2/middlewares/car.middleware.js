@@ -70,6 +70,24 @@ module.exports = {
         }
     },
 
+    getCarByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
+        try {
+            const dynamicValue = req[searchIn][paramName];
+
+            const car = await CarModel.findOne({ [dbFiled]: dynamicValue });
+
+            if (!car) {
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+            }
+
+            req.currentCar = car;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
     validateCarParams: (req, res, next) => {
         try {
             const { error } = carValidator.paramsCarValidator.validate(req.params);
