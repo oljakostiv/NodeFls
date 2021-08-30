@@ -13,21 +13,21 @@ module.exports = {
             const {
                 name,
                 born_year,
-                gender
+                role
             } = req.query;
 
-            if (!name && !born_year && !gender) {
+            if (!name && !born_year && !role) {
                 const users = await userService.findUser();
 
                 req.users = users;
                 return next();
             }
 
-            if (name || born_year || gender) {
+            if (name || born_year || role) {
                 const usersQuery = await userService.findUser({
                     name,
                     born_year,
-                    gender
+                    role
                 });
 
                 req.users = usersQuery;

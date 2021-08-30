@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const {
     constants,
-    userGender
+    userRole
 } = require('../config');
 
 const authUserValidator = Joi.object({
@@ -26,8 +26,8 @@ const createUserValidator = Joi.object({
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    gender: Joi.string()
-        .allow(...Object.values(userGender)),
+    role: Joi.string()
+        .allow(...Object.values(userRole)),
     email: Joi.string()
         .regex(constants.EMAIL_REGEXP)
         .trim(),
@@ -38,9 +38,7 @@ const createUserValidator = Joi.object({
 
 const paramsUserValidator = Joi.object({
     user_id: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
+        .regex(constants.ID_REGEXP)
         .trim()
 });
 
@@ -53,8 +51,8 @@ const queryUserValidator = Joi.object({
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    gender: Joi.string()
-        .allow(...Object.values(userGender))
+    role: Joi.string()
+        .allow(...Object.values(userRole))
 });
 
 const updateUserValidator = Joi.object({
@@ -65,8 +63,8 @@ const updateUserValidator = Joi.object({
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    gender: Joi.string()
-        .allow(...Object.values(userGender)),
+    role: Joi.string()
+        .allow(...Object.values(userRole)),
     email: Joi.string()
         .regex(constants.EMAIL_REGEXP),
 });

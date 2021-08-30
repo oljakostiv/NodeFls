@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const userGenderEnum = require('../config/user-gender.enum');
+const { userRole } = require('../config');
 
 const userSchema = new Schema({
     name: {
@@ -13,10 +13,10 @@ const userSchema = new Schema({
         type: Number,
         trim: true
     },
-    gender: {
+    role: {
         type: String,
-        default: userGenderEnum.MALE,
-        enum: Object.values(userGenderEnum)
+        default: userRole.USER,
+        enum: Object.values(userRole)
     },
     email: {
         type: String,

@@ -21,7 +21,9 @@ module.exports = {
         try {
             const usersAll = await userService.findUser(req.query);
 
-            res.json(usersAll);
+            const userToReturn = usersAll.map((user) => userUtil.calibrationUser(user));
+
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }

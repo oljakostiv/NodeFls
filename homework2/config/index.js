@@ -3,6 +3,6 @@ module.exports = {
     constants: require('./constants'),
     errMsg: require('./err-message'),
     statusCode: require('./status-code'),
-    userGender: require('./user-gender.enum'),
+    userRole: require('./user-role.enum'),
     variables: require('./variables')
 };
