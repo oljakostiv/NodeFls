@@ -11,12 +11,12 @@ const mongoose = require('mongoose');
 const {
     errMsg,
     statusCode,
-    variables: { PORT, MONGOOSE }
+    variables: { PORT, DB_CONNECTION_URL }
 } = require('./config');
 
 const app = express();
 
-mongoose.connect(MONGOOSE);
+mongoose.connect(DB_CONNECTION_URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
