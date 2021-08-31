@@ -4,10 +4,14 @@ const router = require('express')
 const { usersController } = require('../controllers');
 const { userMiddle } = require('../middlewares');
 
-router.get('/', userMiddle.validateUserQuery, userMiddle.allUsersPresent, usersController.getAllUsers);
+router.get('/',
+    userMiddle.validateUserQuery,
+    userMiddle.getUsersByDynamicParam('role'),
+    // userMiddle.allUsersPresent,
+    usersController.getAllUsers);
 router.post('/',
     userMiddle.validateUserBody,
-    userMiddle.getUserByDynamicParam('name'),
+    // userMiddle.getUserByDynamicParam('name'),
     userMiddle.checkUniqueName,
     usersController.setUser);
 

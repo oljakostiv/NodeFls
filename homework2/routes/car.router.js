@@ -3,10 +3,14 @@ const router = require('express').Router();
 const { carsController } = require('../controllers');
 const { carMiddle } = require('../middlewares');
 
-router.get('/', carMiddle.validateCarQuery, carMiddle.allCarsPresent, carsController.getAllCars);
+router.get('/',
+    carMiddle.validateCarQuery,
+    carMiddle.getCarsByDynamicParam('year'),
+    // carMiddle.allCarsPresent,
+    carsController.getAllCars);
 router.post('/',
     carMiddle.validateCarBody,
-    carMiddle.getCarByDynamicParam('model'),
+    // carMiddle.getCarByDynamicParam('model'),
     carMiddle.checkUniqueModel,
     carsController.setCar);
 
