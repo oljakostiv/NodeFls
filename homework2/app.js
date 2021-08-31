@@ -13,6 +13,8 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
+const { apiRouter } = require('./routes/api');
+
 const {
     errMsg,
     statusCode,
@@ -26,15 +28,7 @@ mongoose.connect(DB_CONNECTION_URL);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const {
-    authRouter,
-    carRouter,
-    userRouter
-} = require('./routes');
-
-app.use('/auth', authRouter);
-app.use('/cars', carRouter);
-app.use('/users', userRouter);
+app.use('/', apiRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
