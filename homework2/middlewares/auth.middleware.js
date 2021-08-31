@@ -17,6 +17,7 @@ module.exports = {
             }
 
             req.authUser = authUser;
+
             next();
         } catch (e) {
             next(e);

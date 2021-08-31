@@ -18,6 +18,7 @@ module.exports = {
             if (!roleArr.includes(role)) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
+
             next();
         } catch (e) {
             next(e);
@@ -33,6 +34,7 @@ module.exports = {
             if (userByName) {
                 throw new ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST);
             }
+
             next();
         } catch (e) {
             next(e);
