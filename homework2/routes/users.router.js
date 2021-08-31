@@ -12,31 +12,23 @@ const {
     },
     userRole: { ADMIN, USER }
 } = require('../config');
-const {
-    userValidator: {
-        createUserValidator,
-        queryUserValidator,
-        updateUserValidator,
-        paramsUserValidator
-    }
-} = require('../validators');
 
 router.get('/',
-    userMiddle.getUsersByDynamicParam(queryUserValidator, QUERY),
+    userMiddle.getUsersByDynamicParam('queryUserValidator', QUERY),
     usersController.getAllUsers);
 
 router.post('/',
-    userMiddle.getUsersByDynamicParam(createUserValidator, BODY),
+    userMiddle.getUsersByDynamicParam('createUserValidator', BODY),
     userMiddle.checkUniqueName,
     usersController.setUser);
 
 router.delete('/:user_id',
-    userMiddle.getUsersByDynamicParam(paramsUserValidator),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.checkUserRoleMiddle([ADMIN]),
     usersController.deleteUser);
 
 router.get('/:user_id',
-    userMiddle.getUsersByDynamicParam(paramsUserValidator),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.checkUserRoleMiddle([
         ADMIN,
@@ -45,8 +37,8 @@ router.get('/:user_id',
     usersController.getSingleUser);
 
 router.put('/:user_id',
-    userMiddle.getUsersByDynamicParam(paramsUserValidator),
-    userMiddle.getUsersByDynamicParam(updateUserValidator),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    userMiddle.getUsersByDynamicParam('updateUserValidator'),
     userMiddle.checkUniqueName,
     usersController.updateUser);
 
