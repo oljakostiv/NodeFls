@@ -57,7 +57,7 @@ module.exports = {
         }
     },
 
-    getUsersByDynamicParam: (paramName, searchIn = 'body') => (req, res, next) => {
+    getUsersByDynamicParam: (paramName, searchIn = 'params') => (req, res, next) => {
         try {
             const { error } = userValidator[paramName].validate(req[searchIn]);
 

@@ -41,12 +41,12 @@ module.exports = {
         }
     },
 
-    getCarsByDynamicParam: (paramName, searchIn = 'body') => (req, res, next) => {
+    getCarsByDynamicParam: (paramName, searchIn = 'params') => (req, res, next) => {
         try {
             const { error } = carValidator[paramName].validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
             }
             next();
         } catch (e) {

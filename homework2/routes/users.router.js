@@ -9,24 +9,24 @@ router.get('/',
     usersController.getAllUsers);
 
 router.post('/',
-    userMiddle.getUsersByDynamicParam('createUserValidator'),
+    userMiddle.getUsersByDynamicParam('createUserValidator', 'body'),
     userMiddle.checkUniqueName,
     usersController.setUser);
 
 router.delete('/:user_id',
-    userMiddle.getUsersByDynamicParam('paramsUserValidator', 'params'),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.checkUserRoleMiddle(['admin']),
     usersController.deleteUser);
 
 router.get('/:user_id',
-    userMiddle.getUsersByDynamicParam('paramsUserValidator', 'params'),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.getUserByDynamicParam('user_id', 'params', '_id'),
     userMiddle.checkUserRoleMiddle(['admin' && 'user']),
     usersController.getSingleUser);
 
 router.put('/:user_id',
-    userMiddle.getUsersByDynamicParam('paramsUserValidator', 'params'),
-    userMiddle.getUsersByDynamicParam('updateUserValidator', 'params'),
+    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    userMiddle.getUsersByDynamicParam('updateUserValidator'),
     userMiddle.checkUniqueName,
     usersController.updateUser);
 

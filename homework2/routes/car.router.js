@@ -8,22 +8,22 @@ router.get('/',
     carsController.getAllCars);
 
 router.post('/',
-    carMiddle.getCarsByDynamicParam('createCarValidator'),
+    carMiddle.getCarsByDynamicParam('createCarValidator', 'body'),
     carMiddle.checkUniqueModel,
     carsController.setCar);
 
 router.delete('/:car_id',
-    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
+    carMiddle.getCarsByDynamicParam('paramsCarValidator'),
     carsController.deleteCar);
 
 router.get('/:car_id',
-    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
+    carMiddle.getCarsByDynamicParam('paramsCarValidator'),
     carMiddle.getCarByDynamicParam('car_id', 'params', '_id'),
     carsController.getSingleCar);
 
 router.put('/:car_id',
-    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
-    carMiddle.getCarsByDynamicParam('updateCarValidator', 'params'),
+    carMiddle.getCarsByDynamicParam('paramsCarValidator'),
+    carMiddle.getCarsByDynamicParam('updateCarValidator'),
     carMiddle.checkUniqueModel,
     carsController.updateCar);
 
