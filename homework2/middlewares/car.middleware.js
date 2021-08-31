@@ -16,6 +16,7 @@ module.exports = {
             if (carByModel) {
                 throw new ErrorHandler(statusCode.CONFLICT, errMsg.MODEL_EXIST);
             }
+
             next();
         } catch (e) {
             next(e);

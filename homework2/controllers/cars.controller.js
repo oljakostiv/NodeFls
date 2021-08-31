@@ -5,6 +5,7 @@ module.exports = {
     deleteCar: async (req, res, next) => {
         try {
             const { car_id } = req.params;
+
             await carService.deleteCar(car_id);
 
             res.sendStatus(statusCode.DELETED);
@@ -34,7 +35,8 @@ module.exports = {
         try {
             const carsSet = await carService.setCar(req.body);
 
-            res.status(statusCode.CREATED_AND_UPDATE).json(carsSet);
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(carsSet);
         } catch (e) {
             next(e);
         }
@@ -45,7 +47,8 @@ module.exports = {
             const { car_id } = req.params;
             const updateCar = await carService.updateCar(car_id, req.body);
 
-            res.status(statusCode.CREATED_AND_UPDATE).json(updateCar);
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(updateCar);
         } catch (e) {
             next(e);
         }

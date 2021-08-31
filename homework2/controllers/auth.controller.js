@@ -8,6 +8,7 @@ module.exports = {
                 authUser,
                 body
             } = req;
+
             await passwordService.compare(authUser.password, body.password);
 
             res.end(errMsg.NAME_EXIST);

@@ -1,2 +1,4 @@
-module.exports.carValidator = require('./car.validator');
-module.exports.userValidator = require('./user.validator');
+module.exports = {
+    carValidator: require('./car.validator'),
+    userValidator: require('./user.validator')
+};

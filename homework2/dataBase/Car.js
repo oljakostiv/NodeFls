@@ -22,7 +22,7 @@ const carSchema = new Schema({
         type: Number,
         required: true,
         trim: true
-    }
+    },
 }, { timestamps: true });
 
 module.exports = model('car', carSchema);

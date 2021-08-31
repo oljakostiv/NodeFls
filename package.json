@@ -19,7 +19,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "husky": "4.3.0",
-    "lint-staged": "^11.1.2"
+    "lint-staged": "^11.1.2",
+    "nodemon": "^2.0.12"
   },
   "husky": {
     "hooks": {

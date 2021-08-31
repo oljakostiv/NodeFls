@@ -1,1 +1,3 @@
-module.exports.userUtil = require('./user.util');
+module.exports = {
+    userUtil: require('./user.util')
+};
