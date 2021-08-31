@@ -1,4 +1,3 @@
-const { userService } = require('../services');
 const ErrorHandler = require('../errors/ErrorHandler');
 const {
     errMsg,
@@ -8,36 +7,6 @@ const { UserModel } = require('../dataBase');
 const { userValidator } = require('../validators');
 
 module.exports = {
-    allUsersPresent: async (req, res, next) => {
-        try {
-            const {
-                name,
-                born_year,
-                role
-            } = req.query;
-
-            if (!name && !born_year && !role) {
-                const users = await userService.findUser();
-
-                req.users = users;
-                return next();
-            }
-
-            if (name || born_year || role) {
-                const usersQuery = await userService.findUser({
-                    name,
-                    born_year,
-                    role
-                });
-
-                req.users = usersQuery;
-                return next();
-            }
-        } catch (e) {
-            next(e);
-        }
-    },
-
     checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
         try {
             const { role } = req.currentUser;
@@ -70,23 +39,6 @@ module.exports = {
         }
     },
 
-    isUserPresent: async (req, res, next) => {
-        try {
-            const { user_id } = req.params;
-            const currentUser = await userService.getById(user_id);
-
-            if (!currentUser) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
-            }
-
-            req.currentUser = currentUser;
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     getUserByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
         try {
             const dynamicValue = req[searchIn][paramName];
@@ -105,66 +57,9 @@ module.exports = {
         }
     },
 
-    getUsersByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
+    getUsersByDynamicParam: (paramName, searchIn = 'body') => (req, res, next) => {
         try {
-            const dynamicValue = req[searchIn][paramName];
-
-            const users = await UserModel.find({ [dbFiled]: dynamicValue });
-
-            if (!users) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
-            }
-
-            req.currentUser = users;
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUserParams: (req, res, next) => {
-        try {
-            const { error } = userValidator.paramsUserValidator.validate(req.params);
-
-            if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.ID_WRONG);
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUserQuery: (req, res, next) => {
-        try {
-            const { error } = userValidator.queryUserValidator.validate(req.query);
-
-            if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.QUERY_ERROR);
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUserBody: (req, res, next) => {
-        try {
-            const { error } = userValidator.createUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUserUpdate: (req, res, next) => {
-        try {
-            const { error } = userValidator.updateUserValidator.validate(req.body);
+            const { error } = userValidator[paramName].validate(req[searchIn]);
 
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);

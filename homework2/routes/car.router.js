@@ -4,25 +4,23 @@ const { carsController } = require('../controllers');
 const { carMiddle } = require('../middlewares');
 
 router.get('/',
-    carMiddle.validateCarQuery,
-    carMiddle.getCarsByDynamicParam('year'),
-    // carMiddle.allCarsPresent,
+    carMiddle.getCarsByDynamicParam('queryCarValidator', 'query'),
     carsController.getAllCars);
 router.post('/',
-    carMiddle.validateCarBody,
-    // carMiddle.getCarByDynamicParam('model'),
+    carMiddle.getCarsByDynamicParam('createCarValidator'),
     carMiddle.checkUniqueModel,
     carsController.setCar);
 
-router.delete('/:car_id', carMiddle.validateCarParams, carMiddle.isCarPresent, carsController.deleteCar);
+router.delete('/:car_id',
+    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
+    carsController.deleteCar);
 router.get('/:car_id',
-    carMiddle.validateCarParams,
+    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
     carMiddle.getCarByDynamicParam('car_id', 'params', '_id'),
     carsController.getSingleCar);
 router.put('/:car_id',
-    carMiddle.validateCarParams,
-    carMiddle.validateCarUpdate,
-    carMiddle.isCarPresent,
+    carMiddle.getCarsByDynamicParam('paramsCarValidator', 'params'),
+    carMiddle.getCarsByDynamicParam('updateCarValidator', 'params'),
     carMiddle.checkUniqueModel,
     carsController.updateCar);
 
