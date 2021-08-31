@@ -4,7 +4,6 @@ const {
     errMsg,
     statusCode
 } = require('../config');
-const { userValidator } = require('../validators');
 
 module.exports = {
     foundUser: async (req, res, next) => {
@@ -23,17 +22,4 @@ module.exports = {
             next(e);
         }
     },
-
-    validateUserBody: (req, res, next) => {
-        try {
-            const { error } = userValidator.authUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.EMAIL_PASSWORD_WRONG);
-            }
-            next();
-        } catch (e) {
-            next(e);
-        }
-    }
 };
