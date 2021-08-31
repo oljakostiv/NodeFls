@@ -62,7 +62,7 @@ module.exports = {
             const { error } = userValidator[paramName].validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, error.details[0].message);
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
             }
             next();
         } catch (e) {

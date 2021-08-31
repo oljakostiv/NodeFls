@@ -5,5 +5,6 @@ module.exports = {
     MODEL_EXIST: 'Model is exists!',
     NAME_EXIST: 'Name is exists!',
     NOT_FOUND: 'Not found!',
+    NOT_VALID: 'Not valid request!',
     QUERY_ERROR: 'Entered incorrectly!'
 };
