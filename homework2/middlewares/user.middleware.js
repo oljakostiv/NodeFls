@@ -64,6 +64,7 @@ module.exports = {
             if (error) {
                 throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
             }
+
             next();
         } catch (e) {
             next(e);

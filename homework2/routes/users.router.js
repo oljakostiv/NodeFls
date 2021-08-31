@@ -21,7 +21,10 @@ router.delete('/:user_id',
 router.get('/:user_id',
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.getUserByDynamicParam('user_id', 'params', '_id'),
-    userMiddle.checkUserRoleMiddle(['admin' && 'user']),
+    userMiddle.checkUserRoleMiddle([
+        'admin',
+        'user'
+    ]),
     usersController.getSingleUser);
 
 router.put('/:user_id',
