@@ -16,7 +16,7 @@ module.exports = {
             }
 
             if (!roleArr.includes(role)) {
-                throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
+                return next(ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN));
             }
 
             next();
@@ -32,7 +32,7 @@ module.exports = {
             const userByName = await UserModel.findOne({ name });
 
             if (userByName) {
-                throw new ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST);
+                return next(ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST));
             }
 
             next();
@@ -48,7 +48,7 @@ module.exports = {
             const user = await UserModel.findOne({ [dbFiled]: dynamicValue });
 
             if (!user) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+                return next(ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND));
             }
 
             req.currentUser = user;
@@ -64,7 +64,7 @@ module.exports = {
             const { error } = userValidator[paramName].validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
+                return next(ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID));
             }
 
             next();

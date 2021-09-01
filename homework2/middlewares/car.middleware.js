@@ -14,7 +14,7 @@ module.exports = {
             const carByModel = await CarModel.findOne({ model });
 
             if (carByModel) {
-                throw new ErrorHandler(statusCode.CONFLICT, errMsg.MODEL_EXIST);
+                return next(ErrorHandler(statusCode.CONFLICT, errMsg.MODEL_EXIST));
             }
 
             next();
@@ -30,7 +30,7 @@ module.exports = {
             const car = await CarModel.findOne({ [dbFiled]: dynamicValue });
 
             if (!car) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+                return next(ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND));
             }
 
             req.currentCar = car;
@@ -46,7 +46,7 @@ module.exports = {
             const { error } = carValidator[paramName].validate(req[searchIn]);
 
             if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
+                return next(ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID));
             }
 
             next();
