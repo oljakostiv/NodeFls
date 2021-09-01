@@ -11,14 +11,6 @@ const {
         PARAMS
     }
 } = require('../config');
-// const {
-//     carValidator: {
-//         createCarValidator,
-//         queryCarValidator,
-//         paramsCarValidator,
-//         updateCarValidator
-//     }
-// } = require('../validators');
 
 router.get('/',
     carMiddle.getCarsByDynamicParam('queryCarValidator', QUERY),
