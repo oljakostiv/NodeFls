@@ -9,4 +9,12 @@ router.post('/', userMiddle.getUsersByDynamicParam('authUserValidator', BODY),
     authMiddle.foundUser,
     authController.authPostUser);
 
+router.post('/logout',
+    authMiddle.validateAccessToken,
+    authController.logoutUser);
+
+router.post('/refresh',
+    authMiddle.validateRefreshToken,
+    authController.refresh);
+
 module.exports = router;

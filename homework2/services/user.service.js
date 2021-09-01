@@ -7,8 +7,6 @@ module.exports = {
 
     findUser: (user) => usersDb.find(user),
 
-    getById: (user_id) => usersDb.findById(user_id),
-
     setUser: (user) => usersDb.create(user),
 
     updateUser: async (_id, data) => {

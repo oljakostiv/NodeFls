@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { usersController } = require('../controllers');
-const { userMiddle } = require('../middlewares');
+const { authMiddle, userMiddle } = require('../middlewares');
 const {
     constants: {
         BODY,
@@ -10,7 +10,7 @@ const {
         USER_ID,
         ID
     },
-    userRole: { ADMIN }
+    // userRole: { ADMIN }
 } = require('../config');
 
 router.get('/',
@@ -24,7 +24,9 @@ router.post('/',
 
 router.delete('/:user_id',
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
-    userMiddle.checkUserRoleMiddle([ADMIN]),
+    userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
+    // userMiddle.checkUserRoleMiddle([ADMIN]),
+    authMiddle.validateAccessToken,
     usersController.deleteUser);
 
 router.get('/:user_id',
@@ -34,6 +36,7 @@ router.get('/:user_id',
 
 router.put('/:user_id',
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.getUsersByDynamicParam('updateUserValidator'),
     userMiddle.checkUniqueName,
     usersController.updateUser);

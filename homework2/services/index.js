@@ -1,4 +1,7 @@
-module.exports.authService = require('./auth.service');
-module.exports.carService = require('./car.service');
-module.exports.passwordService = require('./password.service');
-module.exports.userService = require('./user.service');
+module.exports = {
+    authService: require('./auth.service'),
+    carService: require('./car.service'),
+    jwtService: require('./jwt.service'),
+    passwordService: require('./password.service'),
+    userService: require('./user.service')
+};

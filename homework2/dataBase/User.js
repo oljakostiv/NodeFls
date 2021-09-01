@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+const { dbTab: { USER } } = require('../config');
 const { userRole } = require('../config');
 
 const userSchema = new Schema({
@@ -31,4 +32,4 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = model('user', userSchema);
+module.exports = model(USER, userSchema);
