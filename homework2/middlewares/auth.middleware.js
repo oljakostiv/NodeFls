@@ -13,7 +13,7 @@ module.exports = {
             const authUser = await authService.findUserAuth({ name });
 
             if (!authUser) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.EMAIL_PASSWORD_WRONG);
             }
 
             req.authUser = authUser;

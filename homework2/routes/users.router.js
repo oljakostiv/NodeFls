@@ -10,7 +10,7 @@ const {
         USER_ID,
         ID
     },
-    userRole: { ADMIN, USER }
+    userRole: { ADMIN }
 } = require('../config');
 
 router.get('/',
@@ -30,10 +30,6 @@ router.delete('/:user_id',
 router.get('/:user_id',
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
-    userMiddle.checkUserRoleMiddle([
-        ADMIN,
-        USER
-    ]),
     usersController.getSingleUser);
 
 router.put('/:user_id',
