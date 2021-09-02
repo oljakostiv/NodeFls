@@ -14,7 +14,7 @@ module.exports = {
             const carByModel = await CarModel.findOne({ model });
 
             if (carByModel) {
-                return next(ErrorHandler(statusCode.CONFLICT, errMsg.MODEL_EXIST));
+                throw new ErrorHandler(statusCode.CONFLICT, errMsg.MODEL_EXIST);
             }
 
             next();
@@ -30,7 +30,7 @@ module.exports = {
             const car = await CarModel.findOne({ [dbFiled]: dynamicValue });
 
             if (!car) {
-                return next(ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND));
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
             }
 
             req.currentCar = car;
