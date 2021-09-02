@@ -4,7 +4,6 @@ const {
     statusCode
 } = require('../config');
 const { CarModel } = require('../dataBase');
-const { carValidator } = require('../validators');
 
 module.exports = {
     checkUniqueModel: async (req, res, next) => {
@@ -34,20 +33,6 @@ module.exports = {
             }
 
             req.currentCar = car;
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    getCarsByDynamicParam: (paramName, searchIn = 'params') => (req, res, next) => {
-        try {
-            const { error } = carValidator[paramName].validate(req[searchIn]);
-
-            if (error) {
-                return next(ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID));
-            }
 
             next();
         } catch (e) {

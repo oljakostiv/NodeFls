@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const router = require('express')
+    .Router();
 
 const { usersController } = require('../controllers');
-const { authMiddle, userMiddle } = require('../middlewares');
 const {
     constants: {
         BODY,
@@ -12,32 +12,45 @@ const {
     },
     userRole: { ADMIN }
 } = require('../config');
+const {
+    authMiddle,
+    mainMiddle,
+    userMiddle
+} = require('../middlewares');
+const {
+    userValidator: {
+        queryUserValidator,
+        updateUserValidator,
+        paramsUserValidator,
+        createUserValidator
+    }
+} = require('../validators');
 
 router.get('/',
-    userMiddle.getUsersByDynamicParam('queryUserValidator', QUERY),
+    mainMiddle.isDataValid(queryUserValidator, QUERY),
     usersController.getAllUsers);
 
 router.post('/',
-    userMiddle.getUsersByDynamicParam('createUserValidator', BODY),
+    mainMiddle.isDataValid(createUserValidator, BODY),
     userMiddle.checkUniqueName,
     usersController.setUser);
 
 router.delete('/:user_id',
     authMiddle.validateAccessToken,
-    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    mainMiddle.isDataValid(paramsUserValidator),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.isNoPresent,
     userMiddle.checkUserRoleMiddle([ADMIN]),
     usersController.deleteUser);
 
 router.get('/:user_id',
-    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    mainMiddle.isDataValid(paramsUserValidator),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     usersController.getSingleUser);
 
 router.put('/:user_id',
-    userMiddle.getUsersByDynamicParam('paramsUserValidator'),
-    userMiddle.getUsersByDynamicParam('updateUserValidator', BODY),
+    mainMiddle.isDataValid(paramsUserValidator),
+    mainMiddle.isDataValid(updateUserValidator, BODY),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.checkUniqueName,
     authMiddle.validateAccessToken,

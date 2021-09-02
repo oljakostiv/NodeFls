@@ -4,7 +4,6 @@ const {
     statusCode
 } = require('../config');
 const { UserModel } = require('../dataBase');
-const { userValidator } = require('../validators');
 
 module.exports = {
     checkUniqueName: async (req, res, next) => {
@@ -59,20 +58,6 @@ module.exports = {
             }
 
             req.currentUser = user;
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    getUsersByDynamicParam: (paramName, searchIn = 'params') => (req, res, next) => {
-        try {
-            const { error } = userValidator[paramName].validate(req[searchIn]);
-
-            if (error) {
-                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
-            }
 
             next();
         } catch (e) {

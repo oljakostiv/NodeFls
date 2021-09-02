@@ -2,12 +2,18 @@ const router = require('express')
     .Router();
 
 const { authController } = require('../controllers');
-const { authMiddle } = require('../middlewares');
+const {
+    authMiddle,
+    mainMiddle
+} = require('../middlewares');
 const { userMiddle } = require('../middlewares');
 const { constants: { BODY } } = require('../config');
+const {
+    userValidator: { authUserValidator }
+} = require('../validators');
 
 router.post('/',
-    userMiddle.getUsersByDynamicParam('authUserValidator', BODY),
+    mainMiddle.isDataValid(authUserValidator, BODY),
     userMiddle.getUserByDynamicParam('name'),
     authMiddle.foundUser,
     authController.authPostUser);

@@ -45,17 +45,12 @@ module.exports = {
 
     refresh: async (req, res, next) => {
         try {
-            const isToken = req.get(AUTHORIZATION);
+            const refresh_token = req.get(AUTHORIZATION);
             const user = req.logUser;
-
-            await OAuthModel.deleteOne({ refresh_token: isToken });
 
             const tokenPair = jwtService.giveTokenPair();
 
-            await OAuthModel.create({
-                ...tokenPair,
-                user: user._id
-            });
+            await OAuthModel.updateOne({ refresh_token }, tokenPair);
 
             res.json({
                 ...tokenPair,
