@@ -43,6 +43,7 @@ module.exports = {
             const { password } = req.body;
 
             const passwordHashed = await passwordService.hash(password);
+
             const usersSet = await userService.setUser({
                 ...req.body,
                 password: passwordHashed
@@ -50,7 +51,8 @@ module.exports = {
 
             const userToReturn = userUtil.calibrationUser(usersSet);
 
-            res.status(statusCode.CREATED_AND_UPDATE).json(userToReturn);
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(userToReturn);
         } catch (e) {
             next(e);
         }
@@ -61,7 +63,10 @@ module.exports = {
             const { user_id } = req.params;
             const updateUser = await userService.updateUser(user_id, req.body);
 
-            res.status(statusCode.CREATED_AND_UPDATE).json(updateUser);
+            const userToReturn = userUtil.calibrationUser(updateUser);
+
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(userToReturn);
         } catch (e) {
             next(e);
         }

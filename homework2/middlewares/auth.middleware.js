@@ -40,11 +40,11 @@ module.exports = {
             const tokenfromDB = await OAuthModel.findOne({ access_token: isToken })
                 .populate('user');
 
-            console.log(tokenfromDB);
-
             if (!tokenfromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
             }
+
+            req.logUser = tokenfromDB.user;
 
             next();
         } catch (e) {
@@ -64,8 +64,6 @@ module.exports = {
 
             const tokenfromDB = await OAuthModel.findOne({ refresh_token: isToken })
                 .populate('user');
-
-            console.log(tokenfromDB);
 
             if (!tokenfromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);

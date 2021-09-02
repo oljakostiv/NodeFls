@@ -7,16 +7,14 @@ const { UserModel } = require('../dataBase');
 const { userValidator } = require('../validators');
 
 module.exports = {
-    checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
+    checkUniqueName: async (req, res, next) => {
         try {
-            const { role } = req.currentUser;
+            const { name } = req.body;
 
-            if (!roleArr.length) {
-                return next();
-            }
+            const userByName = await UserModel.findOne({ name });
 
-            if (!roleArr.includes(role)) {
-                return next(ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN));
+            if (userByName) {
+                throw new ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST);
             }
 
             next();
@@ -25,14 +23,23 @@ module.exports = {
         }
     },
 
-    checkUniqueName: async (req, res, next) => {
+    checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
         try {
-            const { name } = req.body;
+            const {
+                logUser,
+                currentUser
+            } = req;
 
-            const userByName = await UserModel.findOne({ name });
+            if (logUser._id.toString() === currentUser._id.toString()) {
+                return next();
+            }
 
-            if (userByName) {
-                return next(ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST));
+            if (!roleArr.length) {
+                return next();
+            }
+
+            if (!roleArr.includes(logUser.role)) {
+                throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
 
             next();
@@ -48,7 +55,7 @@ module.exports = {
             const user = await UserModel.findOne({ [dbFiled]: dynamicValue });
 
             if (!user) {
-                return next(ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND));
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
             }
 
             req.currentUser = user;
@@ -64,12 +71,43 @@ module.exports = {
             const { error } = userValidator[paramName].validate(req[searchIn]);
 
             if (error) {
-                return next(ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID));
+                throw new ErrorHandler(statusCode.BAD_REQ, errMsg.NOT_VALID);
             }
 
             next();
         } catch (e) {
             next(e);
         }
-    }
+    },
+
+    isNoPresent: (req, res, next) => {
+        try {
+            const { logUser } = req;
+
+            if (!logUser) {
+                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    updateMiddle: (req, res, next) => {
+        try {
+            const {
+                logUser,
+                currentUser
+            } = req;
+
+            if (logUser._id.toString() !== currentUser._id.toString()) {
+                throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 };

@@ -9,7 +9,5 @@ module.exports = {
 
     setUser: (user) => usersDb.create(user),
 
-    updateUser: async (_id, data) => {
-        await usersDb.findByIdAndUpdate(_id, data);
-    }
+    updateUser: (_id, data) => usersDb.findByIdAndUpdate(_id, data)
 };

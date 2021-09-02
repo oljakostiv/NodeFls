@@ -10,7 +10,7 @@ const {
         USER_ID,
         ID
     },
-    // userRole: { ADMIN }
+    userRole: { ADMIN }
 } = require('../config');
 
 router.get('/',
@@ -23,10 +23,11 @@ router.post('/',
     usersController.setUser);
 
 router.delete('/:user_id',
+    authMiddle.validateAccessToken,
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
-    // userMiddle.checkUserRoleMiddle([ADMIN]),
-    authMiddle.validateAccessToken,
+    userMiddle.isNoPresent,
+    userMiddle.checkUserRoleMiddle([ADMIN]),
     usersController.deleteUser);
 
 router.get('/:user_id',
@@ -36,9 +37,10 @@ router.get('/:user_id',
 
 router.put('/:user_id',
     userMiddle.getUsersByDynamicParam('paramsUserValidator'),
+    userMiddle.getUsersByDynamicParam('updateUserValidator', BODY),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
-    userMiddle.getUsersByDynamicParam('updateUserValidator'),
     userMiddle.checkUniqueName,
+    authMiddle.validateAccessToken,
+    userMiddle.updateMiddle,
     usersController.updateUser);
-
 module.exports = router;

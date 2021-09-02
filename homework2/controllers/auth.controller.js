@@ -1,4 +1,4 @@
-const { constants: { AUTHORIZATION } } = require('../config');
+const { constants: { AUTHORIZATION }, statusCode } = require('../config');
 const { OAuthModel } = require('../dataBase');
 const {
     jwtService,
@@ -37,7 +37,7 @@ module.exports = {
             const isToken = req.get(AUTHORIZATION);
             await OAuthModel.deleteOne({ access_token: isToken });
 
-            res.json(true);
+            res.sendStatus(statusCode.DELETED);
         } catch (e) {
             next(e);
         }
