@@ -68,6 +68,8 @@ const updateUserValidator = Joi.object({
         .allow(...Object.values(userRole)),
     email: Joi.string()
         .regex(constants.EMAIL_REGEXP),
+    password: Joi.string()
+        .regex(constants.PASSWORD_REGEXP)
 });
 
 module.exports = {

@@ -1,5 +1,6 @@
 const ErrorHandler = require('../errors/ErrorHandler');
 const {
+    constants: { BODY },
     errMsg,
     statusCode
 } = require('../config');
@@ -47,7 +48,7 @@ module.exports = {
         }
     },
 
-    getUserByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
+    getUserByDynamicParam: (paramName, searchIn = BODY, dbFiled = paramName) => async (req, res, next) => {
         try {
             const dynamicValue = req[searchIn][paramName];
 
@@ -65,7 +66,7 @@ module.exports = {
         }
     },
 
-    isNoPresent: (req, res, next) => {
+    isNotPresent: (req, res, next) => {
         try {
             const { logUser } = req;
 
@@ -94,5 +95,5 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    },
+    }
 };

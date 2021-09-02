@@ -1,11 +1,10 @@
-const { OAuthModel } = require('../dataBase');
 const {
-    constants: { AUTHORIZATION },
+    constants: { AUTHORIZATION, REFRESH, USER },
     errMsg,
     statusCode
 } = require('../config');
+const { OAuthModel, UserModel } = require('../dataBase');
 const ErrorHandler = require('../errors/ErrorHandler');
-const { authService } = require('../services');
 const { jwtService: { verifyToken } } = require('../services');
 
 module.exports = {
@@ -13,7 +12,7 @@ module.exports = {
         try {
             const { name } = req.body;
 
-            const authUser = await authService.findUserAuth({ name });
+            const authUser = await UserModel.findOne({ name });
 
             if (!authUser) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.EMAIL_PASSWORD_WRONG);
@@ -29,22 +28,22 @@ module.exports = {
 
     validateAccessToken: async (req, res, next) => {
         try {
-            const isToken = req.get(AUTHORIZATION);
+            const access_token = req.get(AUTHORIZATION);
 
-            if (!isToken) {
+            if (!access_token) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.NO_TOKEN);
             }
 
-            await verifyToken(isToken);
+            await verifyToken(access_token);
 
-            const tokenfromDB = await OAuthModel.findOne({ access_token: isToken })
-                .populate('user');
+            const tokenFromDB = await OAuthModel.findOne({ access_token })
+                .populate(USER);
 
-            if (!tokenfromDB) {
+            if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
             }
 
-            req.logUser = tokenfromDB.user;
+            req.logUser = tokenFromDB.user;
 
             next();
         } catch (e) {
@@ -54,22 +53,22 @@ module.exports = {
 
     validateRefreshToken: async (req, res, next) => {
         try {
-            const isToken = req.get(AUTHORIZATION);
+            const refresh_token = req.get(AUTHORIZATION);
 
-            if (!isToken) {
+            if (!refresh_token) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.NO_TOKEN);
             }
 
-            await verifyToken(isToken, 'refresh');
+            await verifyToken(refresh_token, REFRESH);
 
-            const tokenfromDB = await OAuthModel.findOne({ refresh_token: isToken })
-                .populate('user');
+            const tokenFromDB = await OAuthModel.findOne({ refresh_token })
+                .populate(USER);
 
-            if (!tokenfromDB) {
+            if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
             }
 
-            req.logUser = tokenfromDB.user;
+            req.logUser = tokenFromDB.user;
 
             next();
         } catch (e) {

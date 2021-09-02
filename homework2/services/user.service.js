@@ -1,9 +1,7 @@
 const usersDb = require('../dataBase/User');
 
 module.exports = {
-    deleteUser: async (_id) => {
-        await usersDb.deleteOne({ _id });
-    },
+    deleteUser: (_id) => usersDb.findByIdAndDelete(_id),
 
     findUser: (user) => usersDb.find(user),
 

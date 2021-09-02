@@ -1,7 +1,8 @@
 const ErrorHandler = require('../errors/ErrorHandler');
 const {
+    constants: { BODY },
     errMsg,
-    statusCode
+    statusCode,
 } = require('../config');
 const { CarModel } = require('../dataBase');
 
@@ -22,7 +23,7 @@ module.exports = {
         }
     },
 
-    getCarByDynamicParam: (paramName, searchIn = 'body', dbFiled = paramName) => async (req, res, next) => {
+    getCarByDynamicParam: (paramName, searchIn = BODY, dbFiled = paramName) => async (req, res, next) => {
         try {
             const dynamicValue = req[searchIn][paramName];
 

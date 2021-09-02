@@ -1,8 +1,8 @@
+const { statusCode } = require('../config');
 const {
     userService,
     passwordService
 } = require('../services');
-const { statusCode } = require('../config');
 const { userUtil } = require('../util');
 
 module.exports = {

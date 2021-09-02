@@ -1,5 +1,5 @@
-const { carService } = require('../services');
 const { statusCode } = require('../config');
+const { carService } = require('../services');
 
 module.exports = {
     deleteCar: async (req, res, next) => {

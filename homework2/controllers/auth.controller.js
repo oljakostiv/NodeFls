@@ -34,8 +34,8 @@ module.exports = {
 
     logoutUser: async (req, res, next) => {
         try {
-            const isToken = req.get(AUTHORIZATION);
-            await OAuthModel.deleteOne({ access_token: isToken });
+            const access_token = req.get(AUTHORIZATION);
+            await OAuthModel.deleteOne({ access_token });
 
             res.sendStatus(statusCode.DELETED);
         } catch (e) {

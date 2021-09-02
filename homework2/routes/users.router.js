@@ -39,7 +39,7 @@ router.delete('/:user_id',
     authMiddle.validateAccessToken,
     mainMiddle.isDataValid(paramsUserValidator),
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
-    userMiddle.isNoPresent,
+    userMiddle.isNotPresent,
     userMiddle.checkUserRoleMiddle([ADMIN]),
     usersController.deleteUser);
 

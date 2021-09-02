@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const carTypeEnum = require('../config/car-type.enum');
-const { dbTab: { CAR } } = require('../config');
+const { dbTab: { CAR }, carType } = require('../config');
 
 const carSchema = new Schema({
     model: {
@@ -11,8 +10,8 @@ const carSchema = new Schema({
     },
     type: {
         type: String,
-        default: carTypeEnum.SEDAN,
-        enum: Object.values(carTypeEnum)
+        default: carType.SEDAN,
+        enum: Object.values(carType)
     },
     year: {
         type: Number,

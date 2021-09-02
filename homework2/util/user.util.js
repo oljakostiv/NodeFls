@@ -1,8 +1,12 @@
+const {
+    constants: { PASSWORD, __V },
+} = require('../config');
+
 module.exports = {
     calibrationUser: (userToCalibrate) => {
         const fieldsToRemove = [
-            'password',
-            '__v'
+            PASSWORD,
+            __V
         ];
 
         userToCalibrate = userToCalibrate.toObject();

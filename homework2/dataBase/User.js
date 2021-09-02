@@ -1,7 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const { dbTab: { USER } } = require('../config');
-const { userRole } = require('../config');
+const { dbTab: { USER }, userRole } = require('../config');
 
 const userSchema = new Schema({
     name: {
