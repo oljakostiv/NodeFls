@@ -1,4 +1,4 @@
-const { errMsg, statusCode } = require('../config');
+const { statusCode } = require('../config');
 const { carService } = require('../services');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
 
             await carService.deleteCar(car_id);
 
-            res.status(statusCode.DELETED, errMsg.DELETED);
+            res.sendStatus(statusCode.DELETED);
         } catch (e) {
             next(e);
         }

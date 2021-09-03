@@ -1,4 +1,4 @@
-const { errMsg, statusCode } = require('../config');
+const { statusCode } = require('../config');
 const {
     userService,
     passwordService
@@ -11,7 +11,7 @@ module.exports = {
             const { user_id } = req.params;
             await userService.deleteUser(user_id);
 
-            res.status(statusCode.DELETED, errMsg.DELETED);
+            res.sendStatus(statusCode.DELETED);
         } catch (e) {
             next(e);
         }
