@@ -12,7 +12,7 @@ const {
     errMsg,
     statusCode
 } = require('../config');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
 const verifyPromise = promisify(jwt.verify);
 

@@ -1,4 +1,4 @@
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 const {
     errMsg,
     statusCode,

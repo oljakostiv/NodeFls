@@ -36,8 +36,8 @@ router.post('/',
     usersController.setUser);
 
 router.delete('/:user_id',
-    authMiddle.validateAccessToken,
     mainMiddle.isDataValid(paramsUserValidator),
+    authMiddle.validateAccessToken,
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.isNotPresent,
     userMiddle.checkUserRoleMiddle([ADMIN]),
@@ -51,9 +51,10 @@ router.get('/:user_id',
 router.put('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),
     mainMiddle.isDataValid(updateUserValidator, BODY),
+    authMiddle.validateAccessToken,
     userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
     userMiddle.checkUniqueName,
-    authMiddle.validateAccessToken,
     userMiddle.updateMiddle,
     usersController.updateUser);
+
 module.exports = router;

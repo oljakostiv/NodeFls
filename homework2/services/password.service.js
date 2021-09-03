@@ -4,7 +4,7 @@ const {
     errMsg,
     statusCode
 } = require('../config');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
 module.exports = {
     hash: (password) => bcrypt.hash(password, 10),

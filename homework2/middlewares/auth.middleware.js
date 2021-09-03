@@ -4,7 +4,7 @@ const {
     statusCode
 } = require('../config');
 const { OAuthModel, UserModel } = require('../dataBase');
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 const { jwtService: { verifyToken } } = require('../services');
 
 module.exports = {
