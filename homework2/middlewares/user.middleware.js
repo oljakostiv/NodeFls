@@ -1,6 +1,5 @@
 const { ErrorHandler } = require('../errors');
 const {
-    constants: { BODY },
     errMsg,
     statusCode
 } = require('../config');
@@ -25,12 +24,10 @@ module.exports = {
 
     checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
         try {
-            const {
-                logUser,
-                currentUser
-            } = req;
+            const { logUser } = req;
+            const { user_id } = req.params;
 
-            if (logUser._id.toString() === currentUser._id.toString()) {
+            if (logUser._id.toString() === user_id.toString()) {
                 return next();
             }
 
@@ -41,24 +38,6 @@ module.exports = {
             if (!roleArr.includes(logUser.role)) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    getUserByDynamicParam: (paramName, searchIn = BODY, dbFiled = paramName) => async (req, res, next) => {
-        try {
-            const dynamicValue = req[searchIn][paramName];
-
-            const user = await UserModel.findOne({ [dbFiled]: dynamicValue });
-
-            if (!user) {
-                throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
-            }
-
-            req.currentUser = user;
 
             next();
         } catch (e) {
@@ -82,12 +61,10 @@ module.exports = {
 
     updateMiddle: (req, res, next) => {
         try {
-            const {
-                logUser,
-                currentUser
-            } = req;
+            const { logUser } = req;
+            const { user_id } = req.params;
 
-            if (logUser._id.toString() !== currentUser._id.toString()) {
+            if (logUser._id.toString() !== user_id.toString()) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
 

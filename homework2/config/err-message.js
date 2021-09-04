@@ -4,6 +4,7 @@ module.exports = {
     EMAIL_PASSWORD_WRONG: 'Email or password is wrong!',
     FORBIDDEN: 'Forbidden!',
     ID_WRONG: 'Id is wrong!',
+    IS_EXIST: 'Is exist!',
     INVALID_TOKEN: 'Invalid token!',
     MODEL_EXIST: 'Model is exists!',
     NAME_EXIST: 'Name is exists!',

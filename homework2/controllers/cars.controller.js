@@ -1,12 +1,20 @@
 const { statusCode } = require('../config');
-const { carService } = require('../services');
+const { CarModel } = require('../dataBase');
+const {
+    mainService: {
+        deleteItem,
+        setItem,
+        updateItem,
+        findItem
+    }
+} = require('../services');
 
 module.exports = {
     deleteCar: async (req, res, next) => {
         try {
             const { car_id } = req.params;
 
-            await carService.deleteCar(car_id);
+            await deleteItem(CarModel, car_id);
 
             res.sendStatus(statusCode.DELETED);
         } catch (e) {
@@ -16,7 +24,7 @@ module.exports = {
 
     getAllCars: async (req, res, next) => {
         try {
-            const carsAll = await carService.findCar(req.query);
+            const carsAll = await findItem(CarModel, req.query);
             res.json(carsAll);
         } catch (e) {
             next(e);
@@ -25,7 +33,7 @@ module.exports = {
 
     getSingleCar: (req, res, next) => {
         try {
-            res.json(req.currentCar);
+            res.json(req.body.item);
         } catch (e) {
             next(e);
         }
@@ -33,7 +41,7 @@ module.exports = {
 
     setCar: async (req, res, next) => {
         try {
-            const carsSet = await carService.setCar(req.body);
+            const carsSet = await setItem(CarModel, req.body);
 
             res.status(statusCode.CREATED_AND_UPDATE)
                 .json(carsSet);
@@ -45,7 +53,7 @@ module.exports = {
     updateCar: async (req, res, next) => {
         try {
             const { car_id } = req.params;
-            const updateCar = await carService.updateCar(car_id, req.body);
+            const updateCar = await updateItem(CarModel, car_id, req.body);
 
             res.status(statusCode.CREATED_AND_UPDATE)
                 .json(updateCar);

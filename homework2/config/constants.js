@@ -9,6 +9,8 @@ module.exports = {
     BODY: 'body',
     CAR_ID: 'car_id',
     ID: '_id',
+    MODEL: 'model',
+    NAME: 'name',
     PARAMS: 'params',
     PASSWORD: 'password',
     QUERY: 'query',

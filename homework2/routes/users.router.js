@@ -12,6 +12,7 @@ const {
     },
     userRole: { ADMIN }
 } = require('../config');
+const { UserModel } = require('../dataBase');
 const {
     authMiddle,
     mainMiddle,
@@ -38,21 +39,21 @@ router.post('/',
 router.delete('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),
     authMiddle.validateAccessToken,
-    userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
+    mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
     userMiddle.isNotPresent,
     userMiddle.checkUserRoleMiddle([ADMIN]),
     usersController.deleteUser);
 
 router.get('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),
-    userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
+    mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
     usersController.getSingleUser);
 
 router.put('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),
     mainMiddle.isDataValid(updateUserValidator, BODY),
     authMiddle.validateAccessToken,
-    userMiddle.getUserByDynamicParam(USER_ID, PARAMS, ID),
+    mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
     userMiddle.checkUniqueName,
     userMiddle.updateMiddle,
     usersController.updateUser);

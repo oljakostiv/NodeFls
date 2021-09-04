@@ -11,6 +11,7 @@ const {
         PARAMS
     }
 } = require('../config');
+const { CarModel } = require('../dataBase');
 const {
     carMiddle,
     mainMiddle
@@ -35,11 +36,12 @@ router.post('/',
 
 router.delete('/:car_id',
     mainMiddle.isDataValid(paramsCarValidator),
+    mainMiddle.getItemByDynamicParam(CarModel, CAR_ID, PARAMS, ID),
     carsController.deleteCar);
 
 router.get('/:car_id',
     mainMiddle.isDataValid(paramsCarValidator),
-    carMiddle.getCarByDynamicParam(CAR_ID, PARAMS, ID),
+    mainMiddle.getItemByDynamicParam(CarModel, CAR_ID, PARAMS, ID),
     carsController.getSingleCar);
 
 router.put('/:car_id',

@@ -1,6 +1,13 @@
 const { statusCode } = require('../config');
+const { UserModel } = require('../dataBase');
 const {
-    userService,
+    // userService,
+    mainService: {
+        deleteItem,
+        findItem,
+        setItem,
+        updateItem
+    },
     passwordService
 } = require('../services');
 const { userUtil } = require('../util');
@@ -9,7 +16,7 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            await userService.deleteUser(user_id);
+            await deleteItem(UserModel, user_id);
 
             res.sendStatus(statusCode.DELETED);
         } catch (e) {
@@ -19,7 +26,7 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const usersAll = await userService.findUser(req.query);
+            const usersAll = await findItem(UserModel, req.query);
 
             const userToReturn = usersAll.map((user) => userUtil.calibrationUser(user));
 
@@ -31,8 +38,10 @@ module.exports = {
 
     getSingleUser: (req, res, next) => {
         try {
-            const userToReturn = userUtil.calibrationUser(req.currentUser);
-            res.json(userToReturn);
+            const { item: user } = req.body;
+
+            // const userToReturn = userUtil.calibrationUser(user);
+            res.json(user);
         } catch (e) {
             next(e);
         }
@@ -44,7 +53,7 @@ module.exports = {
 
             const passwordHashed = await passwordService.hash(password);
 
-            const usersSet = await userService.setUser({
+            const usersSet = await setItem(UserModel, {
                 ...req.body,
                 password: passwordHashed
             });
@@ -61,7 +70,7 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
-            const updateUser = await userService.updateUser(user_id, req.body);
+            const updateUser = await updateItem(UserModel, user_id, req.body);
 
             const userToReturn = userUtil.calibrationUser(updateUser);
 
