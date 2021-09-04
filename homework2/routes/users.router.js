@@ -54,8 +54,8 @@ router.put('/:user_id',
     mainMiddle.isDataValid(updateUserValidator, BODY),
     authMiddle.validateAccessToken,
     mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
-    userMiddle.checkUniqueName,
     userMiddle.updateMiddle,
+    userMiddle.checkUniqueName,
     usersController.updateUser);
 
 module.exports = router;
