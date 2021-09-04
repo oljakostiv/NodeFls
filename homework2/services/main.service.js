@@ -3,7 +3,9 @@ module.exports = {
 
     findItem: (db, item) => db.find(item),
 
-    setItem: (db, item) => db.create(item),
+    findOne: (db, item) => db.findOne(item),
+
+    setItem: (db, newItem) => db.create(newItem),
 
     updateItem: (db, _id, data) => db.findByIdAndUpdate(_id, data)
 };
