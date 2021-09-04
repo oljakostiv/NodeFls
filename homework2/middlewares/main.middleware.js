@@ -16,6 +16,10 @@ module.exports = {
 
             const item = await findItem(itemModel, { [dbFiled]: dynamicValue });
 
+            if (!item) {
+                throw new ErrorHandler(item.details[0].message);
+            }
+
             req.body.item = item;
 
             next();

@@ -46,7 +46,7 @@ router.get('/:car_id',
 
 router.put('/:car_id',
     mainMiddle.isDataValid(paramsCarValidator),
-    mainMiddle.isDataValid(updateCarValidator),
+    mainMiddle.isDataValid(updateCarValidator, BODY),
     carMiddle.checkUniqueModel,
     carsController.updateCar);
 

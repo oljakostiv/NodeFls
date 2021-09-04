@@ -1,7 +1,6 @@
 const { statusCode } = require('../config');
 const { UserModel } = require('../dataBase');
 const {
-    // userService,
     mainService: {
         deleteItem,
         findItem,
@@ -18,7 +17,7 @@ module.exports = {
             const { user_id } = req.params;
             await deleteItem(UserModel, user_id);
 
-            res.sendStatus(statusCode.DELETED);
+            res.status(statusCode.DELETED).json(`User with id ${user_id} id deleted.`);
         } catch (e) {
             next(e);
         }
@@ -41,6 +40,7 @@ module.exports = {
             const { item: user } = req.body;
 
             // const userToReturn = userUtil.calibrationUser(user);
+            // res.json(userToReturn);
             res.json(user);
         } catch (e) {
             next(e);
