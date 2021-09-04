@@ -16,7 +16,7 @@ module.exports = {
 
             await deleteItem(CarModel, car_id);
 
-            res.status(statusCode.DELETED).json(`Car with id ${car_id} is deleted.`);
+            res.sendStatus(statusCode.DELETED);
         } catch (e) {
             next(e);
         }

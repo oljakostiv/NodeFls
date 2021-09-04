@@ -17,7 +17,7 @@ module.exports = {
             const { user_id } = req.params;
             await deleteItem(UserModel, user_id);
 
-            res.status(statusCode.DELETED).json(`User with id ${user_id} is deleted.`);
+            res.sendStatus(statusCode.DELETED);
         } catch (e) {
             next(e);
         }
@@ -37,11 +37,11 @@ module.exports = {
 
     getSingleUser: (req, res, next) => {
         try {
-            const { item: user_id } = req.body;
+            const { item } = req.body;
 
-            // const userToReturn = userUtil.calibrationUser(user_id);
-            // res.json(userToReturn);
-            res.json(user_id);
+            const userToReturn = userUtil.calibrationUser(item);
+
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
