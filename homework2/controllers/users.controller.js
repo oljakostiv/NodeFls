@@ -17,7 +17,7 @@ module.exports = {
             const { user_id } = req.params;
             await deleteItem(UserModel, user_id);
 
-            res.status(statusCode.DELETED).json(`User with id ${user_id} id deleted.`);
+            res.status(statusCode.DELETED).json(`User with id ${user_id} is deleted.`);
         } catch (e) {
             next(e);
         }
