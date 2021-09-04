@@ -26,9 +26,7 @@ const createCarValidator = Joi.object({
 
 const paramsCarValidator = Joi.object({
     car_id: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
+        .regex(constants.ID_REGEXP)
         .trim()
 });
 
