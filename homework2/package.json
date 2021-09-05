@@ -2,8 +2,8 @@
   "name": "apr-2021",
   "version": "1.0.0",
   "scripts": {
-    "start": "pm2 kill && pm2 start homework2/app.js",
-    "dem": "nodemon homework2/app.js"
+    "start": "pm2 kill && pm2 start app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -7,5 +7,5 @@ module.exports = {
 
     setItem: (db, newItem) => db.create(newItem),
 
-    updateItem: (db, _id, data) => db.findByIdAndUpdate(_id, data)
+    updateItem: (db, _id, data) => db.findByIdAndUpdate(_id, data),
 };

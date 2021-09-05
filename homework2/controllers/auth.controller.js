@@ -1,4 +1,7 @@
-const { constants: { AUTHORIZATION }, statusCode } = require('../config');
+const {
+    constants: { AUTHORIZATION },
+    statusCode
+} = require('../config');
 const { OAuthModel } = require('../dataBase');
 const {
     jwtService,
