@@ -7,7 +7,6 @@ const {
         BODY
     }
 } = require('../config');
-// const { mainService: { findOne } } = require('../services');
 
 module.exports = {
     getItemByDynamicParam: (itemModel, paramName, searchIn = BODY, dbFiled = paramName) => async (req, res, next) => {
