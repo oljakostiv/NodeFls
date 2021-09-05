@@ -33,7 +33,7 @@ module.exports = {
 
     getSingleCar: (req, res, next) => {
         try {
-            res.json(req.body.item);
+            res.json(req.item);
         } catch (e) {
             next(e);
         }

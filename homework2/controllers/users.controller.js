@@ -37,10 +37,7 @@ module.exports = {
 
     getSingleUser: (req, res, next) => {
         try {
-            const { item } = req.body;
-
-            const userToReturn = userUtil.calibrationUser(item);
-
+            const userToReturn = userUtil.calibrationUser(req.item);
             res.json(userToReturn);
         } catch (e) {
             next(e);

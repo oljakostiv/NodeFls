@@ -7,20 +7,20 @@ const {
         BODY
     }
 } = require('../config');
-const { mainService: { findOne } } = require('../services');
+// const { mainService: { findOne } } = require('../services');
 
 module.exports = {
     getItemByDynamicParam: (itemModel, paramName, searchIn = BODY, dbFiled = paramName) => async (req, res, next) => {
         try {
             const dynamicValue = req[searchIn][paramName];
 
-            const item = await findOne(itemModel, { [dbFiled]: dynamicValue });
+            const item = await itemModel.findOne({ [dbFiled]: dynamicValue });
 
             if (!item) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.NOT_FOUND);
             }
 
-            req.body.item = item;
+            req.item = item;
 
             next();
         } catch (e) {
