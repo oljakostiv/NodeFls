@@ -5,19 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Users</title>
+    <title>User</title>
 </head>
 <body>
- <h2>Hello!</h2>
-{{#each users}}
-    <div>{{this.name}},</div>
-    <div>{{this.age}}y.o</div>
-    <hr>
-{{/each}}
- <p><a href="/">Back home</a></p>
+<h2>Hello, {{ currentUser.name }}!</h2>
+<h4>Age: {{ currentUser.age }}.</h4>
+<h4>Email: {{ currentUser.email }}</h4>
+<p><a href="/users">All users</a></p>
 </body>
 </html>
-
-
-
-
