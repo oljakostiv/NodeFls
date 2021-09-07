@@ -43,18 +43,13 @@ const paramsUserValidator = Joi.object({
         .trim()
 });
 
-const passForgot = Joi.object({
+const password = Joi.object({
     password: Joi.string()
         .regex(constants.PASSWORD_REGEXP)
         .required(),
 });
 
-const passForgotUser = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .trim(),
+const email = Joi.object({
     email: Joi.string()
         .regex(constants.EMAIL_REGEXP)
         .required(),
@@ -64,7 +59,7 @@ const passReset = Joi.object({
     oldPassword: Joi.string()
         .regex(constants.PASSWORD_REGEXP)
         .required(),
-    newPassword: Joi.string()
+    password: Joi.string()
         .regex(constants.PASSWORD_REGEXP)
         .required(),
 });
@@ -102,8 +97,8 @@ module.exports = {
     authUserValidator,
     createUserValidator,
     paramsUserValidator,
-    passForgot,
-    passForgotUser,
+    password,
+    email,
     passReset,
     queryUserValidator,
     updateUserValidator

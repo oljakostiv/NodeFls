@@ -1,9 +1,12 @@
+const { v1 } = require('uuid');
+
 const {
     emailActions,
+    dbTab: { ACTIVE_TOKEN },
     statusCode,
     variables: { NO_REPLY_EMAIL }
 } = require('../config');
-const { UserModel } = require('../dataBase');
+const { UserModel, ActionToken } = require('../dataBase');
 const {
     emailService,
     mainService: {
@@ -21,7 +24,7 @@ module.exports = {
         try {
             const { deleteByUser } = req;
             const { user_id } = req.params;
-            const { name } = req.logUser;
+            const { name } = req.item;
 
             await deleteItem(UserModel, user_id);
 
@@ -47,14 +50,7 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const {
-                perPage = 3,
-                page = 1
-            } = req.query;
-
-            const usersAll = await findItem(UserModel)
-                .limit(+perPage)
-                .skip((+perPage * (page - 1)));
+            const usersAll = await findItem(UserModel);
 
             const userToReturn = usersAll.map((user) => userUtil.calibrationUser(user));
 
@@ -81,18 +77,21 @@ module.exports = {
             } = req.body;
 
             const passwordHashed = await passwordService.hash(password);
+            const token = v1();
 
             const usersSet = await setItem(UserModel, {
                 ...req.body,
                 password: passwordHashed
             });
+            await ActionToken.create({ action: ACTIVE_TOKEN, token, user: usersSet._id });
 
             await emailService.sendMail(
                 NO_REPLY_EMAIL,
-                emailActions.CREATE_NEW_USER,
+                emailActions.WELCOME,
                 {
                     userName: name,
-                    password
+                    password,
+                    token
                 }
             );
 

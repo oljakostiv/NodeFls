@@ -5,8 +5,9 @@ module.exports = {
     ACCESS_SECRET_KEY: process.env.ACCESS_SECRET_KEY || 'Secret_Info',
     REFRESH_SECRET_KEY: process.env.REFRESH_SECRET_KEY || 'Refresh',
 
+    ACTIVATE_URL: process.env.ACTIVATE_URL || 'http://localhost:5000/auth/activate',
     FRONTEND_URL: process.env.FRONTEND_URL || 'https://www.skyatnightmagazine.com/advice/stargazing-what-to-see-in-the-night-sky-this-year/',
-    FRONTEND_URL_PASSWORD: process.env.FRONTEND_URL_PASSWORD || 'example@gmail.com',
+    FRONTEND_URL_TOKEN: process.env.FRONTEND_URL_PASSWORD || 'https://www.skyatnightmagazine.com/',
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'example@gmail.com',
     NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || '1235',
 };

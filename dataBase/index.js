@@ -1,7 +1,6 @@
 module.exports = {
     CarModel: require('./Car'),
-    ChangePass: require('./ChangePass'),
-    InactiveAcc: require('./InactiveAcc'),
+    ActionToken: require('./ActionToken'),
     OAuthModel: require('./OAuth'),
     UserModel: require('./User')
 };

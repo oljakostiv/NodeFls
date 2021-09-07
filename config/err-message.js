@@ -1,5 +1,6 @@
 module.exports = {
     CONFLICT: 'Conflict!',
+    CHECK_MAIL: 'check your mail',
     DELETED: 'Account deleted successfully',
     EMAIL_PASSWORD_WRONG: 'Email or password is wrong!',
     ERROR_ACTIVATING: 'Error activating account',
@@ -16,5 +17,6 @@ module.exports = {
     QUERY_ERROR: 'Entered incorrectly!',
     SIGNUP_SUCCESS: 'Signup success!',
     TEMPLATE_NAME_WRONG: 'Wrong template name!',
-    UNAUTHORIZED: 'Unauthorized'
+    UNAUTHORIZED: 'Unauthorized',
+    USER_ACTIVE: 'User is activated, go to login'
 };

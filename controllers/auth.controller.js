@@ -1,36 +1,44 @@
 const {
+    actions: { FORGOT_PASS },
     constants: {
         AUTHORIZATION,
+        QUERY_TOKEN
     },
     emailActions,
+    errMsg,
     statusCode,
     variables: {
+        ACTIVATE_URL,
+        FRONTEND_URL_TOKEN,
         NO_REPLY_EMAIL
     }
 } = require('../config');
 const {
-    ChangePass,
     OAuthModel,
-    InactiveAcc,
+    ActionToken,
     UserModel
 } = require('../dataBase');
 const {
     emailService,
     jwtService,
-    passwordService
+    passwordService,
+    jwtActionService
 } = require('../services');
 const { userUtil: { calibrationUser } } = require('../util');
 
 module.exports = {
     activateAccount: async (req, res, next) => {
         try {
-            const { user_id } = req.params;
+            const token = req.get(AUTHORIZATION);
+            // const token = req.query;
+            // ?
+            const { logUser: { _id } } = req;
 
-            await InactiveAcc.findByIdAndDelete(UserModel, user_id);
+            await ActionToken.deleteOne({ token });
+            await UserModel.updateOne({ _id }, { isActivated: true });
 
-            const userToReturn = calibrationUser(user_id);
-
-            res.json(userToReturn);
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .send(errMsg.USER_ACTIVE);
         } catch (e) {
             next(e);
         }
@@ -38,18 +46,19 @@ module.exports = {
 
     changePass: async (req, res, next) => {
         try {
-            const { user_id } = req.params;
             const { password } = req.body;
+            const token = req.get(AUTHORIZATION);
 
-            await ChangePass.findByIdAndDelete(UserModel, user_id);
+            await ActionToken.deleteOne({ token });
 
             const passwordHashed = await passwordService.hash(password);
+            //                                                       ?
 
-            const updateUser = await UserModel.findByIdAndUpdate(user_id, { password: passwordHashed });
+            const updateUser = await UserModel.findByIdAndUpdate({ token }, { password: passwordHashed });
 
             const userToReturn = calibrationUser(updateUser);
 
-            await OAuthModel.deleteMany({ user: updateUser[user_id] });
+            await OAuthModel.deleteMany({ user: updateUser._id });
 
             res.status(statusCode.CREATED_AND_UPDATE)
                 .json(userToReturn);
@@ -65,12 +74,17 @@ module.exports = {
                 body
             } = req;
 
+            const token = req.get(AUTHORIZATION);
+
             await passwordService.compare(authUser.password, body.password);
 
             await emailService.sendMail(
                 NO_REPLY_EMAIL,
-                emailActions.WELCOME,
-                { userName: body.name }
+                emailActions.AUTH,
+                {
+                    userName: body.name,
+                    welcomeURL: ACTIVATE_URL + QUERY_TOKEN + token
+                }
             );
 
             const tokenPair = jwtService.giveTokenPair();
@@ -113,6 +127,37 @@ module.exports = {
                 ...tokenPair,
                 user: calibrationUser(user)
             });
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    mailForUserPass: async (req, res, next) => {
+        try {
+            const {
+                name,
+                _id
+            } = req.item;
+
+            const token = await jwtActionService.giveActionToken();
+
+            await ActionToken.create({
+                token,
+                action: FORGOT_PASS,
+                user: _id
+            });
+
+            await emailService.sendMail(
+                NO_REPLY_EMAIL,
+                emailActions.FORGOT_PASS,
+                {
+                    userName: name,
+                    accTokenURL: FRONTEND_URL_TOKEN + QUERY_TOKEN + token
+                }
+            );
+
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .send(errMsg.CHECK_MAIL);
         } catch (e) {
             next(e);
         }

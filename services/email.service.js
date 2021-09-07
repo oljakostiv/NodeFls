@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer');
 const path = require('path');
 
 const {
-    constants: { FROM },
+    constants: { FROM, GMAIL },
     errMsg,
     statusCode,
     variables: {
@@ -22,7 +22,7 @@ const templateParser = new EmailTemplates({
 });
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: GMAIL,
     auth: {
         user: NO_REPLY_EMAIL,
         pass: NO_REPLY_PASSWORD
@@ -44,7 +44,6 @@ const sendMail = async (userMail, action, context = {}) => {
     } = template;
 
     context = { ...context, frontendURL: FRONTEND_URL };
-    // context = { ...context, frontendURL: 'https://www.google.com/' };
 
     const html = await templateParser.render(templateName, context);
 
