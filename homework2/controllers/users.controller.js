@@ -1,6 +1,11 @@
-const { statusCode } = require('../config');
+const {
+    emailActions,
+    statusCode,
+    variables: { NO_REPLY_EMAIL }
+} = require('../config');
 const { UserModel } = require('../dataBase');
 const {
+    emailService,
     mainService: {
         deleteItem,
         findItem,
@@ -15,7 +20,14 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            const { name } = req.logUser;
             await deleteItem(UserModel, user_id);
+
+            await emailService.sendMail(
+                NO_REPLY_EMAIL,
+                emailActions.DELETE_BY_USER,
+                { userName: name }
+            );
 
             res.sendStatus(statusCode.DELETED);
         } catch (e) {
@@ -25,7 +37,14 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const usersAll = await findItem(UserModel, req.query);
+            const {
+                perPage = 3,
+                page = 1
+            } = req.query;
+
+            const usersAll = await findItem(UserModel)
+                .limit(+perPage)
+                .skip((+perPage * (page - 1)));
 
             const userToReturn = usersAll.map((user) => userUtil.calibrationUser(user));
 
@@ -46,7 +65,10 @@ module.exports = {
 
     setUser: async (req, res, next) => {
         try {
-            const { password } = req.body;
+            const {
+                name,
+                password
+            } = req.body;
 
             const passwordHashed = await passwordService.hash(password);
 
@@ -54,6 +76,12 @@ module.exports = {
                 ...req.body,
                 password: passwordHashed
             });
+
+            await emailService.sendMail(
+                NO_REPLY_EMAIL,
+                emailActions.CREATE_NEW_USER,
+                { userName: name, password }
+            );
 
             const userToReturn = userUtil.calibrationUser(usersSet);
 
@@ -67,7 +95,15 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const { user_id } = req.params;
+            const { name } = req.logUser;
+
             const updateUser = await updateItem(UserModel, user_id, req.body);
+
+            await emailService.sendMail(
+                NO_REPLY_EMAIL,
+                emailActions.UPDATE_USER,
+                { userName: name }
+            );
 
             const userToReturn = userUtil.calibrationUser(updateUser);
 

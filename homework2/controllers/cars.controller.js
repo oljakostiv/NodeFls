@@ -24,7 +24,14 @@ module.exports = {
 
     getAllCars: async (req, res, next) => {
         try {
-            const carsAll = await findItem(CarModel, req.query);
+            const {
+                perPage = 3,
+                page = 1
+            } = req.query;
+
+            const carsAll = await findItem(CarModel)
+                .limit(+perPage)
+                .skip((+perPage * (page - 1)));
             res.json(carsAll);
         } catch (e) {
             next(e);

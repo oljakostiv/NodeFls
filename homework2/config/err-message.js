@@ -12,5 +12,6 @@ module.exports = {
     NOT_FOUND: 'Not found!',
     NOT_VALID: 'Not valid request!',
     QUERY_ERROR: 'Entered incorrectly!',
+    TEMPLATE_NAME_WRONG: 'Wrong template name!',
     UNAUTHORIZED: 'Unauthorized'
 };

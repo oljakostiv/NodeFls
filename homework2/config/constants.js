@@ -8,6 +8,7 @@ module.exports = {
     AUTHORIZATION: 'Authorization',
     BODY: 'body',
     CAR_ID: 'car_id',
+    FROM: 'No replay',
     ID: '_id',
     MODEL: 'model',
     NAME: 'name',

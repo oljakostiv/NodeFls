@@ -1,9 +1,12 @@
 const {
     constants: { AUTHORIZATION },
-    statusCode
+    emailActions,
+    statusCode,
+    variables: { NO_REPLY_EMAIL }
 } = require('../config');
 const { OAuthModel } = require('../dataBase');
 const {
+    emailService,
     jwtService,
     passwordService
 } = require('../services');
@@ -18,6 +21,12 @@ module.exports = {
             } = req;
 
             await passwordService.compare(authUser.password, body.password);
+
+            await emailService.sendMail(
+                NO_REPLY_EMAIL,
+                emailActions.WELCOME,
+                { userName: body.name }
+            );
 
             const tokenPair = jwtService.giveTokenPair();
 
