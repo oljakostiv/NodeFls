@@ -28,6 +28,7 @@ module.exports = {
             const { user_id } = req.params;
 
             if (logUser._id.toString() === user_id.toString()) {
+                req.deleteByUser = true;
                 return next();
             }
 

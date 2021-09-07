@@ -19,15 +19,25 @@ const { userUtil } = require('../util');
 module.exports = {
     deleteUser: async (req, res, next) => {
         try {
+            const { deleteByUser } = req;
             const { user_id } = req.params;
             const { name } = req.logUser;
+
             await deleteItem(UserModel, user_id);
 
-            await emailService.sendMail(
-                NO_REPLY_EMAIL,
-                emailActions.DELETE_BY_USER,
-                { userName: name }
-            );
+            if (deleteByUser) {
+                await emailService.sendMail(
+                    NO_REPLY_EMAIL,
+                    emailActions.DELETE_BY_USER,
+                    { userName: name }
+                );
+            } else {
+                await emailService.sendMail(
+                    NO_REPLY_EMAIL,
+                    emailActions.DELETE_BY_ADMIN,
+                    { userName: name }
+                );
+            }
 
             res.sendStatus(statusCode.DELETED);
         } catch (e) {
@@ -80,7 +90,10 @@ module.exports = {
             await emailService.sendMail(
                 NO_REPLY_EMAIL,
                 emailActions.CREATE_NEW_USER,
-                { userName: name, password }
+                {
+                    userName: name,
+                    password
+                }
             );
 
             const userToReturn = userUtil.calibrationUser(usersSet);

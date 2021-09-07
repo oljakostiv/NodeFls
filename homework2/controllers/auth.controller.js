@@ -1,10 +1,19 @@
 const {
-    constants: { AUTHORIZATION },
+    constants: {
+        AUTHORIZATION,
+    },
     emailActions,
     statusCode,
-    variables: { NO_REPLY_EMAIL }
+    variables: {
+        NO_REPLY_EMAIL
+    }
 } = require('../config');
-const { OAuthModel } = require('../dataBase');
+const {
+    ChangePass,
+    OAuthModel,
+    InactiveAcc,
+    UserModel
+} = require('../dataBase');
 const {
     emailService,
     jwtService,
@@ -13,6 +22,42 @@ const {
 const { userUtil: { calibrationUser } } = require('../util');
 
 module.exports = {
+    activateAccount: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+
+            await InactiveAcc.findByIdAndDelete(UserModel, user_id);
+
+            const userToReturn = calibrationUser(user_id);
+
+            res.json(userToReturn);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    changePass: async (req, res, next) => {
+        try {
+            const { user_id } = req.params;
+            const { password } = req.body;
+
+            await ChangePass.findByIdAndDelete(UserModel, user_id);
+
+            const passwordHashed = await passwordService.hash(password);
+
+            const updateUser = await UserModel.findByIdAndUpdate(user_id, { password: passwordHashed });
+
+            const userToReturn = calibrationUser(updateUser);
+
+            await OAuthModel.deleteMany({ user: updateUser[user_id] });
+
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(userToReturn);
+        } catch (e) {
+            next(e);
+        }
+    },
+
     authPostUser: async (req, res, next) => {
         try {
             const {
@@ -71,5 +116,5 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    },
+    }
 };

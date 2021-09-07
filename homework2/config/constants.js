@@ -15,6 +15,7 @@ module.exports = {
     PARAMS: 'params',
     PASSWORD: 'password',
     QUERY: 'query',
+    QUERY_TOKEN: '?active_token=',
     REFRESH: 'refresh',
     USER: 'user',
     USER_ID: 'user_id',

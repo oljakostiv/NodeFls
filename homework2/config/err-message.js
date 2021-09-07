@@ -2,8 +2,10 @@ module.exports = {
     CONFLICT: 'Conflict!',
     DELETED: 'Account deleted successfully',
     EMAIL_PASSWORD_WRONG: 'Email or password is wrong!',
+    ERROR_ACTIVATING: 'Error activating account',
     FORBIDDEN: 'Forbidden!',
     ID_WRONG: 'Id is wrong!',
+    INCORRECT: 'Incorrect or expired link',
     IS_EXIST: 'Is exist!',
     INVALID_TOKEN: 'Invalid token!',
     MODEL_EXIST: 'Model is exists!',
@@ -12,6 +14,7 @@ module.exports = {
     NOT_FOUND: 'Not found!',
     NOT_VALID: 'Not valid request!',
     QUERY_ERROR: 'Entered incorrectly!',
+    SIGNUP_SUCCESS: 'Signup success!',
     TEMPLATE_NAME_WRONG: 'Wrong template name!',
     UNAUTHORIZED: 'Unauthorized'
 };
