@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const { actions, dbTab: { ACTIVE_TOKEN, USER } } = require('../config');
+const { dbTab: { ACTION_TOKEN, USER } } = require('../config');
 
 const actionTokenSchema = new Schema({
     token: {
@@ -10,7 +10,7 @@ const actionTokenSchema = new Schema({
     action: {
         type: String,
         required: true,
-        enum: Object.values(actions)
+        // enum: Object.values(actions)
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -19,4 +19,4 @@ const actionTokenSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = model(ACTIVE_TOKEN, actionTokenSchema);
+module.exports = model(ACTION_TOKEN, actionTokenSchema);

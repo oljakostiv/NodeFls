@@ -39,8 +39,8 @@ module.exports = {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.ERROR_ACTIVATING);
             }
             //                           ?
-            // req.headers.authorization = token;
-            req.logUser = userWithToken.user;
+            req.headers.authorization = token;
+            // req.logUser = userWithToken.user;
 
             next();
         } catch (e) {
@@ -100,8 +100,7 @@ module.exports = {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
             }
 
-            req.logUser = tokenFromDB[USER];
-            //                          ?
+            req.logUser = tokenFromDB.user;
 
             next();
         } catch (e) {
