@@ -4,17 +4,17 @@ const router = require('express')
 const { authController } = require('../controllers');
 const {
     constants: { BODY, EMAIL },
-    dbTab: { CHANGE_PASS, INACTIVE_ACCOUNT }
+    dbTab: { CHANGE_PASS }
 } = require('../config');
 const {
     authMiddle,
     mainMiddle,
-    // userMiddle
 } = require('../middlewares');
 const {
     userValidator: {
         authUserValidator,
         password,
+        passReset,
         email
     }
 } = require('../validators');
@@ -27,7 +27,6 @@ router.post('/',
 
 router.get('/activate',
     authMiddle.isAccActive,
-    authMiddle.validateActionToken(INACTIVE_ACCOUNT),
     authController.activateAccount);
 
 router.post('/logout',
@@ -45,7 +44,7 @@ router.put('/password/forgot',
     authController.changePass);
 
 router.put('/password/reset',
-    mainMiddle.isDataValid(password, BODY),
+    mainMiddle.isDataValid(passReset, BODY),
     authMiddle.validateAccessToken,
     authMiddle.prePassword,
     authController.changePass);

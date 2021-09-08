@@ -1,5 +1,5 @@
 const {
-    actions: { FORGOT_PASS },
+    actions: { FORGOT_PASS, ACTIVATE_ACCOUNT },
     constants: {
         AUTHORIZATION,
         QUERY_TOKEN
@@ -8,7 +8,6 @@ const {
     errMsg,
     statusCode,
     variables: {
-        ACTIVATE_URL,
         FRONTEND_URL_TOKEN,
         NO_REPLY_EMAIL
     }
@@ -21,8 +20,8 @@ const {
 const {
     emailService,
     jwtService,
-    passwordService,
-    jwtActionService
+    jwtActionService,
+    passwordService
 } = require('../services');
 const { userUtil: { calibrationUser } } = require('../util');
 
@@ -44,29 +43,6 @@ module.exports = {
         }
     },
 
-    changePass: async (req, res, next) => {
-        try {
-            const { password } = req.body;
-            const token = req.get(AUTHORIZATION);
-
-            await ActionToken.deleteOne({ token });
-
-            const passwordHashed = await passwordService.hash(password);
-            //                                                       ?
-
-            const updateUser = await UserModel.findByIdAndUpdate({ token }, { password: passwordHashed });
-
-            const userToReturn = calibrationUser(updateUser);
-
-            await OAuthModel.deleteMany({ user: updateUser._id });
-
-            res.status(statusCode.CREATED_AND_UPDATE)
-                .json(userToReturn);
-        } catch (e) {
-            next(e);
-        }
-    },
-
     authPostUser: async (req, res, next) => {
         try {
             const {
@@ -83,7 +59,8 @@ module.exports = {
                 emailActions.AUTH,
                 {
                     userName: body.name,
-                    action: ACTIVATE_URL + QUERY_TOKEN + token
+                    action: ACTIVATE_ACCOUNT,
+                    token
                 }
             );
 
@@ -98,6 +75,26 @@ module.exports = {
                 ...tokenPair,
                 user: calibrationUser(authUser)
             });
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    changePass: async (req, res, next) => {
+        try {
+            const { body: { password }, logUser: { _id } } = req;
+            const token = req.get(AUTHORIZATION);
+
+            await ActionToken.deleteOne({ token });
+
+            const passwordHashed = await passwordService.hash(password);
+
+            await UserModel.updateOne({ _id }, { password: passwordHashed });
+
+            await OAuthModel.deleteMany({ user: _id });
+
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(errMsg.PASSWORD_UPDATE);
         } catch (e) {
             next(e);
         }
@@ -152,7 +149,7 @@ module.exports = {
                 emailActions.FORGOT_PASS,
                 {
                     userName: name,
-                    accTokenURL: FRONTEND_URL_TOKEN + QUERY_TOKEN + token
+                    accTokenURL: `${FRONTEND_URL_TOKEN}${QUERY_TOKEN}${token}`
                 }
             );
 

@@ -2,9 +2,10 @@ const { v1 } = require('uuid');
 
 const {
     actions: { ACTIVATE_ACCOUNT },
+    constants: { QUERY_TOKEN },
     emailActions,
     statusCode,
-    variables: { NO_REPLY_EMAIL }
+    variables: { NO_REPLY_EMAIL, ACTIVATE_URL }
 } = require('../config');
 const {
     UserModel,
@@ -99,7 +100,7 @@ module.exports = {
                 {
                     userName: name,
                     password,
-                    token
+                    activateURL: `${ACTIVATE_URL}${QUERY_TOKEN}${token}`
                 }
             );
 
