@@ -52,7 +52,7 @@ module.exports = {
             await passwordService.compare(authUser.password, body.password);
 
             await emailService.sendMail(
-                body.email,
+                authUser.email,
                 emailActions.AUTH,
                 {
                     userName: body.name
