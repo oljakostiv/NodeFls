@@ -29,10 +29,10 @@ const { userUtil: { calibrationUser } } = require('../util');
 module.exports = {
     activateAccount: async (req, res, next) => {
         try {
-            const token = req.get(AUTHORIZATION);
-            // const token = req.query;
-            // ?
-            const { logUser: { _id } } = req;
+            const {
+                logUser: { _id },
+                query: { token }
+            } = req;
 
             await ActionToken.deleteOne({ token });
             await UserModel.updateOne({ _id }, { isActivated: true });
@@ -83,7 +83,7 @@ module.exports = {
                 emailActions.AUTH,
                 {
                     userName: body.name,
-                    welcomeURL: ACTIVATE_URL + QUERY_TOKEN + token
+                    action: ACTIVATE_URL + QUERY_TOKEN + token
                 }
             );
 

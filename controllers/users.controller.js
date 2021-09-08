@@ -1,12 +1,15 @@
 const { v1 } = require('uuid');
 
 const {
-    constants: { QUERY_TOKEN },
+    actions: { ACTIVATE_ACCOUNT },
     emailActions,
     statusCode,
-    variables: { ACTIVATE_URL, NO_REPLY_EMAIL }
+    variables: { NO_REPLY_EMAIL }
 } = require('../config');
-const { UserModel, ActionToken } = require('../dataBase');
+const {
+    UserModel,
+    ActionToken
+} = require('../dataBase');
 const {
     emailService,
     mainService: {
@@ -83,8 +86,12 @@ module.exports = {
                 ...req.body,
                 password: passwordHashed
             });
-            // await ActionToken.create({ welcomeURL: ACTIVATE_URL + QUERY_TOKEN, token });
-            await ActionToken.create({ welcomeURL: ACTIVATE_URL + QUERY_TOKEN, token, user: usersSet._id });
+
+            await ActionToken.create({
+                action: ACTIVATE_ACCOUNT,
+                token,
+                user: usersSet._id
+            });
 
             await emailService.sendMail(
                 NO_REPLY_EMAIL,

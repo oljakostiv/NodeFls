@@ -38,9 +38,8 @@ module.exports = {
             if (!userWithToken) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.ERROR_ACTIVATING);
             }
-            //                           ?
-            req.headers.authorization = token;
-            // req.logUser = userWithToken.user;
+
+            req.logUser = userWithToken.user;
 
             next();
         } catch (e) {
