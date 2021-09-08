@@ -79,7 +79,7 @@ module.exports = {
         }
     },
 
-    validateActionToken: (acttion) => async (req, res, next) => {
+    validateActionToken: (action) => async (req, res, next) => {
         try {
             const token = req.get(AUTHORIZATION);
 
@@ -91,7 +91,7 @@ module.exports = {
 
             const tokenFromDB = await ActionToken.findOne({
                 token,
-                acttion
+                action
             })
                 .populate(USER);
 

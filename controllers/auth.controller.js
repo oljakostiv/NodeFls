@@ -1,5 +1,5 @@
 const {
-    actions: { FORGOT_PASS, ACTIVATE_ACCOUNT },
+    actions: { FORGOT_PASS },
     constants: {
         AUTHORIZATION,
         QUERY_TOKEN
@@ -9,7 +9,6 @@ const {
     statusCode,
     variables: {
         FRONTEND_URL_TOKEN,
-        NO_REPLY_EMAIL
     }
 } = require('../config');
 const {
@@ -50,17 +49,13 @@ module.exports = {
                 body
             } = req;
 
-            const token = req.get(AUTHORIZATION);
-
             await passwordService.compare(authUser.password, body.password);
 
             await emailService.sendMail(
-                NO_REPLY_EMAIL,
+                body.email,
                 emailActions.AUTH,
                 {
-                    userName: body.name,
-                    action: ACTIVATE_ACCOUNT,
-                    token
+                    userName: body.name
                 }
             );
 
@@ -133,7 +128,8 @@ module.exports = {
         try {
             const {
                 name,
-                _id
+                _id,
+                email
             } = req.item;
 
             const token = await jwtActionService.giveActionToken();
@@ -145,7 +141,7 @@ module.exports = {
             });
 
             await emailService.sendMail(
-                NO_REPLY_EMAIL,
+                email,
                 emailActions.FORGOT_PASS,
                 {
                     userName: name,

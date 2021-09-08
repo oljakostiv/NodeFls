@@ -5,7 +5,9 @@ const {
     constants: { QUERY_TOKEN },
     emailActions,
     statusCode,
-    variables: { NO_REPLY_EMAIL, ACTIVATE_URL }
+    variables: {
+        ACTIVATE_URL
+    }
 } = require('../config');
 const {
     UserModel,
@@ -26,21 +28,26 @@ const { userUtil } = require('../util');
 module.exports = {
     deleteUser: async (req, res, next) => {
         try {
-            const { deleteByUser } = req;
-            const { user_id } = req.params;
-            const { name } = req.item;
+            const {
+                deleteByUser,
+                item: {
+                    name,
+                    email
+                },
+                params: { user_id }
+            } = req;
 
             await deleteItem(UserModel, user_id);
 
             if (deleteByUser) {
                 await emailService.sendMail(
-                    NO_REPLY_EMAIL,
+                    email,
                     emailActions.DELETE_BY_USER,
                     { userName: name }
                 );
             } else {
                 await emailService.sendMail(
-                    NO_REPLY_EMAIL,
+                    email,
                     emailActions.DELETE_BY_ADMIN,
                     { userName: name }
                 );
@@ -95,11 +102,10 @@ module.exports = {
             });
 
             await emailService.sendMail(
-                NO_REPLY_EMAIL,
+                usersSet.email,
                 emailActions.WELCOME,
                 {
                     userName: name,
-                    password,
                     activateURL: `${ACTIVATE_URL}${QUERY_TOKEN}${token}`
                 }
             );
@@ -121,7 +127,7 @@ module.exports = {
             const updateUser = await updateItem(UserModel, user_id, req.body);
 
             await emailService.sendMail(
-                NO_REPLY_EMAIL,
+                updateUser.email,
                 emailActions.UPDATE_USER,
                 { userName: name }
             );

@@ -24,8 +24,7 @@ module.exports = {
 
     checkUserRoleMiddle: (roleArr = []) => (req, res, next) => {
         try {
-            const { logUser } = req;
-            const { user_id } = req.params;
+            const { logUser, params: { user_id } } = req;
 
             if (logUser._id.toString() === user_id.toString()) {
                 req.deleteByUser = true;
@@ -62,8 +61,7 @@ module.exports = {
 
     updateMiddle: (req, res, next) => {
         try {
-            const { logUser } = req;
-            const { user_id } = req.params;
+            const { logUser, params: { user_id } } = req;
 
             if (logUser._id.toString() !== user_id.toString()) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
