@@ -5,13 +5,15 @@ const {
     carType
 } = require('../config');
 
+const modelSchema = Joi.string()
+    .alphanum()
+    .min(2)
+    .max(30)
+    .trim()
+    .required();
+
 const createCarValidator = Joi.object({
-    model: Joi.string()
-        .alphanum()
-        .min(2)
-        .max(30)
-        .trim()
-        .required(),
+    model: modelSchema,
     type: Joi.string()
         .allow(...Object.values(carType)),
     year: Joi.number()
@@ -31,11 +33,7 @@ const paramsCarValidator = Joi.object({
 });
 
 const queryCarValidator = Joi.object({
-    model: Joi.string()
-        .alphanum()
-        .min(2)
-        .max(30)
-        .trim(),
+    model: modelSchema,
     year: Joi.number()
         .min(constants.CURRENT_YEAR - 20)
         .max(constants.CURRENT_YEAR),
@@ -45,10 +43,7 @@ const queryCarValidator = Joi.object({
 });
 
 const updateCarValidator = Joi.object({
-    model: Joi.string()
-        .alphanum()
-        .min(2)
-        .max(30),
+    model: modelSchema,
     type: Joi.string()
         .allow(...Object.values(carType)),
     year: Joi.number()

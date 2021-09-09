@@ -13,9 +13,9 @@ const {
 const {
     userValidator: {
         authUserValidator,
-        password,
-        passwordResetValidator,
-        email
+        emailValidator,
+        passwordValidator,
+        passwordResetValidator
     }
 } = require('../validators');
 const { UserModel } = require('../dataBase');
@@ -34,19 +34,19 @@ router.post('/logout',
     authController.logoutUser);
 
 router.post('/password/forgot/send',
-    mainMiddle.isDataValid(email, BODY),
+    mainMiddle.isDataValid(emailValidator, BODY),
     mainMiddle.getItemByDynamicParam(UserModel, EMAIL),
     authController.mailForUserPass);
 
-router.post('/password/forgot/set',
-    mainMiddle.isDataValid(password, BODY),
+router.put('/password/forgot/set',
+    mainMiddle.isDataValid(passwordValidator, BODY),
     authMiddle.validateActionToken(FORGOT_PASS),
     authController.changePass());
 
 router.put('/password/reset',
     mainMiddle.isDataValid(passwordResetValidator, BODY),
     authMiddle.validateAccessToken,
-    authMiddle.prePassword,
+    authMiddle.checkPasswordExist,
     authController.changePass(false));
 
 router.post('/refresh',

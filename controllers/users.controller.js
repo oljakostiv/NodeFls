@@ -122,7 +122,6 @@ module.exports = {
             } = req;
 
             const passwordHashed = await passwordService.hash(password);
-
             const token = await jwtService.giveActionToken(ADMIN_PASS);
 
             const usersSet = await setItem(UserModel, {
@@ -130,16 +129,15 @@ module.exports = {
                 password: passwordHashed,
                 role: ADMIN
             });
-            console.log(333);
+
             await ActionToken.create({
                 action: ACTIVATE_ADMIN,
                 token,
                 user: usersSet._id
             });
-            console.log(444);
+
             await emailService.sendMail(
-                // usersSet.email,
-                'oljakostivv@gmail.com',
+                usersSet.email,
                 emailActions.SET_ADMIN,
                 {
                     userName: name,

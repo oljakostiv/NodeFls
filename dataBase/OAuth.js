@@ -18,4 +18,8 @@ const OAuthSchema = new Schema({
     }
 }, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
+OAuthSchema.pre('findOne', function() {
+    this.populate(USER);
+});
+
 module.exports = model(OAUTH, OAuthSchema);

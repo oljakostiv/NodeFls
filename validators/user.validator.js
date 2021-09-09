@@ -5,36 +5,34 @@ const {
     userRole
 } = require('../config');
 
+const emailSchema = Joi.string()
+    .regex(constants.EMAIL_REGEXP)
+    .trim();
+const nameSchema = Joi.string()
+    .alphanum()
+    .min(3)
+    .max(30)
+    .trim()
+    .required();
+const passwordSchema = Joi.string()
+    .regex(constants.PASSWORD_REGEXP)
+    .required();
+const roleSchema = Joi.string()
+    .allow(...Object.values(userRole));
+
 const authUserValidator = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .trim()
-        .required(),
-    password: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
-        .required()
+    name: nameSchema,
+    password: passwordSchema
 });
 
 const createUserValidator = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .trim()
-        .required(),
+    name: nameSchema,
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    role: Joi.string()
-        .allow(...Object.values(userRole)),
-    email: Joi.string()
-        .regex(constants.EMAIL_REGEXP)
-        .trim(),
-    password: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
-        .required()
+    role: roleSchema,
+    email: emailSchema,
+    password: passwordSchema
 });
 
 const paramsUserValidator = Joi.object({
@@ -43,62 +41,43 @@ const paramsUserValidator = Joi.object({
         .trim()
 });
 
-const password = Joi.object({
-    password: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
-        .required(),
+const passwordValidator = Joi.object({
+    password: passwordSchema
 });
 
-const email = Joi.object({
-    email: Joi.string()
-        .regex(constants.EMAIL_REGEXP)
-        .required(),
+const emailValidator = Joi.object({
+    email: emailSchema,
 });
 
 const passwordResetValidator = Joi.object({
-    oldPassword: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
-        .required(),
-    password: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
-        .required(),
+    oldPassword: passwordSchema,
+    password: passwordSchema,
 });
 
 const queryUserValidator = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30)
-        .trim(),
+    name: nameSchema,
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    role: Joi.string()
-        .allow(...Object.values(userRole))
+    role: roleSchema
 });
 
 const updateUserValidator = Joi.object({
-    name: Joi.string()
-        .alphanum()
-        .min(3)
-        .max(30),
+    name: nameSchema,
     born_year: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
-    role: Joi.string()
-        .allow(...Object.values(userRole)),
-    email: Joi.string()
-        .regex(constants.EMAIL_REGEXP),
-    password: Joi.string()
-        .regex(constants.PASSWORD_REGEXP)
+    role: roleSchema,
+    email: emailSchema,
+    password: passwordSchema
 });
 
 module.exports = {
     authUserValidator,
     createUserValidator,
     paramsUserValidator,
-    password,
-    email,
+    passwordValidator,
+    emailValidator,
     passwordResetValidator,
     queryUserValidator,
     updateUserValidator

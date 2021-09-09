@@ -132,7 +132,7 @@ module.exports = {
             const {
                 name,
                 _id,
-                // email
+                email
             } = req.item;
 
             const token = await jwtService.giveActionToken(FORGOT_PASS);
@@ -144,8 +144,7 @@ module.exports = {
             });
 
             await emailService.sendMail(
-                // email,
-                'oljakostivv@gmail.com',
+                email,
                 emailActions.FORGOT_PASS,
                 {
                     userName: name,

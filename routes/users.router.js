@@ -6,10 +6,10 @@ const {
     actions: { ADMIN_PASS },
     constants: {
         BODY,
+        ID,
         QUERY,
         PARAMS,
-        USER_ID,
-        ID
+        USER_ID
     },
     userRole: { ADMIN }
 } = require('../config');
@@ -24,7 +24,7 @@ const {
         queryUserValidator,
         updateUserValidator,
         paramsUserValidator,
-        password,
+        passwordValidator,
         createUserValidator,
     }
 } = require('../validators');
@@ -46,7 +46,7 @@ router.post('/admin/create',
     usersController.setAdmin);
 
 router.post('/admin/set',
-    mainMiddle.isDataValid(password, BODY),
+    mainMiddle.isDataValid(passwordValidator, BODY),
     authMiddle.validateActionToken(ADMIN_PASS),
     usersController.changePassForAdmin);
 

@@ -32,6 +32,7 @@ module.exports = {
             const carsAll = await findItem(CarModel)
                 .limit(+perPage)
                 .skip((+perPage * (page - 1)));
+
             res.json(carsAll);
         } catch (e) {
             next(e);

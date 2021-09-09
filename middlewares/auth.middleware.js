@@ -1,8 +1,7 @@
 const {
     constants: {
         AUTHORIZATION,
-        REFRESH,
-        USER
+        REFRESH
     },
     errMsg,
     actions: { ACTIVATE_ACCOUNT },
@@ -34,8 +33,7 @@ module.exports = {
             const userWithToken = await ActionToken.findOne({
                 token,
                 action: ACTIVATE_ACCOUNT
-            })
-                .populate(USER);
+            });
 
             if (!userWithToken) {
                 throw new ErrorHandler(statusCode.NOT_FOUND, errMsg.ERROR_ACTIVATING);
@@ -67,7 +65,7 @@ module.exports = {
         }
     },
 
-    prePassword: async (req, res, next) => {
+    checkPasswordExist: async (req, res, next) => {
         try {
             const {
                 logUser,
@@ -94,8 +92,7 @@ module.exports = {
 
             const tokenFromDB = await ActionToken.findOne({
                 token
-            })
-                .populate(USER);
+            });
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
@@ -119,8 +116,7 @@ module.exports = {
 
             await verifyToken(access_token);
 
-            const tokenFromDB = await OAuthModel.findOne({ access_token })
-                .populate(USER);
+            const tokenFromDB = await OAuthModel.findOne({ access_token });
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
@@ -144,8 +140,7 @@ module.exports = {
 
             await verifyToken(refresh_token, REFRESH);
 
-            const tokenFromDB = await OAuthModel.findOne({ refresh_token })
-                .populate(USER);
+            const tokenFromDB = await OAuthModel.findOne({ refresh_token });
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
