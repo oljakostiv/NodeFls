@@ -23,6 +23,6 @@ const carSchema = new Schema({
         required: true,
         trim: true
     },
-}, { timestamps: true });
+}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 module.exports = model(CAR, carSchema);

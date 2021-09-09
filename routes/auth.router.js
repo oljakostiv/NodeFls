@@ -3,18 +3,20 @@ const router = require('express')
 
 const { authController } = require('../controllers');
 const {
+    actions: { FORGOT_PASS },
     constants: { BODY, EMAIL },
-    dbTab: { CHANGE_PASS }
+    // dbTab: { CHANGE_PASS }
 } = require('../config');
 const {
     authMiddle,
     mainMiddle,
+    // userMiddle
 } = require('../middlewares');
 const {
     userValidator: {
         authUserValidator,
         password,
-        passReset,
+        // passReset,
         email
     }
 } = require('../validators');
@@ -33,21 +35,22 @@ router.post('/logout',
     authMiddle.validateAccessToken,
     authController.logoutUser);
 
-router.post('/password/forgot',
+router.post('/password/forgot/send',
     mainMiddle.isDataValid(email, BODY),
     mainMiddle.getItemByDynamicParam(UserModel, EMAIL),
+    // userMiddle.isNotPresent,
     authController.mailForUserPass);
 
-router.put('/password/forgot',
+router.post('/password/forgot/set',
     mainMiddle.isDataValid(password, BODY),
-    authMiddle.validateActionToken(CHANGE_PASS),
+    authMiddle.validateActionToken(FORGOT_PASS),
     authController.changePass);
 
-router.put('/password/reset',
-    mainMiddle.isDataValid(passReset, BODY),
-    authMiddle.validateAccessToken,
-    authMiddle.prePassword,
-    authController.changePass);
+// router.put('/password/reset',
+//     mainMiddle.isDataValid(passReset, BODY),
+//     authMiddle.validateAccessToken,
+//     authMiddle.prePassword,
+//     authController.changePass);
 
 router.post('/refresh',
     authMiddle.validateRefreshToken,

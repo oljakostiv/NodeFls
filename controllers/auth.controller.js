@@ -80,11 +80,11 @@ module.exports = {
             const { body: { password }, logUser: { _id } } = req;
             const token = req.get(AUTHORIZATION);
 
-            await ActionToken.deleteOne({ token });
-
             const passwordHashed = await passwordService.hash(password);
 
             await UserModel.updateOne({ _id }, { password: passwordHashed });
+
+            await ActionToken.deleteOne({ token });
 
             await OAuthModel.deleteMany({ user: _id });
 
@@ -129,7 +129,7 @@ module.exports = {
             const {
                 name,
                 _id,
-                email
+                // email
             } = req.item;
 
             const token = await jwtActionService.giveActionToken();
@@ -141,7 +141,8 @@ module.exports = {
             });
 
             await emailService.sendMail(
-                email,
+                // email,
+                'oljakostivv@gmail.com',
                 emailActions.FORGOT_PASS,
                 {
                     userName: name,
@@ -155,4 +156,36 @@ module.exports = {
             next(e);
         }
     }
+
+    // mailForUserPass: async (req, res, next) => {
+    //     try {
+    //         const {
+    //             name,
+    //             _id,
+    //             email
+    //         } = req.item;
+    //
+    //         const token = await jwtActionService.giveActionToken();
+    //
+    //         await ActionToken.create({
+    //             token,
+    //             action: FORGOT_PASS,
+    //             user: _id
+    //         });
+    //
+    //         await emailService.sendMail(
+    //             email,
+    //             emailActions.FORGOT_PASS,
+    //             {
+    //                 userName: name,
+    //                 accTokenURL: `${FRONTEND_URL_TOKEN}${QUERY_TOKEN}${token}`
+    //             }
+    //         );
+    //
+    //         res.status(statusCode.CREATED_AND_UPDATE)
+    //             .send(errMsg.CHECK_MAIL);
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // }
 };

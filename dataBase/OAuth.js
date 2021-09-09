@@ -16,6 +16,6 @@ const OAuthSchema = new Schema({
         required: true,
         ref: USER
     }
-}, { timestamps: true });
+}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 module.exports = model(OAUTH, OAuthSchema);

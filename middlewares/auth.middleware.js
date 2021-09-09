@@ -15,9 +15,12 @@ const {
 } = require('../dataBase');
 const { ErrorHandler } = require('../errors');
 const {
-    jwtService: { verifyToken },
+    jwtService: {
+        verifyToken,
+        // verifyActionToken
+    },
     jwtActionService: { verifyActionToken },
-    passwordService
+    // passwordService
 } = require('../services');
 
 module.exports = {
@@ -65,19 +68,19 @@ module.exports = {
         }
     },
 
-    prePassword: async (req, res, next) => {
-        try {
-            const {
-                logUser,
-                body: { oldPassword }
-            } = req;
-            await passwordService.compare(logUser.password, oldPassword);
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
+    // prePassword: async (req, res, next) => {
+    //     try {
+    //         const {
+    //             logUser,
+    //             body: { oldPassword }
+    //         } = req;
+    //         await passwordService.compare(logUser.password, oldPassword);
+    //
+    //         next();
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // },
 
     validateActionToken: (action) => async (req, res, next) => {
         try {
@@ -87,13 +90,11 @@ module.exports = {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.NO_TOKEN);
             }
 
-            await verifyActionToken(token);
+            await verifyActionToken(token, action);
 
             const tokenFromDB = await ActionToken.findOne({
-                token,
-                action
-            })
-                .populate(USER);
+                token
+            }).populate(USER);
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
