@@ -74,7 +74,7 @@ module.exports = {
         }
     },
 
-    changePass: async (req, res, next) => {
+    changePass: (isForgotten = true) => async (req, res, next) => {
         try {
             const {
                 body: { password },
@@ -84,10 +84,11 @@ module.exports = {
 
             const passwordHashed = await passwordService.hash(password);
 
+            if (isForgotten) {
+                await ActionToken.deleteOne({ token });
+            }
+
             await UserModel.updateOne({ _id }, { password: passwordHashed });
-
-            await ActionToken.deleteOne({ token });
-
             await OAuthModel.deleteMany({ user: _id });
 
             res.status(statusCode.CREATED_AND_UPDATE)

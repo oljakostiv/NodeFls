@@ -55,14 +55,14 @@ const email = Joi.object({
         .required(),
 });
 
-// const passReset = Joi.object({
-//     oldPassword: Joi.string()
-//         .regex(constants.PASSWORD_REGEXP)
-//         .required(),
-//     password: Joi.string()
-//         .regex(constants.PASSWORD_REGEXP)
-//         .required(),
-// });
+const passwordResetValidator = Joi.object({
+    oldPassword: Joi.string()
+        .regex(constants.PASSWORD_REGEXP)
+        .required(),
+    password: Joi.string()
+        .regex(constants.PASSWORD_REGEXP)
+        .required(),
+});
 
 const queryUserValidator = Joi.object({
     name: Joi.string()
@@ -99,7 +99,7 @@ module.exports = {
     paramsUserValidator,
     password,
     email,
-    // passReset,
+    passwordResetValidator,
     queryUserValidator,
     updateUserValidator
 };

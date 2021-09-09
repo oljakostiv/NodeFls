@@ -5,18 +5,16 @@ const { authController } = require('../controllers');
 const {
     actions: { FORGOT_PASS },
     constants: { BODY, EMAIL },
-    // dbTab: { CHANGE_PASS }
 } = require('../config');
 const {
     authMiddle,
     mainMiddle,
-    // userMiddle
 } = require('../middlewares');
 const {
     userValidator: {
         authUserValidator,
         password,
-        // passReset,
+        passwordResetValidator,
         email
     }
 } = require('../validators');
@@ -38,15 +36,18 @@ router.post('/logout',
 router.post('/password/forgot/send',
     mainMiddle.isDataValid(email, BODY),
     mainMiddle.getItemByDynamicParam(UserModel, EMAIL),
-    // userMiddle.isNotPresent,
     authController.mailForUserPass);
 
 router.post('/password/forgot/set',
     mainMiddle.isDataValid(password, BODY),
     authMiddle.validateActionToken(FORGOT_PASS),
-    authController.changePass);
+    authController.changePass());
 
-router.put('/password/reset');
+router.put('/password/reset',
+    mainMiddle.isDataValid(passwordResetValidator, BODY),
+    authMiddle.validateAccessToken,
+    authMiddle.prePassword,
+    authController.changePass(false));
 
 router.post('/refresh',
     authMiddle.validateRefreshToken,

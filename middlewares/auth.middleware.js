@@ -15,6 +15,7 @@ const {
 } = require('../dataBase');
 const { ErrorHandler } = require('../errors');
 const {
+    passwordService,
     jwtService: {
         verifyToken,
         verifyActionToken
@@ -66,19 +67,20 @@ module.exports = {
         }
     },
 
-    // prePassword: async (req, res, next) => {
-    //     try {
-    //         const {
-    //             logUser,
-    //             body: { oldPassword }
-    //         } = req;
-    //         await passwordService.compare(logUser.password, oldPassword);
-    //
-    //         next();
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // },
+    prePassword: async (req, res, next) => {
+        try {
+            const {
+                logUser,
+                body: { oldPassword }
+            } = req;
+
+            await passwordService.compare(logUser.password, oldPassword);
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 
     validateActionToken: (action) => async (req, res, next) => {
         try {
