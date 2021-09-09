@@ -1,9 +1,18 @@
 const { v1 } = require('uuid');
 
 const {
-    actions: { ACTIVATE_ACCOUNT },
-    constants: { QUERY_TOKEN },
+    actions: {
+        ACTIVATE_ACCOUNT,
+        ACTIVATE_ADMIN,
+        ADMIN_PASS
+    },
+    constants: {
+        ADMIN,
+        AUTHORIZATION,
+        QUERY_TOKEN
+    },
     emailActions,
+    errMsg,
     statusCode,
     variables: {
         ACTIVATE_URL
@@ -21,7 +30,8 @@ const {
         setItem,
         updateItem
     },
-    passwordService
+    passwordService,
+    jwtService
 } = require('../services');
 const { userUtil } = require('../util');
 
@@ -75,6 +85,70 @@ module.exports = {
         try {
             const userToReturn = userUtil.calibrationUser(req.item);
             res.json(userToReturn);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    changePassForAdmin: async (req, res, next) => {
+        try {
+            const {
+                body: { password },
+                logUser: { _id }
+            } = req;
+            const token = req.get(AUTHORIZATION);
+
+            const passwordHashed = await passwordService.hash(password);
+
+            await UserModel.updateOne({ _id }, { password: passwordHashed });
+
+            await ActionToken.deleteOne({ token });
+
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(errMsg.PASSWORD_UPDATE);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    setAdmin: async (req, res, next) => {
+        try {
+            const {
+                body: {
+                    name,
+                    password
+                },
+                logUser: { name: adminName }
+            } = req;
+
+            const passwordHashed = await passwordService.hash(password);
+
+            const token = await jwtService.giveActionToken(ADMIN_PASS);
+
+            const usersSet = await setItem(UserModel, {
+                ...req.body,
+                password: passwordHashed,
+                role: ADMIN
+            });
+            console.log(333);
+            await ActionToken.create({
+                action: ACTIVATE_ADMIN,
+                token,
+                user: usersSet._id
+            });
+            console.log(444);
+            await emailService.sendMail(
+                // usersSet.email,
+                'oljakostivv@gmail.com',
+                emailActions.SET_ADMIN,
+                {
+                    userName: name,
+                    token,
+                    adminName
+                }
+            );
+
+            res.sendStatus(statusCode.CREATED_AND_UPDATE);
         } catch (e) {
             next(e);
         }

@@ -3,6 +3,7 @@ module.exports = {
     DB_CONNECTION_URL: process.env.DB_CONNECTION_URL || 'mongodb://localhost:27017/nodefls',
 
     ACCESS_SECRET_KEY: process.env.ACCESS_SECRET_KEY || 'Secret_Info',
+    ADMIN_KEY: process.env.ADMIN_KEY || 'Secret_by_admin',
     BACKEND_KEY: process.env.BACKEND_KEY || 'Backend',
     REFRESH_SECRET_KEY: process.env.REFRESH_SECRET_KEY || 'Refresh',
 

@@ -19,7 +19,6 @@ const {
 const {
     emailService,
     jwtService,
-    jwtActionService,
     passwordService
 } = require('../services');
 const { userUtil: { calibrationUser } } = require('../util');
@@ -77,7 +76,10 @@ module.exports = {
 
     changePass: async (req, res, next) => {
         try {
-            const { body: { password }, logUser: { _id } } = req;
+            const {
+                body: { password },
+                logUser: { _id }
+            } = req;
             const token = req.get(AUTHORIZATION);
 
             const passwordHashed = await passwordService.hash(password);
@@ -132,7 +134,7 @@ module.exports = {
                 // email
             } = req.item;
 
-            const token = await jwtActionService.giveActionToken();
+            const token = await jwtService.giveActionToken(FORGOT_PASS);
 
             await ActionToken.create({
                 token,
@@ -156,36 +158,4 @@ module.exports = {
             next(e);
         }
     }
-
-    // mailForUserPass: async (req, res, next) => {
-    //     try {
-    //         const {
-    //             name,
-    //             _id,
-    //             email
-    //         } = req.item;
-    //
-    //         const token = await jwtActionService.giveActionToken();
-    //
-    //         await ActionToken.create({
-    //             token,
-    //             action: FORGOT_PASS,
-    //             user: _id
-    //         });
-    //
-    //         await emailService.sendMail(
-    //             email,
-    //             emailActions.FORGOT_PASS,
-    //             {
-    //                 userName: name,
-    //                 accTokenURL: `${FRONTEND_URL_TOKEN}${QUERY_TOKEN}${token}`
-    //             }
-    //         );
-    //
-    //         res.status(statusCode.CREATED_AND_UPDATE)
-    //             .send(errMsg.CHECK_MAIL);
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // }
 };

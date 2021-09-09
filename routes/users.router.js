@@ -3,6 +3,7 @@ const router = require('express')
 
 const { usersController } = require('../controllers');
 const {
+    actions: { ADMIN_PASS },
     constants: {
         BODY,
         QUERY,
@@ -23,7 +24,8 @@ const {
         queryUserValidator,
         updateUserValidator,
         paramsUserValidator,
-        createUserValidator
+        password,
+        createUserValidator,
     }
 } = require('../validators');
 
@@ -35,6 +37,18 @@ router.post('/',
     mainMiddle.isDataValid(createUserValidator, BODY),
     userMiddle.checkUniqueName,
     usersController.setUser);
+
+router.post('/admin/create',
+    mainMiddle.isDataValid(createUserValidator, BODY),
+    authMiddle.validateAccessToken,
+    userMiddle.checkIsAdmin,
+    userMiddle.checkUniqueName,
+    usersController.setAdmin);
+
+router.post('/admin/set',
+    mainMiddle.isDataValid(password, BODY),
+    authMiddle.validateActionToken(ADMIN_PASS),
+    usersController.changePassForAdmin);
 
 router.delete('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),

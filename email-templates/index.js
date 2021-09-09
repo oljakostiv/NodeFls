@@ -16,6 +16,16 @@ module.exports = {
         subject: 'User was deleted.'
     },
 
+    [emailActions.FORGOT_PASS]: {
+        templateName: 'forgot-password',
+        subject: 'forgot password'
+    },
+
+    [emailActions.SET_ADMIN]: {
+        templateName: 'setAdmin',
+        subject: 'Create admin'
+    },
+
     [emailActions.UPDATE_USER]: {
         templateName: 'update-user',
         subject: 'Updated user info.'
@@ -24,10 +34,5 @@ module.exports = {
     [emailActions.WELCOME]: {
         templateName: 'welcome',
         subject: 'Welcome!'
-    },
-
-    [emailActions.FORGOT_PASS]: {
-        templateName: 'forgot-password',
-        subject: 'forgot password'
     }
 };

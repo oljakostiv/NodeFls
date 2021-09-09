@@ -2,12 +2,13 @@ const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
 const {
-    actions: { FORGOT_PASS },
+    actions: { FORGOT_PASS, ADMIN_PASS },
     constants: { ACCESS },
     errMsg,
     statusCode,
     variables: {
         ACCESS_SECRET_KEY,
+        ADMIN_KEY,
         BACKEND_KEY,
         REFRESH_SECRET_KEY
     }
@@ -44,7 +45,7 @@ module.exports = {
     },
 
     verifyActionToken: (token, actionType) => {
-        const secretWord = _getSecretWordForActionToken(actionType);
+        const { secretWord } = _getSecretWordForActionToken(actionType);
 
         return jwt.verify(token, secretWord);
     }
@@ -58,6 +59,10 @@ function _getSecretWordForActionToken(actionType) {
         case FORGOT_PASS:
             secretWord = BACKEND_KEY;
             expiresIn = '60m';
+            break;
+        case ADMIN_PASS:
+            secretWord = ADMIN_KEY;
+            expiresIn = '1d';
             break;
         default:
             throw new ErrorHandler(statusCode.BAD_REQ, errMsg.INCORRECT);

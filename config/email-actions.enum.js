@@ -3,6 +3,7 @@ module.exports = {
     DELETE_BY_ADMIN: 'delete by admin',
     DELETE_BY_USER: 'delete by user',
     FORGOT_PASS: 'forgot pass',
+    SET_ADMIN: 'create admin by admin',
     UPDATE_USER: 'update',
     WELCOME: 'welcome'
 };

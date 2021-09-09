@@ -15,7 +15,6 @@ module.exports = {
             if (userByName) {
                 throw new ErrorHandler(statusCode.CONFLICT, errMsg.NAME_EXIST);
             }
-
             next();
         } catch (e) {
             next(e);
@@ -39,6 +38,20 @@ module.exports = {
             }
 
             if (!roleArr.includes(logUser.role)) {
+                throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkIsAdmin: (req, res, next) => {
+        try {
+            const { role } = req.logUser;
+
+            if (role !== 'admin') {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
 

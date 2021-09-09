@@ -46,11 +46,7 @@ router.post('/password/forgot/set',
     authMiddle.validateActionToken(FORGOT_PASS),
     authController.changePass);
 
-// router.put('/password/reset',
-//     mainMiddle.isDataValid(passReset, BODY),
-//     authMiddle.validateAccessToken,
-//     authMiddle.prePassword,
-//     authController.changePass);
+router.put('/password/reset');
 
 router.post('/refresh',
     authMiddle.validateRefreshToken,

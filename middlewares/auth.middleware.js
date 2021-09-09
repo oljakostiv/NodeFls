@@ -17,10 +17,8 @@ const { ErrorHandler } = require('../errors');
 const {
     jwtService: {
         verifyToken,
-        // verifyActionToken
-    },
-    jwtActionService: { verifyActionToken },
-    // passwordService
+        verifyActionToken
+    }
 } = require('../services');
 
 module.exports = {
@@ -94,7 +92,8 @@ module.exports = {
 
             const tokenFromDB = await ActionToken.findOne({
                 token
-            }).populate(USER);
+            })
+                .populate(USER);
 
             if (!tokenFromDB) {
                 throw new ErrorHandler(statusCode.UNAUTHORIZED, errMsg.INVALID_TOKEN);
