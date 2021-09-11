@@ -15,6 +15,7 @@ module.exports = {
     GMAIL: 'gmail',
     MODEL: 'model',
     NAME: 'name',
+    OWNER: 'owner',
     PARAMS: 'params',
     PASSWORD: 'password',
     QUERY: 'query',

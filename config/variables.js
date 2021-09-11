@@ -12,4 +12,10 @@ module.exports = {
     FRONTEND_URL_TOKEN: process.env.FRONTEND_URL_PASSWORD || 'https://www.skyatnightmagazine.com/',
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'example@gmail.com',
     NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || '1235',
+
+    OWNER_BORN_YEAR: process.env.OWNER_BORN_YEAR || 1996,
+    OWNER_EMAIL: process.env.OWNER_EMAIL || 'oljakostivv@gmail.com',
+    OWNER_NAME: process.env.OWNER_NAME || 'Olha',
+    OWNER_PASSWORD: process.env.OWNER_PASSWORD || 'Secret_by_owner'
+
 };

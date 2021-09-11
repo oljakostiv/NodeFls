@@ -1,26 +1,30 @@
-// ОБОВʼЯЗКОВО:
-//     створити емейли на :
-// - створення акаунту
-// - оновлення акаунту
-// - видалення акаунту користувачем
-// - видалення акаунту адміном
-// - авторизація
-// ДОДАТКОВО :
-//     **реалізувати флоу forgot password.
-// (створити новий ендпоінт методом GET який буде очікувати токен в query/Authorization. Для цих токенів має бути окрема модель)
-// **реалізувати активацію акаунту через мейл (використи модель з попереднього завдання)
-// Активація акаунту має відпутися при кліку на посилання яке прийшло на email
-// **реалізувати change password
+// зареєструватися на AWS
+//
+// створити s3 та інтегрувати собі в апку
+// Користувач повинен мати можливість додати аватар при створенні також змінити його на оновленні
 
 const express = require('express');
+const chalk = require('chalk');
 const mongoose = require('mongoose');
 
-require('dotenv').config();
+require('dotenv')
+    .config();
 
-const { notFound: { _notFoundError, _mainErrorHandler } } = require('./helper');
+const {
+    notFound: {
+        _notFoundError,
+        _mainErrorHandler
+    }
+} = require('./helper');
 const { apiRouter } = require('./routes/api');
 
-const { variables: { PORT, DB_CONNECTION_URL } } = require('./config');
+const {
+    variables: {
+        PORT,
+        DB_CONNECTION_URL
+    }
+} = require('./config');
+const { UserModel } = require('./dataBase');
 
 const app = express();
 
@@ -33,6 +37,12 @@ app.use('/', apiRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
-app.listen(PORT, () => {
-    console.log('Hello', PORT);
+app.listen(PORT, async (err) => {
+    await UserModel.setOwner();
+
+    if (err) {
+        console.log(err);
+    }
+
+    console.log(chalk.cyan(`${PORT} hi boss!`));
 });

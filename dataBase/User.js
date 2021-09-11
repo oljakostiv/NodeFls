@@ -1,6 +1,23 @@
-const { Schema, model } = require('mongoose');
+const {
+    Schema,
+    model
+} = require('mongoose');
 
-const { dbTab: { USER }, userRole } = require('../config');
+const {
+    dbTab: { USER },
+    emailActions,
+    userRole,
+    variables: {
+        OWNER_BORN_YEAR,
+        OWNER_EMAIL,
+        OWNER_NAME,
+        OWNER_PASSWORD
+    }
+} = require('../config');
+const {
+    emailService,
+    passwordService: { hash }
+} = require('../services');
 
 const userSchema = new Schema({
     name: {
@@ -33,6 +50,37 @@ const userSchema = new Schema({
         required: true,
         default: false
     }
-}, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
+}, {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+});
+
+userSchema.statics = {
+    async setOwner() {
+        const count = await this.findOne({ role: userRole.OWNER });
+
+        if (!count) {
+            const password = await hash(OWNER_PASSWORD);
+
+            this.create({
+                name: OWNER_NAME,
+                born_year: OWNER_BORN_YEAR,
+                role: userRole.OWNER,
+                email: OWNER_EMAIL,
+                isActivated: true,
+                password
+            });
+
+            await emailService.sendMail(
+                OWNER_EMAIL,
+                emailActions.SET_OWNER,
+                {
+                    userName: OWNER_NAME,
+                }
+            );
+        }
+    }
+};
 
 module.exports = model(USER, userSchema);

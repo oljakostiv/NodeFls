@@ -26,6 +26,11 @@ module.exports = {
         subject: 'Create admin'
     },
 
+    [emailActions.SET_OWNER]: {
+        templateName: 'setOwner',
+        subject: 'Create owner'
+    },
+
     [emailActions.UPDATE_USER]: {
         templateName: 'update-user',
         subject: 'Updated user info.'

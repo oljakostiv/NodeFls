@@ -1,6 +1,9 @@
 const { ErrorHandler } = require('../errors');
 const {
-    constants: { ADMIN },
+    constants: {
+        ADMIN,
+        OWNER
+    },
     errMsg,
     statusCode
 } = require('../config');
@@ -52,7 +55,7 @@ module.exports = {
         try {
             const { role } = req.logUser;
 
-            if (role !== ADMIN) {
+            if (role !== ADMIN && OWNER) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
 
