@@ -16,6 +16,11 @@ module.exports = {
     OWNER_BORN_YEAR: process.env.OWNER_BORN_YEAR || 1996,
     OWNER_EMAIL: process.env.OWNER_EMAIL || 'oljakostivv@gmail.com',
     OWNER_NAME: process.env.OWNER_NAME || 'Olha',
-    OWNER_PASSWORD: process.env.OWNER_PASSWORD || 'Secret_by_owner'
+    OWNER_PASSWORD: process.env.OWNER_PASSWORD || 'Secret_by_owner',
+
+    AWS_S3_NAME: process.env.AWS_S3_NAME || '',
+    AWS_S3_REGION: process.env.AWS_S3_REGION || '',
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY || '',
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || '',
 
 };

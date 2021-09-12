@@ -19,5 +19,6 @@ module.exports = {
     SIGNUP_SUCCESS: 'Signup success!',
     TEMPLATE_NAME_WRONG: 'Wrong template name!',
     UNAUTHORIZED: 'Unauthorized',
-    USER_ACTIVE: 'User is activated, go to login.'
+    USER_ACTIVE: 'User is activated, go to login.',
+    WRONG_FILE_FORMAT: 'Wrong file format!'
 };

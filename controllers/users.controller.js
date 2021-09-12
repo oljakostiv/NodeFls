@@ -31,7 +31,8 @@ const {
         updateItem
     },
     passwordService,
-    jwtService
+    jwtService,
+    s3Service
 } = require('../services');
 const { userUtil } = require('../util');
 
@@ -124,11 +125,20 @@ module.exports = {
             const passwordHashed = await passwordService.hash(password);
             const token = await jwtService.giveActionToken(ADMIN_PASS);
 
-            const usersSet = await setItem(UserModel, {
+            let usersSet = await setItem(UserModel, {
                 ...req.body,
                 password: passwordHashed,
                 role: ADMIN
             });
+
+            if (req.files && req.files.avatar) {
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', usersSet._id);
+                usersSet = await UserModel.findByIdAndUpdate(
+                    usersSet._id,
+                    { avatar: dataResponse.Location },
+                    { new: true }
+                );
+            }
 
             await ActionToken.create({
                 action: ACTIVATE_ADMIN,
@@ -162,10 +172,19 @@ module.exports = {
             const passwordHashed = await passwordService.hash(password);
             const token = v1();
 
-            const usersSet = await setItem(UserModel, {
+            let usersSet = await setItem(UserModel, {
                 ...req.body,
                 password: passwordHashed
             });
+
+            if (req.files && req.files.avatar) {
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', usersSet._id);
+                usersSet = await UserModel.findByIdAndUpdate(
+                    usersSet._id,
+                    { avatar: dataResponse.Location },
+                    { new: true }
+                );
+            }
 
             await ActionToken.create({
                 action: ACTIVATE_ACCOUNT,
@@ -196,7 +215,16 @@ module.exports = {
             const { user_id } = req.params;
             const { name } = req.logUser;
 
-            const updateUser = await updateItem(UserModel, user_id, req.body);
+            let updateUser = await updateItem(UserModel, user_id, req.body);
+
+            if (req.files && req.files.avatar) {
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', updateUser._id);
+                updateUser = await UserModel.findByIdAndUpdate(
+                    updateUser._id,
+                    { avatar: dataResponse.Location },
+                    { new: true }
+                );
+            }
 
             await emailService.sendMail(
                 updateUser.email,

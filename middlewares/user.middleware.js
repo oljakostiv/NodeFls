@@ -55,7 +55,7 @@ module.exports = {
         try {
             const { role } = req.logUser;
 
-            if (role !== ADMIN && OWNER) {
+            if (role !== ADMIN && role !== OWNER) {
                 throw new ErrorHandler(statusCode.FORBIDDEN, errMsg.FORBIDDEN);
             }
 

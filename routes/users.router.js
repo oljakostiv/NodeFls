@@ -16,6 +16,7 @@ const {
 const { UserModel } = require('../dataBase');
 const {
     authMiddle,
+    fileMiddle,
     mainMiddle,
     userMiddle
 } = require('../middlewares');
@@ -35,11 +36,13 @@ router.get('/',
 
 router.post('/',
     mainMiddle.isDataValid(createUserValidator, BODY),
+    fileMiddle.checkAvatar,
     userMiddle.checkUniqueName,
     usersController.setUser);
 
 router.post('/admin/create',
     mainMiddle.isDataValid(createUserValidator, BODY),
+    fileMiddle.checkAvatar,
     authMiddle.validateAccessToken,
     userMiddle.checkIsAdmin,
     userMiddle.checkUniqueName,
@@ -66,6 +69,7 @@ router.get('/:user_id',
 router.put('/:user_id',
     mainMiddle.isDataValid(paramsUserValidator),
     mainMiddle.isDataValid(updateUserValidator, BODY),
+    fileMiddle.checkAvatar,
     authMiddle.validateAccessToken,
     mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
     userMiddle.updateMiddle,

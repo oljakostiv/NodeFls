@@ -4,6 +4,7 @@
 // Користувач повинен мати можливість додати аватар при створенні також змінити його на оновленні
 
 const express = require('express');
+const expressFileUpload = require('express-fileupload');
 const chalk = require('chalk');
 const mongoose = require('mongoose');
 
@@ -32,6 +33,7 @@ mongoose.connect(DB_CONNECTION_URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(expressFileUpload());
 
 app.use('/', apiRouter);
 app.use('*', _notFoundError);
@@ -44,5 +46,5 @@ app.listen(PORT, async (err) => {
         console.log(err);
     }
 
-    console.log(chalk.cyan(`${PORT} hi boss!`));
+    console.log(chalk.greenBright(`${PORT} hi boss!`));
 });

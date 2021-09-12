@@ -23,5 +23,16 @@ module.exports = {
     REFRESH: 'refresh',
     USER: 'user',
     USER_ID: 'user_id',
-    __V: '__v'
+    __V: '__v',
+
+    FILE_MAX_SIZE: {
+        PHOTO: [5 * 1024 * 1024]
+    },
+    MIMETYPE: {
+        PHOTO: [
+            'image/jpeg',
+            'image/png'
+        ]
+    }
+
 };

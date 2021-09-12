@@ -12,11 +12,9 @@ const nameSchema = Joi.string()
     .alphanum()
     .min(3)
     .max(30)
-    .trim()
-    .required();
+    .trim();
 const passwordSchema = Joi.string()
-    .regex(constants.PASSWORD_REGEXP)
-    .required();
+    .regex(constants.PASSWORD_REGEXP);
 const roleSchema = Joi.string()
     .allow(...Object.values(userRole));
 
