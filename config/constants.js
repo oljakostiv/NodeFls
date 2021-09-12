@@ -23,6 +23,7 @@ module.exports = {
     REFRESH: 'refresh',
     USER: 'user',
     USER_ID: 'user_id',
+    USERS: 'users',
     __V: '__v',
 
     FILE_MAX_SIZE: {

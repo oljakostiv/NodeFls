@@ -9,7 +9,8 @@ const {
     constants: {
         ADMIN,
         AUTHORIZATION,
-        QUERY_TOKEN
+        QUERY_TOKEN,
+        USERS
     },
     emailActions,
     errMsg,
@@ -132,7 +133,7 @@ module.exports = {
             });
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', usersSet._id);
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, usersSet._id);
                 usersSet = await UserModel.findByIdAndUpdate(
                     usersSet._id,
                     { avatar: dataResponse.Location },
@@ -178,7 +179,7 @@ module.exports = {
             });
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', usersSet._id);
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, usersSet._id);
                 usersSet = await UserModel.findByIdAndUpdate(
                     usersSet._id,
                     { avatar: dataResponse.Location },
@@ -218,7 +219,7 @@ module.exports = {
             let updateUser = await updateItem(UserModel, user_id, req.body);
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, 'users', updateUser._id);
+                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, updateUser._id);
                 updateUser = await UserModel.findByIdAndUpdate(
                     updateUser._id,
                     { avatar: dataResponse.Location },
