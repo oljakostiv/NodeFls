@@ -3,6 +3,7 @@ const path = require('path');
 const uuid = require('uuid').v1;
 
 const {
+    constants: { AWS },
     variables: {
         AWS_S3_NAME,
         AWS_S3_REGION,
@@ -20,7 +21,11 @@ const bucket = new S3({
 
 module.exports = {
     uploadFile: (file, itemType, itemId) => {
-        const { data, mimetype, name } = file;
+        const {
+            data,
+            mimetype,
+            name
+        } = file;
 
         const fileName = _fileNameBuilder(name, itemType, itemId);
 
@@ -29,6 +34,16 @@ module.exports = {
             Body: data,
             Key: fileName,
             ContentType: mimetype
+        })
+            .promise();
+    },
+
+    deleteFile: (order) => {
+        const Key = order.split(AWS)[1];
+
+        return bucket.deleteObject({
+            Bucket: AWS_S3_NAME,
+            Key
         })
             .promise();
     }

@@ -7,6 +7,7 @@ module.exports = {
     ACCESS: 'access',
     ADMIN: 'admin',
     AUTHORIZATION: 'Authorization',
+    AWS: 'amazonaws.com/',
     BODY: 'body',
     CAR_ID: 'car_id',
     EMAIL: 'email',

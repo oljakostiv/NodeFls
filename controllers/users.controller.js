@@ -33,7 +33,10 @@ const {
     },
     passwordService,
     jwtService,
-    s3Service
+    s3Service: {
+        uploadFile,
+        deleteFile
+    }
 } = require('../services');
 const { userUtil } = require('../util');
 
@@ -44,10 +47,15 @@ module.exports = {
                 deleteByUser,
                 item: {
                     name,
-                    email
+                    email,
+                    avatar
                 },
                 params: { user_id }
             } = req;
+
+            if (avatar) {
+                await deleteFile(avatar);
+            }
 
             await deleteItem(UserModel, user_id);
 
@@ -133,7 +141,7 @@ module.exports = {
             });
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, usersSet._id);
+                const dataResponse = await uploadFile(req.files.avatar, USERS, usersSet._id);
                 usersSet = await UserModel.findByIdAndUpdate(
                     usersSet._id,
                     { avatar: dataResponse.Location },
@@ -179,7 +187,7 @@ module.exports = {
             });
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, usersSet._id);
+                const dataResponse = await uploadFile(req.files.avatar, USERS, usersSet._id);
                 usersSet = await UserModel.findByIdAndUpdate(
                     usersSet._id,
                     { avatar: dataResponse.Location },
@@ -213,30 +221,36 @@ module.exports = {
 
     updateUser: async (req, res, next) => {
         try {
-            const { user_id } = req.params;
-            const { name } = req.logUser;
-
-            let updateUser = await updateItem(UserModel, user_id, req.body);
+            const {
+                params: { user_id },
+                logUser: { name, email },
+            } = req;
+            let data = req.body;
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await s3Service.uploadFile(req.files.avatar, USERS, updateUser._id);
-                updateUser = await UserModel.findByIdAndUpdate(
-                    updateUser._id,
-                    { avatar: dataResponse.Location },
+                if (data.avatar) {
+                    await deleteFile(data.avatar);
+                }
+
+                const dataResponse = await uploadFile(req.files.avatar, USERS, user_id);
+                data = await UserModel.findByIdAndUpdate(
+                    user_id,
+                    { ...data, avatar: dataResponse.Location },
                     { new: true }
                 );
+            } else {
+                data = await updateItem(UserModel, user_id, req.body);
             }
 
+            const userToReturn = userUtil.calibrationUser(data);
+
             await emailService.sendMail(
-                updateUser.email,
+                email,
                 emailActions.UPDATE_USER,
                 { userName: name }
             );
 
-            const userToReturn = userUtil.calibrationUser(updateUser);
-
-            res.status(statusCode.CREATED_AND_UPDATE)
-                .json(userToReturn);
+            res.status(statusCode.CREATED_AND_UPDATE).json(userToReturn);
         } catch (e) {
             next(e);
         }
