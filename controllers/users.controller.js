@@ -223,26 +223,31 @@ module.exports = {
         try {
             const {
                 params: { user_id },
-                logUser: { name, email },
+                logUser: {
+                    name,
+                    email
+                }
             } = req;
-            let data = req.body;
+
+            let { item } = req;
 
             if (req.files && req.files.avatar) {
-                if (data.avatar) {
-                    await deleteFile(data.avatar);
+                if (item.avatar) {
+                    await deleteFile(item.avatar);
                 }
 
-                const dataResponse = await uploadFile(req.files.avatar, USERS, user_id);
-                data = await UserModel.findByIdAndUpdate(
-                    user_id,
-                    { ...data, avatar: dataResponse.Location },
+                const dataResponse = await uploadFile(req.files.avatar, USERS, item._id);
+
+                item = await UserModel.findByIdAndUpdate(
+                    item._id,
+                    { avatar: dataResponse.Location },
                     { new: true }
                 );
             } else {
-                data = await updateItem(UserModel, user_id, req.body);
+                await updateItem(UserModel, user_id, req.body);
             }
 
-            const userToReturn = userUtil.calibrationUser(data);
+            const userToReturn = userUtil.calibrationUser(item);
 
             await emailService.sendMail(
                 email,
@@ -250,7 +255,8 @@ module.exports = {
                 { userName: name }
             );
 
-            res.status(statusCode.CREATED_AND_UPDATE).json(userToReturn);
+            res.status(statusCode.CREATED_AND_UPDATE)
+                .json(userToReturn);
         } catch (e) {
             next(e);
         }

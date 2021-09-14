@@ -11,7 +11,10 @@ const {
         PARAMS,
         USER_ID
     },
-    userRole: { ADMIN }
+    userRole: {
+        ADMIN,
+        OWNER
+    }
 } = require('../config');
 const { UserModel } = require('../dataBase');
 const {
@@ -58,7 +61,10 @@ router.delete('/:user_id',
     authMiddle.validateAccessToken,
     mainMiddle.getItemByDynamicParam(UserModel, USER_ID, PARAMS, ID),
     userMiddle.isNotPresent,
-    userMiddle.checkUserRoleMiddle([ADMIN]),
+    userMiddle.checkUserRoleMiddle([
+        ADMIN,
+        OWNER
+    ]),
     usersController.deleteUser);
 
 router.get('/:user_id',

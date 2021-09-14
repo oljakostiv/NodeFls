@@ -3,7 +3,6 @@ const path = require('path');
 const uuid = require('uuid').v1;
 
 const {
-    constants: { AWS },
     variables: {
         AWS_S3_NAME,
         AWS_S3_REGION,
@@ -39,11 +38,11 @@ module.exports = {
     },
 
     deleteFile: (order) => {
-        const Key = order.split(AWS)[1];
+        const url = new URL(order).pathname.substr(1);
 
         return bucket.deleteObject({
             Bucket: AWS_S3_NAME,
-            Key
+            Key: url
         })
             .promise();
     }
@@ -52,5 +51,5 @@ module.exports = {
 function _fileNameBuilder(fileName, itemType, itemId) {
     const fileTypeExtension = path.extname(fileName);
 
-    return path.join(itemType, itemId.toString(), uuid() + fileTypeExtension);
+    return `${itemType}/${itemId.toString()}/${uuid() + fileTypeExtension}`;
 }

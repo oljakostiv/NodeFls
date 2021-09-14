@@ -1,6 +1,7 @@
 module.exports = {
     CONFLICT: 'Conflict!',
     CHECK_MAIL: 'Check your mail',
+    CORS: 'CORS not allowed',
     DELETED: 'Account deleted successfully',
     EMAIL_PASSWORD_WRONG: 'Email or password is wrong!',
     ERROR_ACTIVATING: 'Error activating account',

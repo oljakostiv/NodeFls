@@ -21,6 +21,11 @@ module.exports = {
         subject: 'forgot password'
     },
 
+    [emailActions.REMINDER]: {
+        templateName: 'reminder',
+        subject: 'reminder for user'
+    },
+
     [emailActions.SET_ADMIN]: {
         templateName: 'setAdmin',
         subject: 'Create admin'

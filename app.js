@@ -1,17 +1,16 @@
-// зареєструватися на AWS
-//
-// створити s3 та інтегрувати собі в апку
-// Користувач повинен мати можливість додати аватар при створенні також змінити його на оновленні
-
 const express = require('express');
-const expressFileUpload = require('express-fileupload');
 const chalk = require('chalk');
+const cors = require('cors');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
+const expressFileUpload = require('express-fileupload');
+const expressRateLimit = require('express-rate-limit');
 
 require('dotenv')
     .config();
 
 const {
+    crossOrigin: { _configureCors },
     notFound: {
         _notFoundError,
         _mainErrorHandler
@@ -20,20 +19,37 @@ const {
 const { apiRouter } = require('./routes/api');
 
 const {
+    constants: { DEV },
     variables: {
         PORT,
         DB_CONNECTION_URL
     }
 } = require('./config');
+const cronJobs = require('./cron');
 const { UserModel } = require('./dataBase');
 
 const app = express();
 
 mongoose.connect(DB_CONNECTION_URL);
 
+app.use(helmet());
+
+app.use(cors({ origin: _configureCors }));
+
+app.use(expressRateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 1000
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(expressFileUpload());
+
+if (process.env.NODE_ENV === DEV) {
+    // eslint-disable-next-line import/no-extraneous-dependencies
+    const morgan = require('morgan');
+    app.use(morgan(DEV));
+}
 
 app.use('/', apiRouter);
 app.use('*', _notFoundError);
@@ -47,4 +63,6 @@ app.listen(PORT, async (err) => {
     }
 
     console.log(chalk.greenBright(`${PORT} hi boss!`));
+
+    cronJobs();
 });
