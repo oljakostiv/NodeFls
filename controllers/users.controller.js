@@ -186,10 +186,11 @@ module.exports = {
             });
 
             if (req.files && req.files.avatar) {
-                const dataResponse = await uploadFile(req.files.avatar, USERS, usersSet._id);
+                const { Location } = await uploadFile(req.files.avatar, USERS, usersSet._id);
+                console.log(Location);
                 usersSet = await UserModel.findByIdAndUpdate(
                     usersSet._id,
-                    { avatar: dataResponse.Location },
+                    { avatar: Location },
                     { new: true }
                 );
             }
