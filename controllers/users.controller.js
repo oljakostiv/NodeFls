@@ -28,8 +28,7 @@ const {
     mainService: {
         deleteItem,
         findItem,
-        setItem,
-        updateItem
+        setItem
     },
     passwordService,
     jwtService,
@@ -222,7 +221,6 @@ module.exports = {
     updateUser: async (req, res, next) => {
         try {
             const {
-                params: { user_id },
                 logUser: {
                     name,
                     email
@@ -236,16 +234,16 @@ module.exports = {
                     await deleteFile(item.avatar);
                 }
 
-                const dataResponse = await uploadFile(req.files.avatar, USERS, item._id);
+                const { Location } = await uploadFile(req.files.avatar, USERS, item._id);
 
-                item = await UserModel.findByIdAndUpdate(
-                    item._id,
-                    { avatar: dataResponse.Location },
-                    { new: true }
-                );
-            } else {
-                await updateItem(UserModel, user_id, req.body);
+                req.body.avatar = Location;
             }
+
+            item = await UserModel.findByIdAndUpdate(
+                item._id,
+                req.body,
+                { new: true }
+            );
 
             const userToReturn = userUtil.calibrationUser(item);
 

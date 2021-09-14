@@ -11,12 +11,13 @@ module.exports = async () => {
     const tenDaysAgo = dayJs.utc()
         .subtract(10, DAY);
 
-    const users = await OAuthModel.find({ createdAt: { $lte: tenDaysAgo } });
-    for await (const user of users) {
+    const tokensWithUser = await OAuthModel.find({ createdAt: { $lte: tenDaysAgo } });
+
+    for await (const { user: { email, name } } of tokensWithUser) {
         await emailService.sendMail(
-            user.user.email,
+            email,
             emailActions.REMINDER,
-            { userName: user.user.name }
+            { userName: name }
         );
     }
 };
