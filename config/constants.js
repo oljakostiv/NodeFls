@@ -4,7 +4,8 @@ module.exports = {
     ID_REGEXP: new RegExp('^[0-9a-fA-F]{24}$'),
     PASSWORD_REGEXP: new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*])(?=.{6,30})'),
     CRON_ONE_DAY_TOKEN: '* 0 0 1 * *',
-    CRON_TEN_DAYS_SEND_EMAIL: '* 30 6 * * 1,3,5',
+    // CRON_TEN_DAYS_SEND_EMAIL: '* 30 6 * * 1,3,5',
+    CRON_TEN_DAYS_SEND_EMAIL: '10 * * * * *',
 
     ACCESS: 'access',
     ADMIN: 'admin',
