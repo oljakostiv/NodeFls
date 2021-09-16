@@ -1,8 +1,9 @@
 const express = require('express');
 const chalk = require('chalk');
-const cors = require('cors');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
+const swaggerUI = require('swagger-ui-express');
+const cors = require('cors');
 const expressFileUpload = require('express-fileupload');
 const expressRateLimit = require('express-rate-limit');
 
@@ -27,6 +28,7 @@ const {
 } = require('./config');
 const cronJobs = require('./cron');
 const { UserModel } = require('./dataBase');
+const swaggerJson = require('./docs/swagger.json');
 
 const app = express();
 
@@ -52,6 +54,7 @@ if (process.env.NODE_ENV === DEV) {
 }
 
 app.use('/', apiRouter);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

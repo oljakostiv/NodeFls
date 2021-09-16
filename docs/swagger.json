@@ -1,0 +1,43 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "owu-apr21-kostiv",
+    "version": "0.0.1",
+    "description": "Hello world!",
+    "contact": {
+      "name": "Olha Kostiv",
+      "email": "oljakostivv@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "operationId": "getAllUsers",
+        "description": "Get all users",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "default": 5,
+            "type": "number",
+            "required": false,
+            "description": "List of all users"
+          },
+          {
+            "name": "avatar",
+            "in": "path",
+            "type": "string",
+            "required": false,
+            "description": "User avatar"
+          }
+        ],
+        "responses": {
+          "200": {
+
+          }
+        }
+      }
+    }
+  }
+}
