@@ -12,7 +12,9 @@
   "paths": {
     "/users": {
       "get": {
-        "tags": ["users"],
+        "tags": [
+          "users"
+        ],
         "operationId": "getAllUsers",
         "description": "Get all users",
         "parameters": [
@@ -38,22 +40,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "properties": {
-                  "_id": {
-                    "description": "User ID",
-                    "example": "888_22asd"
-                  },
-                  "name": {
-                    "description": "User name",
-                    "type": "string",
-                    "example": "Mike"
-                  },
-                  "email": {
-                    "description": "User email",
-                    "type": "string",
-                    "example": "mike@example.com"
-                  }
-                }
+                "$ref": "#/definitions/singleUser"
               }
             }
           },
@@ -76,7 +63,122 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create user",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjM3NzYxNDYsImV4cCI6MTYyMzc3Njc0Nn0.BxrhEqOQ7JwlPQ5K5bsi_2Iai8aX4yigzHtU66sdbNE"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "default": "Mike",
+            "description": "User name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": false,
+            "default": "mike@example.com",
+            "type": "string",
+            "description": "User email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "default": "Mike123!"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "default": "user"
+          },
+          {
+            "name": "born_year",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "default": 1996
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "example": "some_photo-5657887_1280.jpg"
+          },
+          {
+            "name": "isActivated",
+            "in": "formData",
+            "required": true,
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create user success",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "description": "Error message",
+                  "type": "string",
+                  "example": "Not valid request!"
+                },
+                "code": {
+                  "description": "Custom code",
+                  "example": 404,
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "description": "User ID",
+          "example": "888_22asd"
+        },
+        "name": {
+          "description": "User name",
+          "type": "string",
+          "example": "Mike"
+        },
+        "email": {
+          "description": "User email",
+          "type": "string",
+          "example": "mike@example.com"
+        }
       }
     }
   }
 }
+
