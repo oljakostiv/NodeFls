@@ -33,8 +33,47 @@
           }
         ],
         "responses": {
-          "200": {
-
+          "201": {
+            "description": "All users info arr",
+            "schema": {
+              "type": "array",
+              "items": {
+                "properties": {
+                  "_id": {
+                    "description": "User ID",
+                    "example": "888_22asd"
+                  },
+                  "name": {
+                    "description": "User name",
+                    "type": "string",
+                    "example": "Mike"
+                  },
+                  "email": {
+                    "description": "User email",
+                    "type": "string",
+                    "example": "mike@example.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Email or password is wrong"
+                },
+                "code": {
+                  "description": "Custom code",
+                  "example": 404,
+                  "type": "number"
+                }
+              }
+            }
           }
         }
       }
