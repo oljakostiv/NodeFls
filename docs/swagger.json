@@ -140,19 +140,90 @@
           "400": {
             "description": "Bad request",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "description": "Error message",
-                  "type": "string",
-                  "example": "Not valid request!"
-                },
-                "code": {
-                  "description": "Custom code",
-                  "example": 404,
-                  "type": "number"
-                }
-              }
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      }
+    },
+    "/users/:user_id": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "updateUser",
+        "description": "Update user",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjM3NzYxNDYsImV4cCI6MTYyMzc3Njc0Nn0.BxrhEqOQ7JwlPQ5K5bsi_2Iai8aX4yigzHtU66sdbNE"
+          },
+          {
+            "name": "user_id",
+            "in": "params",
+            "required": true,
+            "type": "string",
+            "example": "12345abc1235633tto999pr",
+            "description": "User ID"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "example": "User",
+            "description": "User name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "example": "email@expamle.com",
+            "description": "User email"
+          },
+          {
+            "name": "role",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "example": "user"
+          },
+          {
+            "name": "born_year",
+            "in": "formData",
+            "required": false,
+            "type": "number",
+            "example": 1996
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "example": "updated_photo-5657887_1280.jpg"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Update user success",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
             }
           }
         }
@@ -160,6 +231,21 @@
     }
   },
   "definitions": {
+    "errorSchema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Error message",
+          "type": "string",
+          "example": "Not valid request!"
+        },
+        "code": {
+          "description": "Custom code",
+          "example": 404,
+          "type": "number"
+        }
+      }
+    },
     "singleUser": {
       "type": "object",
       "properties": {
@@ -181,4 +267,3 @@
     }
   }
 }
-
