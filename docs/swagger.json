@@ -23,7 +23,6 @@
             "in": "query",
             "default": 5,
             "type": "number",
-            "required": false,
             "description": "List of all users"
           },
           {
@@ -89,7 +88,6 @@
           {
             "name": "email",
             "in": "formData",
-            "required": false,
             "default": "mike@example.com",
             "type": "string",
             "description": "User email"
@@ -104,21 +102,18 @@
           {
             "name": "role",
             "in": "formData",
-            "required": false,
             "type": "string",
             "default": "user"
           },
           {
             "name": "born_year",
             "in": "formData",
-            "required": false,
             "type": "number",
             "default": 1996
           },
           {
             "name": "avatar",
             "in": "formData",
-            "required": false,
             "type": "file",
             "example": "some_photo-5657887_1280.jpg"
           },
@@ -172,7 +167,6 @@
           {
             "name": "name",
             "in": "formData",
-            "required": false,
             "type": "string",
             "example": "User",
             "description": "User name"
@@ -180,7 +174,6 @@
           {
             "name": "email",
             "in": "formData",
-            "required": false,
             "type": "string",
             "example": "email@expamle.com",
             "description": "User email"
@@ -188,28 +181,24 @@
           {
             "name": "role",
             "in": "formData",
-            "required": false,
             "type": "string",
             "example": "user"
           },
           {
             "name": "born_year",
             "in": "formData",
-            "required": false,
             "type": "number",
             "example": 1996
           },
           {
             "name": "avatar",
             "in": "formData",
-            "required": false,
             "type": "file",
             "example": "updated_photo-5657887_1280.jpg"
           },
           {
             "name": "password",
             "in": "formData",
-            "required": false,
             "type": "string"
           }
         ],
@@ -243,7 +232,7 @@
             "in": "body",
             "required": true,
             "type": "string",
-            "example": "example@gmail.com"
+            "example": "Mike"
           },
           {
             "name": "password",
