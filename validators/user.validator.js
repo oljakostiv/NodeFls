@@ -62,6 +62,10 @@ const queryUserValidator = Joi.object({
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
     role: roleSchema,
+    page: Joi.number(),
+    perPage: Joi.number(),
+    order: Joi.string(),
+    sortBy: Joi.string()
 });
 
 const updateUserValidator = Joi.object({

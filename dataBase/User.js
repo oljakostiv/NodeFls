@@ -14,10 +14,9 @@ const {
         OWNER_PASSWORD
     }
 } = require('../config');
-const {
-    emailService,
-    passwordService: { hash }
-} = require('../services');
+const emailService = require('../services/email.service');
+const passwordService = require('../services/password.service');
+// don't use index file
 
 const userSchema = new Schema({
     name: {
@@ -65,7 +64,7 @@ userSchema.statics = {
         const count = await this.findOne({ role: userRole.OWNER });
 
         if (!count) {
-            const password = await hash(OWNER_PASSWORD);
+            const password = await passwordService.hash(OWNER_PASSWORD);
 
             this.create({
                 name: OWNER_NAME,

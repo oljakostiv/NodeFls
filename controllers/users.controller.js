@@ -27,7 +27,6 @@ const {
     emailService,
     mainService: {
         deleteItem,
-        findItem,
         setItem
     },
     passwordService,
@@ -35,7 +34,8 @@ const {
     s3Service: {
         uploadFile,
         deleteFile
-    }
+    },
+    userService
 } = require('../services');
 const { userUtil } = require('../util');
 
@@ -80,7 +80,7 @@ module.exports = {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const usersAll = await findItem(UserModel);
+            const usersAll = await userService.getAll(req.query);
 
             const userToReturn = usersAll.map((user) => userUtil.calibrationUser(user));
 
