@@ -27,7 +27,7 @@
           },
           {
             "name": "avatar",
-            "in": "path",
+            "in": "formData",
             "type": "file",
             "description": "User avatar"
           }
