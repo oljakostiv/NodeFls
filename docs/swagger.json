@@ -221,14 +221,14 @@
         "parameters": [
           {
             "name": "name",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
-            "example": "Mike"
+            "default": "Mike"
           },
           {
             "name": "password",
-            "in": "body",
+            "in": "formData",
             "required": true,
             "type": "string",
             "default": "Mike123!"
