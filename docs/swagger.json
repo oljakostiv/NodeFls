@@ -293,8 +293,8 @@
               "$ref": "#definitions/o_auth"
             }
           },
-          "400": {
-            "description": "Bad request",
+          "401": {
+            "description": "Unauthorized",
             "schema": {
               "type": "object",
               "properties": {
