@@ -27,14 +27,13 @@
           },
           {
             "name": "avatar",
-            "in": "path",
+            "in": "formData",
             "type": "string",
-            "required": false,
             "description": "User avatar"
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "All users info arr",
             "schema": {
               "type": "array",
@@ -70,13 +69,6 @@
         "description": "Create user",
         "operationId": "createUser",
         "parameters": [
-          {
-            "name": "access_token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE4OTI2ODAsImV4cCI6MTYzMTg5MzU4MH0.s6kXrGc2u3mEix7MQPPXsFRVMidSkbtcSTwSwVpfypQ"
-          },
           {
             "name": "name",
             "in": "formData",
@@ -141,7 +133,7 @@
         }
       }
     },
-    "/users/:user_id": {
+    "/users/{user_id}": {
       "put": {
         "tags": [
           "users"
@@ -158,7 +150,7 @@
           },
           {
             "name": "user_id",
-            "in": "params",
+            "in": "path",
             "required": true,
             "type": "string",
             "example": "12345abc1235633tto999pr",
@@ -219,7 +211,7 @@
       }
     },
 
-    "/auth/": {
+    "/auth": {
       "post": {
         "tags": [
           "auth"
@@ -246,7 +238,7 @@
           "201": {
             "description": "Auth tokens is created",
             "schema": {
-              "$ref": "#definitions/o_auth"
+              "$ref": "#/definitions/o_auth"
             }
           },
           "400": {
@@ -290,7 +282,7 @@
           "201": {
             "description": "Auth tokens is created",
             "schema": {
-              "$ref": "#definitions/o_auth"
+              "$ref": "#/definitions/o_auth"
             }
           },
           "401": {
