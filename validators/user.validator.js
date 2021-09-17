@@ -58,12 +58,15 @@ const queryUserValidator = Joi.object({
         .min(3)
         .max(30)
         .trim(),
-    born_year: Joi.number()
+    born_year_lte: Joi.number()
+        .min(constants.CURRENT_YEAR - 120)
+        .max(constants.CURRENT_YEAR - 5),
+    born_year_gte: Joi.number()
         .min(constants.CURRENT_YEAR - 120)
         .max(constants.CURRENT_YEAR - 5),
     role: roleSchema,
-    page: Joi.number(),
-    perPage: Joi.number(),
+    page: Joi.number().min(1),
+    perPage: Joi.number().min(1),
     order: Joi.string(),
     sortBy: Joi.string()
 });

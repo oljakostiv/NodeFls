@@ -1,4 +1,5 @@
 module.exports = {
+    carService: require('./car.service'),
     emailService: require('./email.service'),
     jwtService: require('./jwt.service'),
     mainService: require('./main.service'),

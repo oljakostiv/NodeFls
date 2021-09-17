@@ -1,5 +1,4 @@
-const { constants: { SEPARATOR } } = require('../config');
-const { UserModel } = require('../dataBase');
+const { CarModel } = require('../dataBase');
 
 module.exports = {
     getAll: async (query = {}) => {
@@ -14,29 +13,24 @@ module.exports = {
         const orderBy = order === 'asc' ? -1 : 1;
 
         const filterObject = {};
-        const ageFilter = {};
+        const yearFilter = {};
 
         Object.keys(filters)
             .forEach((filterParam) => {
                 switch (filterParam) {
-                    case 'role': {
-                        const rolesArr = filters.role.split(SEPARATOR);
-                        filterObject.role = { $in: rolesArr };
-                        break;
-                    }
-                    case 'name': {
-                        filterObject.name = {
-                            $regex: `^${filters.name}`,
+                    case 'model': {
+                        filterObject.model = {
+                            $regex: `^${filters[filterParam]}`,
                             $options: 'gi'
                         };
                         break;
                     }
-                    case 'born_year_lte': {
-                        Object.assign(ageFilter, { $lte: +filters[filterParam] });
+                    case 'year_lte': {
+                        Object.assign(yearFilter, { $lte: +filters[filterParam] });
                         break;
                     }
-                    case 'born_year_gte': {
-                        Object.assign(ageFilter, { $gte: +filters[filterParam] });
+                    case 'year_gte': {
+                        Object.assign(yearFilter, { $gte: +filters[filterParam] });
                         break;
                     }
                     default: {
@@ -45,15 +39,15 @@ module.exports = {
                 }
             });
 
-        if (Object.keys(ageFilter).length) {
-            filterObject.born_year = ageFilter;
+        if (Object.keys(yearFilter).length) {
+            filterObject.year = yearFilter;
         }
 
-        const users = await UserModel.find(filterObject)
+        const cars = await CarModel.find(filterObject)
             .sort({ [sortBy]: orderBy })
             .limit(+perPage)
             .skip((page - 1) * perPage);
 
-        return users;
+        return cars;
     }
 };

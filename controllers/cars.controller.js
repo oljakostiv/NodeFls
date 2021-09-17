@@ -1,11 +1,11 @@
 const { statusCode } = require('../config');
 const { CarModel } = require('../dataBase');
 const {
+    carService,
     mainService: {
         deleteItem,
         setItem,
-        updateItem,
-        findItem
+        updateItem
     }
 } = require('../services');
 
@@ -24,15 +24,7 @@ module.exports = {
 
     getAllCars: async (req, res, next) => {
         try {
-            const {
-                perPage = 3,
-                page = 1
-            } = req.query;
-
-            const carsAll = await findItem(CarModel)
-                .limit(+perPage)
-                .skip((+perPage * (page - 1)));
-
+            const carsAll = await carService.getAll(req.query);
             res.json(carsAll);
         } catch (e) {
             next(e);
