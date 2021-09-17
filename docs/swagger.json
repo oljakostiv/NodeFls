@@ -76,7 +76,7 @@
             "in": "header",
             "required": true,
             "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjM3NzYxNDYsImV4cCI6MTYyMzc3Njc0Nn0.BxrhEqOQ7JwlPQ5K5bsi_2Iai8aX4yigzHtU66sdbNE"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE4OTI2ODAsImV4cCI6MTYzMTg5MzU4MH0.s6kXrGc2u3mEix7MQPPXsFRVMidSkbtcSTwSwVpfypQ"
           },
           {
             "name": "name",
@@ -228,8 +228,99 @@
           }
         }
       }
+    },
+
+    "/auth/": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "createAuthTokens",
+        "description": "Create authorization tokens",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "required": true,
+            "type": "string",
+            "example": "example@gmail.com"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "required": true,
+            "type": "string",
+            "default": "Mike123!"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Auth tokens is created",
+            "schema": {
+              "$ref": "#definitions/o_auth"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Email or password is wrong"
+                },
+                "code": {
+                  "description": "Custom code",
+                  "example": 404,
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "operationId": "createNewAuthTokens",
+        "description": "Create new authorization tokens",
+        "parameters":[
+          {
+            "name": "refresh_token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE4OTI2ODAsImV4cCI6MTYzMTg5MzU4MH0.s6kXrGc2u3mEix7MQPPXsFRVMidSkbtcSTwSwVpfypQ"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Auth tokens is created",
+            "schema": {
+              "$ref": "#definitions/o_auth"
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "description": "Error message",
+                  "type": "string",
+                  "example": "Not valid refresh token"
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  },
+},
   "definitions": {
     "errorSchema": {
       "type": "object",
@@ -262,6 +353,19 @@
           "description": "User email",
           "type": "string",
           "example": "mike@example.com"
+        }
+      }
+    },
+    "o_auth": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "sting",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE4OTI2ODAsImV4cCI6MTYzMTg5MzU4MH0.s6kXrGc2u3mEix7MQPPXsFRVMidSkbtcSTwSwVpfypQ"
+        },
+        "refresh_token": {
+          "type": "sting",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzE4OTI2ODAsImV4cCI6MTYzMTg5MzU4MH0.s6kXrGc2u3mEix7MQPPXsFRVMidSkbtcSTwSwVpfypQ"
         }
       }
     }
